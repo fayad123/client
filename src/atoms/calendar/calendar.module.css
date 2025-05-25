@@ -1,8 +1,8 @@
 .calendarContainer {
-  background-color: #000000;
-  color: #ce2121;
+  background-color: grey;
+  color: yellow;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 2rem;
   font-family: 'Cairo', sans-serif;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   width: 100%;

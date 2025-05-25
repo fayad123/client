@@ -7,7 +7,6 @@ import {
 	Kitchen,
 	Festival,
 	CameraAlt,
-	PhotoCameraFront,
 	Speaker,
 	Restaurant,
 	RoomService,
