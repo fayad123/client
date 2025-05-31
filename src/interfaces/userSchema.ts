@@ -10,6 +10,10 @@ export interface JwtPayload {
 	businessName: string;
 	category: string;
 	vendorId?: string;
+	isSubscribed?: boolean;
+	planId?: string;
+	subscriptionDate?: Date;
+	expiryDate?: Date;
 }
 
 export interface LoginSchema {
@@ -41,4 +45,34 @@ export interface BusinessUserSchema {
 		street: string;
 	};
 	category: string;
+}
+
+export interface usersMessages {
+	name: string;
+	email: string;
+	subject: string;
+	message: string;
+}
+
+export interface VendorDataResponse {
+	_id: {$oid: string};
+	businessName: string;
+	phone: string;
+	email: string;
+	role: string;
+	pictures: {url: string; alt: string}[];
+	address: {
+		city: string;
+		street: string;
+		_id: {$oid: string};
+	};
+	category: string;
+	planId?: string;
+	expiryDate: Date | null;
+	isSubscribed: boolean;
+	subscriptionDate: Date | null;
+	createdAt: {$date: string};
+	updatedAt: {$date: string};
+	recommendedServices: boolean;
+	__v: number;
 }

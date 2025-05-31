@@ -3,7 +3,7 @@ export interface Services {
 	email: string;
 	phone: string;
 	category: string;
-	images: string[];
+	images?: {url: string; alt: string; _id?: string}[];
 	description: string;
 	priceType: string;
 	price: {min: number; max: number};
@@ -16,6 +16,7 @@ export interface Services {
 	}[];
 	vendorId: string;
 	_id?: string;
+	planeId: string;
 }
 export const vendorsServicesInitionalData = {
 	businessName: "",
@@ -36,4 +37,6 @@ export const vendorsServicesInitionalData = {
 	availableDates: [],
 	services: [],
 	vendorId: "",
+	_id: "",
+	planeId: "",
 };

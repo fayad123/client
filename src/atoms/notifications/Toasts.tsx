@@ -59,22 +59,22 @@ export const customToast = (msg: string, navigate: (path: string) => void) => {
 	return toast.custom(
 		(t) => (
 			<div
-				className={`rounded-5 text-light ${
-					t.visible ? "animate-enter" : "animate-leave"
-				} max-w-md w-full bg-dark shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+				className={`rounded-2 text-light ${t.visible ? "animate-enter" : "animate-leave" } max-w-md w-full bg-dark shadow-lg rounded pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
 			>
 				<div className='flex-1 w-0 p-4'>
-					<div className='flex items-start'>
+					<div className='flex items-center'>
 						<div className='ml-3 flex-1'>
 							<p className='mt-1 text-sm text-gray-500'>{msg}</p>
 						</div>
 					</div>
 				</div>
-				<div className='flex border-l border-gray-200'>
+				<div  className='flex border-l border-gray-200 text-center m-auto'>
 					<Button
 						variant='contained'
 						sx={{
 							my: 1,
+							mx:"auto",
+							textAlign:"center"
 						}}
 						onClick={() => {
 							navigate("/login");

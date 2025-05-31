@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getServiceByCategories} from "../../../services/halsDecoration";
-import { Services } from "../../../interfaces/services";
+import {getServiceByCategories} from "../../../services/vendorsServices";
+import {Services} from "../../../interfaces/services";
 
 interface MainCooksProps {}
 
@@ -38,15 +38,21 @@ const MainCooks: FunctionComponent<MainCooksProps> = () => {
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((cooks) => (
-						<div
-							key={cooks.vendorId}
-						>
+						<div key={cooks.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{cooks.images.length > 0 && (
+								{cooks.images && (
 									<img
-										src={cooks.images[0]}
 										className='card-img-top'
-										alt={cooks.businessName}
+										src={
+											Array.isArray(cooks.images)
+												? cooks.images[0]?.url
+												: cooks.images?.url
+										}
+										alt={
+											Array.isArray(cooks.images)
+												? cooks.images[0]?.alt
+												: cooks.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}

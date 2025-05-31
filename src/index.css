@@ -5,7 +5,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "monospace";
+
 }
+
 
 body,
 main,
@@ -17,29 +20,16 @@ span {
   font-family: "Noto Kufi Arabic", sans-serif;
 }
 
-:root {
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 
 
 main {
   min-height: 90vh;
   text-align: center;
   padding-top: 5rem;
+
 }
 
-a {
+body a {
   text-decoration: none;
 }
 
@@ -56,15 +46,16 @@ a {
 }
 
 body {
-  background-image: linear-gradient(to right bottom, #FEF8F1, #6b3d00);
+  background-image: linear-gradient(to right bottom, #FEF8F1, #ffffff);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+
 }
 
-form{
-  background: radial-gradient(#FEF8F1,#FEF8F1);
+form {
+  background: radial-gradient(#FEF8F1, #FEF8F1);
 }
 
 .blink {
@@ -89,4 +80,87 @@ form{
     transform: rotate(360deg);
     /* color: #41ca1f; */
   }
+}
+
+
+.diamond {
+  position: relative;
+  color: #E0EDEE;
+  font-weight: bold;
+  background: linear-gradient(45deg, #e0efff, #ffffff, #a6c7ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  overflow: hidden;
+}
+
+.diamond::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.9) 50%, transparent 70%);
+  transform: rotate(25deg);
+  animation: shine 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% {
+    transform: rotate(25deg) translateX(-100%);
+  }
+
+  100% {
+    transform: rotate(25deg) translateX(100%);
+  }
+}
+
+.silver-bg {
+  background: linear-gradient(135deg, #d7d7d7, #f0f0f0, #c0c0c0);
+  box-shadow:
+    0 0 10px #e0e0e0,
+    inset 0 0 20px #ffffff;
+  color: #555;
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-bg {
+  background: linear-gradient(135deg, #b78e1298, #ffd90018, #e6c400a6);
+  box-shadow:
+    0 0 15px #ffed611c,
+    inset 0 0 25px #fff8a1;
+  color: #5a3e00;
+  font-weight: bold;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-bg {
+  background: linear-gradient(135deg, #e6f0f8, #ffffff, #b0c9f7);
+  box-shadow:
+    0 0 15px #d0e5ff,
+    inset 0 0 20px #f0f8ff;
+  color: #3a4a6f;
+  font-weight: bold;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.enterprise-bg {
+  background: linear-gradient(135deg, #e5e4e2, #f5f5f7, #d8d8d8);
+  box-shadow:
+    0 0 15px #cfcfcf,
+    inset 0 0 25px #ffffff;
+  color: #555555;
+  font-weight: bold;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
 }

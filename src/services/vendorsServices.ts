@@ -58,16 +58,25 @@ export const getUnavailableDates = async (
 };
 
 // Add vendor pictures
-export const addVendorPicture = async (vendorId: string, image: string) => {
+export const addVendorPicture = async (
+	vendorId: string,
+	image: {url: string; alt: string},
+) => {
 	try {
-		const res = await axios.post(`${api}/services/picture/${vendorId}`, {image:image}, {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: localStorage.getItem("token"),
+		const res = await axios.post(
+			`${api}/services/picture/${vendorId}`,
+			image,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: localStorage.getItem("token"),
+				},
 			},
-		});
+		);
 		return res.data;
 	} catch (error) {
 		console.log(error);
 	}
 };
+
+

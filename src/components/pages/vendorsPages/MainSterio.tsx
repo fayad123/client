@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Services} from "../../../interfaces/services";
-import {getServiceByCategories} from "../../../services/halsDecoration";
+import {getServiceByCategories} from "../../../services/vendorsServices";
 
 interface MainSterioProps {}
 
@@ -35,11 +35,19 @@ const MainSterio: FunctionComponent<MainSterioProps> = () => {
 					{services.map((sterios) => (
 						<div key={sterios.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{sterios.images.length > 0 && (
+								{sterios.images && (
 									<img
-										src={sterios.images[0]}
 										className='card-img-top'
-										alt={sterios.businessName}
+										src={
+											Array.isArray(sterios.images)
+												? sterios.images[0]?.url
+												: sterios.images?.url
+										}
+										alt={
+											Array.isArray(sterios.images)
+												? sterios.images[0]?.alt
+												: sterios.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}

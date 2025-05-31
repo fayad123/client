@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getServiceByCategories} from "../../../services/halsDecoration";
-import { Services } from "../../../interfaces/services";
+import {getServiceByCategories} from "../../../services/vendorsServices";
+import {Services} from "../../../interfaces/services";
 
 interface MainCoffeeKiosksProps {}
 
@@ -35,11 +35,19 @@ const MainCoffeeKiosks: FunctionComponent<MainCoffeeKiosksProps> = () => {
 					{services.map((chairses) => (
 						<div key={chairses.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{chairses.images.length > 0 && (
+								{chairses.images && (
 									<img
-										src={chairses.images[0]}
 										className='card-img-top'
-										alt={chairses.businessName}
+										src={
+											Array.isArray(chairses.images)
+												? chairses.images[0]?.url
+												: chairses.images?.url
+										}
+										alt={
+											Array.isArray(chairses.images)
+												? chairses.images[0]?.alt
+												: chairses.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -52,7 +60,9 @@ const MainCoffeeKiosks: FunctionComponent<MainCoffeeKiosksProps> = () => {
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${chairses.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${chairses.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان

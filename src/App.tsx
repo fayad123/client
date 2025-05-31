@@ -7,9 +7,9 @@ import createCache from "@emotion/cache";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {Toaster} from "react-hot-toast";
 
-
 import AppRoutes from "./routes/AppRoutes";
 import Footer from "./components/Footer";
+
 
 export const theme = createTheme({
 	direction: "rtl",
@@ -33,16 +33,16 @@ const cacheRtl = createCache({
 
 function App() {
 	return (
-		<Router>
-			<Navbar />
-			<Toaster position='top-center' reverseOrder={false} />
-			<CacheProvider value={cacheRtl}>
-				<ThemeProvider theme={theme}>
-					<AppRoutes />
-				</ThemeProvider>
-			</CacheProvider>
-			<Footer />
-		</Router>
+			<Router>
+				<Navbar />
+				<Toaster position='top-center' reverseOrder={false} />
+				<CacheProvider value={cacheRtl}>
+					<ThemeProvider theme={theme}>
+						<AppRoutes />
+					</ThemeProvider>
+				</CacheProvider>
+				<Footer />
+			</Router>
 	);
 }
 

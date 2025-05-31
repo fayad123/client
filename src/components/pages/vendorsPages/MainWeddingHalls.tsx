@@ -1,9 +1,9 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // تأكد من إضافة Bootstrap إلى مشروعك
-import {getServiceByCategories} from "../../../services/halsDecoration";
+import {getServiceByCategories} from "../../../services/vendorsServices";
 import {useNavigate} from "react-router-dom";
-import { Services } from "../../../interfaces/services";
-import { Button } from "@mui/material";
+import {Services} from "../../../interfaces/services";
+import {Button} from "@mui/material";
 
 interface MainWeddingweddingHallsProps {}
 
@@ -35,15 +35,17 @@ const MainWeddingweddingHalls: FunctionComponent<MainWeddingweddingHallsProps> =
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((weddingHalls) => (
-						<div
-							key={weddingHalls.vendorId}
-						>
+						<div key={weddingHalls.vendorId}>
 							<div className='card shadow-sm border-0'>
-								{weddingHalls.images.length > 0 && (
+								{weddingHalls.images && (
 									<img
-										src={weddingHalls.images[0]}
+										src={
+											Array.isArray(weddingHalls.images)
+												? weddingHalls.images[0]?.url
+												: weddingHalls.images?.url
+										}
 										className='card-img-top'
-										alt={weddingHalls.businessName}
+										alt={Array.isArray(weddingHalls.images)?weddingHalls.images[0]?.alt:weddingHalls.images?.alt}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -52,13 +54,17 @@ const MainWeddingweddingHalls: FunctionComponent<MainWeddingweddingHallsProps> =
 										{weddingHalls.businessName}
 									</h5>
 									<p className='card-text flex-grow-1'>
-										{weddingHalls.address.city}, {weddingHalls.address.street}
+										{weddingHalls.address.city},{" "}
+										{weddingHalls.address.street}
 									</p>
 								</div>
 								<Button
-									onClick={() => navigate(`/service/${weddingHalls.vendorId}`)}
-									variant="outlined"
-									color="warning"
+									onClick={() =>
+										navigate(`/service/${weddingHalls.vendorId}`)
+									}
+									variant='outlined'
+									color='warning'
+									sx={{m:1}}
 								>
 									احجز الان
 								</Button>

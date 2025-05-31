@@ -53,3 +53,4 @@ export const removeVendorService = async (vendorId: string, serviceId: string) =
 		return null;
 	}
 };
+

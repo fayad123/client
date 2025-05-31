@@ -24,6 +24,7 @@ import {useUser} from "../contextApi/useUserData";
 import {Person} from "@mui/icons-material";
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import SettingsIcon from "@mui/icons-material/Settings";
+import SubscripbeButton from "../atoms/subscribeButton/SubscripbeButton";
 
 const Navbar: FunctionComponent = () => {
 	const [open, setOpen] = useState(false);
@@ -39,9 +40,11 @@ const Navbar: FunctionComponent = () => {
 		navigate("/");
 	};
 
-	const businesses: string = user?.businessName?user.businessName:`${user?.name.first} ${user?.name.last}`||'';
+	const businesses: string = user?.businessName
+		? user.businessName
+		: `${user?.name?.first} ${user?.name?.last}` || "";
 
-	let currentUser = businesses
+	let currentUser = businesses;
 
 	const menuItems = [
 		{
@@ -67,14 +70,14 @@ const Navbar: FunctionComponent = () => {
 				flexGrow: 1,
 				position: "sticky",
 				top: 0,
-				zIndex: 1,
+				zIndex: 2,
 				p: 1,
 			}}
 		>
 			<AppBar
 				sx={{
-					backgroundColor: "#915200",
-					zIndex: 100,
+					backgroundColor: "#c99700",
+					zIndex: 2,
 					borderRadius: 20,
 					fontSize: "1.2rem",
 				}}
@@ -88,8 +91,7 @@ const Navbar: FunctionComponent = () => {
 							justifyContent: "space-between",
 							px: 2,
 							py: 2,
-							backgroundColor: "#915200",
-
+							backgroundColor: "#c99700",
 							color: "white",
 							width: "100%",
 						}}
@@ -103,12 +105,9 @@ const Navbar: FunctionComponent = () => {
 						>
 							<MenuIcon />
 						</IconButton>
-						<CardMedia
-							component='img'
-							image='/wedding-rings.png'
-							alt='תיאור של התמונה'
-							sx={{height: 40, width: 40}}
-						/>
+						{user && user.role === "isVendor" && !user.isSubscribed && (
+							<SubscripbeButton />
+						)}
 						<Typography
 							onClick={() => navigate("/")}
 							variant='h5'
@@ -119,14 +118,8 @@ const Navbar: FunctionComponent = () => {
 								"&:hover": {color: "yellow"},
 							}}
 						>
-							مــﯜڦــ؏ اڣــڕاحــڼــ̍ا
+							افراحــنـا
 						</Typography>
-						<CardMedia
-							component='img'
-							image='/wedding-rings.png'
-							alt='תיאור של התמונה'
-							sx={{height: 40, width: 40}}
-						/>
 						{!user?._id ? (
 							<Box>
 								<Button
@@ -135,7 +128,7 @@ const Navbar: FunctionComponent = () => {
 									size='medium'
 									onClick={() => navigate("/login")}
 								>
-									تسجيل الدخول
+									الدخول
 								</Button>
 							</Box>
 						) : (
@@ -146,7 +139,7 @@ const Navbar: FunctionComponent = () => {
 									size='medium'
 									onClick={logout}
 								>
-									الخروج
+									تسجيل الخروج
 								</Button>
 							</Box>
 						)}

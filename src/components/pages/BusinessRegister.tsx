@@ -1,7 +1,7 @@
 import {useFormik} from "formik";
 import {FunctionComponent} from "react";
 import {useNavigate} from "react-router-dom";
-import {BusinessUserSchema} from "../interfaces/userSchema";
+import {BusinessUserSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
 import {
 	Box,
@@ -15,10 +15,9 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import {mainMenu} from "../routes/mainMenu";
-import {theme} from "../App";
-import {newBusinessRegisterUser} from "../services/usersServices";
-import {successToast} from "../atoms/notifications/Toasts";
+import {mainMenu} from "../../routes/mainMenu";
+import {newBusinessRegisterUser} from "../../services/usersServices";
+import {successToast} from "../../atoms/notifications/Toasts";
 
 interface BusinessRegisterProps {}
 
@@ -57,7 +56,7 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 			console.log(values);
 			newBusinessRegisterUser(values).then((userData) => {
 				localStorage.setItem("token", userData);
-				navigate("/");
+				navigate("/subscription");
 				successToast("مرحبا بك في منصه افراحنا");
 			});
 		},

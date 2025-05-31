@@ -21,22 +21,33 @@ const MyBookings: FunctionComponent<MyBookingsProps> = () => {
 	const {user} = useUser();
 
 	useEffect(() => {
-		if (!user) return;
+		if (!user) {
+			setLoading(false);
+			return;
+		}
 
 		const fetchData = async () => {
 			try {
-				if (user?.role === "isVendor") {
-					const vendorData = await getVendorsBooks(user._id);
-					setVendorBookings(vendorData);
+				setLoading(true);
+				const promises: Promise<any>[] = [];
 
-					const uniqueUserIds = [...new Set(vendorData.map((b) => b.userId))];
-					const userDetails = await Promise.all(uniqueUserIds.map(getUserById));
-					const filteredUsers = userDetails.filter(Boolean);
-					setusers(filteredUsers);
-					setLoading(false);
+				promises.push(myBookings(user._id).then((data) => setBooks(data)));
+
+				if (user?.role === "isVendor") {
+					promises.push(
+						getVendorsBooks(user._id).then(async (vendorData) => {
+							setVendorBookings(vendorData);
+							const uniqueUserIds = [
+								...new Set(vendorData.map((b) => b.userId)),
+							];
+							const userDetails = await Promise.all(
+								uniqueUserIds.map(getUserById),
+							);
+							setusers(userDetails.filter(Boolean));
+						}),
+					);
 				}
-				const myData = await myBookings(user._id);
-				setBooks(myData);
+				await Promise.all(promises);
 			} catch (err) {
 				errorToast("حدث خطأ");
 			} finally {
@@ -55,88 +66,122 @@ const MyBookings: FunctionComponent<MyBookingsProps> = () => {
 		);
 	}
 
+	const handleDeleteBooking = async (
+		bookToDelete: BookingData,
+		isVendorBookibg: boolean,
+	) => {
+		try {
+			if (isVendorBookibg) {
+				await handleDeletBook(bookToDelete);
+				setVendorBookings((prev) =>
+					prev.filter((b) => b._id !== bookToDelete._id),
+				);
+			} else {
+				await handleDeletCustomerBook(bookToDelete);
+				setBooks((prev) => prev.filter((b) => b._id !== bookToDelete._id));
+			}
+		} catch (error) {
+			errorToast("حدث خطا اثناء الغاء الحجز");
+		}
+	};
+
 	return (
 		<main>
-			<div className=' container'>
+			<div className='container'>
 				<hr />
 				<p className='text-dark fw-bold h2'>الحجوزات الخاصة بك</p>
 				<hr />
-				<div className='container my-5 ' dir='rtl'>
+				<div className='my-5' dir='rtl'>
 					{books.length ? (
 						<>
 							{/* Desktop Table */}
-							<div className='d-none d-md-block'>
-								<table className='table fw-bold table-striped text-end table-bordered'>
-									<thead>
-										<tr>
-											<th>الاسم التجاري</th>
-											<th>التاريخ</th>
-											<th>الحالة</th>
-											<th>الخدمات</th>
-											{/* <th>ملاحظة</th> */}
-											<th>إجراء</th>
-										</tr>
-									</thead>
-									<tbody>
-										{books.map((book, index) => (
-											<tr key={index}>
-												<td>{book.businessName}</td>
-												<td>
+							{books.map((book) => (
+								<div
+									key={book._id}
+									className='d-none d-md-block table-responsive my-5 border p-2'
+								>
+									<table className='table fw-bold table-striped text-end table-bordered'>
+										<thead>
+											<tr>
+												<th colSpan={2}>الاسم التجاري</th>
+												<th colSpan={2}>التاريخ</th>
+												<th colSpan={2}>الحالة</th>
+												<th colSpan={4}>الخدمات</th>
+												<th colSpan={2}>إجراء</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colSpan={2}>{book.businessName}</td>
+												<td colSpan={2}>
 													{new Date(
 														book.date,
 													).toLocaleDateString("he-IL")}
 												</td>
-												<td className='text-danger'>
+												<td colSpan={2} className='text-danger'>
 													{book.status}
 												</td>
-												<td>
+												<td colSpan={4}>
 													<ul className='list-unstyled text-end'>
 														{book.services?.map((s, idx) => (
 															<li key={idx}>
-																- {s.featureName}
+																<Typography
+																	sx={{
+																		backgroundColor:
+																			"#e78300",
+																		borderRadius: 5,
+																		borderColor:
+																			"red",
+																		mt: 2,
+																		p: 1,
+																	}}
+																>
+																	{s.featureName}
+																</Typography>
 															</li>
 														))}
 													</ul>
 												</td>
-												{/* <td>
-													{book.note && (
-														<p className='card-text'>
-															ملاحظة: {book.note}
-														</p>
-													)}
-												</td> */}
-												<td>
+												<td colSpan={2}>
 													<Button
 														color='error'
 														variant='outlined'
 														className='btn btn-danger'
 														onClick={async () => {
-															handleDeletCustomerBook(
+															handleDeleteBooking(
 																book,
-															).then(() => {
-																setBooks((prev) =>
-																	prev.filter(
-																		(b) =>
-																			b._id !==
-																			book._id,
-																	),
-																);
-															});
+																false,
+															);
 														}}
 													>
 														الغاء الطلب
 													</Button>
 												</td>
 											</tr>
-										))}
-									</tbody>
-								</table>
-							</div>
-
+										</tbody>
+									</table>
+									{book.note?.length !== 0 && (
+										<Typography
+											width={"100%"}
+											variant='h6'
+											sx={{
+												backgroundColor: "aliceblue",
+												borderRadius: 5,
+												borderColor: "red",
+											}}
+										>
+											<Typography color='success' variant='body1'>
+												ملاحظة
+											</Typography>
+											{book.note}
+										</Typography>
+									)}
+								</div>
+							))}
 							{/* Mobile Cards */}
 							<div className='d-block d-md-none'>
-								{books.map((book, index) => (
-									<div className='card mb-3 text-end' key={index}>
+								{books.map((book) => (
+									<div className='card mb-3 text-end' key={book._id}>
 										<div className='card-body'>
 											<h5 className='card-title'>
 												{book.businessName}
@@ -156,10 +201,24 @@ const MyBookings: FunctionComponent<MyBookingsProps> = () => {
 													<li key={i}>- {f.featureName}</li>
 												))}
 											</ul>
-											{book.note && (
-												<p className='card-text'>
-													ملاحظة: {book.note}
-												</p>
+											{book.note?.length !== 0 && (
+												<Typography
+													width={"100%"}
+													variant='h6'
+													sx={{
+														backgroundColor: "aliceblue",
+														borderRadius: 5,
+														borderColor: "red",
+													}}
+												>
+													<Typography
+														color='success'
+														variant='body1'
+													>
+														ملاحظة
+													</Typography>
+													{book.note}
+												</Typography>
 											)}
 											<Button className='btn'>الغاء</Button>
 										</div>
@@ -182,108 +241,119 @@ const MyBookings: FunctionComponent<MyBookingsProps> = () => {
 							</Button>
 						</div>
 					)}
-				</div>
 
-				{/* for vindors users */}
-				{vendorBookings.length > 0 && (
-					<h2 className='blink text-center'>طلبات الحجز</h2>
-				)}
-				<div className=' container text-center table-responsive '>
-					{vendorBookings.length ? (
-						vendorBookings.map((v, i) => {
-							const bookingUser = users.find(
-								(u) => u._id.toString() === v.userId,
-							);
-
-							return (
-								<div key={i + 1}>
-									<table className='table table-bordered rounded mb-5'>
-										<thead>
-											<tr>
-												<th colSpan={4}>طالب الخدمه</th>
-												<th colSpan={4}>الهاتف</th>
-												<th colSpan={3}>تاريخ الحجز</th>
-												<th colSpan={2}>اجراء</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td colSpan={4}>
-													{bookingUser?.name
-														? `${bookingUser.name.first} ${bookingUser.name.last}`
-														: bookingUser?.businessName}
-												</td>
-												<td colSpan={4}>
-													{new Date(v.date).toLocaleDateString(
-														"he-IL",
-													)}
-												</td>
-												<td colSpan={3}>
-													<Link
-														to={`tel:+974${bookingUser?.phone}`}
-													>
-														{bookingUser?.phone}
-													</Link>
-												</td>
-												<td colSpan={1}>
-													{bookingUser?._id && (
-														<Button
-															color='error'
-															variant='outlined'
-															className='btn btn-danger'
-															onClick={async () => {
-																handleDeletBook(v).then(
-																	() => {
-																		setVendorBookings(
-																			(prev) =>
-																				prev.filter(
-																					(b) =>
-																						b._id !==
-																						v._id,
-																				),
-																		);
-																		setBooks((prev) =>
-																			prev.filter(
-																				(b) =>
-																					b._id !==
-																					v._id,
-																			),
-																		);
-																	},
-																);
-															}}
-														>
-															الغاء الطلب
-														</Button>
-													)}
-												</td>
-											</tr>
-											<tr>
-												<td colSpan={12}>
-													<strong>الخدمات المطلوبة:</strong>
-													<ul className='list-unstyled text-end'>
-														{v.services.map((s, idx) => (
-															<li key={idx}>
-																- {s.featureName}
-															</li>
-														))}
-													</ul>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							);
-						})
-					) : (
-						<Box>
-							{user?.role === "isVendor" && (
-								<Typography variant='h5' color='textSecondary'>
-									لم يتم حجز خدماتك حتى الان
-								</Typography>
-							)}
-						</Box>
+					{/* booking for vindor users */}
+					<hr />
+					{vendorBookings.length > 0 && (
+						<>
+							<h1 className='blink text-center'>مهم</h1>
+							<h2>لقد قام احدهم بالحجز لديك</h2>
+							<hr />
+						</>
 					)}
+					<div className='text-center table-responsive '>
+						{vendorBookings.length ? (
+							vendorBookings.map((v, i) => {
+								const bookingUser = users.find(
+									(u) => u._id.toString() === v.userId,
+								);
+
+								return (
+									<div key={i + 1}>
+										<table className='table table-bordered rounded mb-5'>
+											<thead>
+												<tr>
+													<th colSpan={4}>طالب الخدمه</th>
+													<th colSpan={3}>تاريخ الحجز</th>
+													<th colSpan={4}>الهاتف</th>
+													<th colSpan={2}>اجراء</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td colSpan={4}>
+														{bookingUser?.name
+															? `${bookingUser?.name?.first} ${bookingUser.name.last}`
+															: bookingUser?.businessName}
+													</td>
+													<td colSpan={4}>
+														{new Date(
+															v.date,
+														).toLocaleDateString("he-IL")}
+													</td>
+													<td colSpan={3}>
+														<Link
+															to={`tel:+974${bookingUser?.phone}`}
+														>
+															{bookingUser?.phone}
+														</Link>
+													</td>
+													<td colSpan={1}>
+														{bookingUser?._id && (
+															<Button
+																color='error'
+																variant='outlined'
+																className='btn btn-danger'
+																onClick={() =>
+																	handleDeleteBooking(
+																		v,
+																		true,
+																	)
+																}
+															>
+																الغاء الطلب
+															</Button>
+														)}
+													</td>
+												</tr>
+												<tr>
+													<td colSpan={12}>
+														<strong>الخدمات المطلوبة:</strong>
+														<ul className='list-unstyled text-end'>
+															{v.services.map((s, idx) => (
+																<li key={idx}>
+																	- {s.featureName}
+																</li>
+															))}
+														</ul>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										{v.note?.length !== 0 && (
+											<Typography
+												width={"100%"}
+												variant='h6'
+												sx={{
+													backgroundColor: "aliceblue",
+													borderRadius: 5,
+													overflow: "hidden",
+													textAlign: "center",
+													p: 3,
+												}}
+											>
+												<Typography
+													color='success'
+													variant='body1'
+												>
+													ملاحظة
+												</Typography>
+												{v.note}
+											</Typography>
+										)}
+									</div>
+								);
+							})
+						) : (
+							<Box>
+								{user?.role === "isVendor" && (
+									<Typography variant='h5' color='textSecondary'>
+										لم يتم حجز خدماتك حتى الان
+									</Typography>
+								)}
+							</Box>
+						)}
+					</div>
 				</div>
 			</div>
 		</main>

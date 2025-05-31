@@ -68,25 +68,6 @@ const About: FunctionComponent<AboutProps> = () => {
 									/>
 								</CardMedia>
 								<CardContent>
-									<Typography variant='h5'>انيس محاميد</Typography>
-									<Typography variant='body2'>مبرمج الشركة</Typography>
-								</CardContent>
-							</Card>
-						</Grid>
-						<Grid component={"div"}>
-							<Card
-								sx={{textAlign: "center", borderRadius: 3, boxShadow: 3}}
-							>
-								<CardMedia>
-									<Face
-										sx={{
-											fontSize: 60,
-											color: "#3f51b5",
-											marginTop: 2,
-										}}
-									/>
-								</CardMedia>
-								<CardContent>
 									<Typography variant='h5'>فياض محاميد</Typography>
 									<Typography variant='body2'>مؤسس الشركة</Typography>
 								</CardContent>

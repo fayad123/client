@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getServiceByCategories} from "../../../services/halsDecoration";
-import { Services } from "../../../interfaces/services";
+import {getServiceByCategories} from "../../../services/vendorsServices";
+import {Services} from "../../../interfaces/services";
 
 interface MainCoffeeKiosksProps {}
 
@@ -33,15 +33,21 @@ const MainCoffeeKiosks: FunctionComponent<MainCoffeeKiosksProps> = () => {
 			<div className='container text-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((coffee) => (
-						<div
-							key={coffee.vendorId}
-						>
+						<div key={coffee.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{coffee.images.length > 0 && (
+								{coffee.images && (
 									<img
-										src={coffee.images[0]}
 										className='card-img-top'
-										alt={coffee.businessName}
+										src={
+											Array.isArray(coffee.images)
+												? coffee.images[0]?.url
+												: coffee.images?.url
+										}
+										alt={
+											Array.isArray(coffee.images)
+												? coffee.images[0]?.alt
+												: coffee.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -54,7 +60,9 @@ const MainCoffeeKiosks: FunctionComponent<MainCoffeeKiosksProps> = () => {
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${coffee.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${coffee.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان

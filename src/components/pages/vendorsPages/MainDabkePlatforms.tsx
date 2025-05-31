@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getServiceByCategories} from "../../../services/halsDecoration";
-import { Services } from "../../../interfaces/services";
+import {getServiceByCategories} from "../../../services/vendorsServices";
+import {Services} from "../../../interfaces/services";
 
 interface MainDabkePlatformsProps {}
 
@@ -37,15 +37,21 @@ const MainDabkePlatforms: FunctionComponent<MainDabkePlatformsProps> = () => {
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((dabkaPlatforms) => (
-						<div
-							key={dabkaPlatforms.vendorId}
-						>
+						<div key={dabkaPlatforms.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{dabkaPlatforms.images.length > 0 && (
+								{dabkaPlatforms.images && (
 									<img
-										src={dabkaPlatforms.images[0]}
 										className='card-img-top'
-										alt={dabkaPlatforms.businessName}
+										src={
+											Array.isArray(dabkaPlatforms.images)
+												? dabkaPlatforms.images[0]?.url
+												: dabkaPlatforms.images?.url
+										}
+										alt={
+											Array.isArray(dabkaPlatforms.images)
+												? dabkaPlatforms.images[0]?.alt
+												: dabkaPlatforms.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -54,11 +60,14 @@ const MainDabkePlatforms: FunctionComponent<MainDabkePlatformsProps> = () => {
 										{dabkaPlatforms.businessName}
 									</h5>
 									<p className='card-text flex-grow-1'>
-										{dabkaPlatforms.address.city}, {dabkaPlatforms.address.street}
+										{dabkaPlatforms.address.city},{" "}
+										{dabkaPlatforms.address.street}
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${dabkaPlatforms.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${dabkaPlatforms.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان

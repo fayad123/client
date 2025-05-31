@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getServiceByCategories} from "../../../services/halsDecoration";
-import { Services } from "../../../interfaces/services";
+import {getServiceByCategories} from "../../../services/vendorsServices";
+import {Services} from "../../../interfaces/services";
 
 interface MainHalsDecorationProps {}
 
@@ -36,15 +36,21 @@ const MainHalsDecoration: FunctionComponent<MainHalsDecorationProps> = () => {
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((hallsDrcoration) => (
-						<div
-							key={hallsDrcoration.vendorId}
-						>
+						<div key={hallsDrcoration.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{hallsDrcoration.images.length > 0 && (
+								{hallsDrcoration.images && (
 									<img
-										src={hallsDrcoration.images[0]}
 										className='card-img-top'
-										alt={hallsDrcoration.businessName}
+										src={
+											Array.isArray(hallsDrcoration.images)
+												? hallsDrcoration.images[0]?.url
+												: hallsDrcoration.images?.url
+										}
+										alt={
+											Array.isArray(hallsDrcoration.images)
+												? hallsDrcoration.images[0]?.alt
+												: hallsDrcoration.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -53,11 +59,14 @@ const MainHalsDecoration: FunctionComponent<MainHalsDecorationProps> = () => {
 										{hallsDrcoration.businessName}
 									</h5>
 									<p className='card-text flex-grow-1'>
-										{hallsDrcoration.address.city}, {hallsDrcoration.address.street}
+										{hallsDrcoration.address.city},{" "}
+										{hallsDrcoration.address.street}
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${hallsDrcoration.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${hallsDrcoration.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان
