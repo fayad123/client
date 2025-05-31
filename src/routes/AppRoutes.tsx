@@ -1,9 +1,9 @@
 import {FunctionComponent} from "react";
 import {Routes, Route} from "react-router-dom";
-import Home from "../components/Home";
-import About from "../components/About";
-import Register from "../components/Register";
-import BusinessRegister from "../components/BusinessRegister";
+import Home from "../components/pages/Home";
+import About from "../components/pages/About";
+import Register from "../components/pages/Register";
+import BusinessRegister from "../components/pages/BusinessRegister";
 import MainCoffeeKiosks from "../components/pages/vendorsPages/MainCoffeeKiosks";
 import MainChairses from "../components/pages/vendorsPages/MainChairses";
 import MainCosmatics from "../components/pages/vendorsPages/MainCosmatics";
@@ -19,12 +19,17 @@ import MainHalsDecoration from "../components/pages/vendorsPages/MainHalsDecorat
 import MainCarsDecoration from "../components/pages/vendorsPages/MainCarsDecoration";
 import MainFrezzer from "../components/pages/vendorsPages/MainFrezzer";
 import Pnf from "../components/Pnf";
-import SingleServicePage from "../components/pages/services/ServicesPage";
-import Login from "../components/Login";
-import Profile from "../components/Profile";
-import EditServices from "../components/pages/services/EditServices";
+import SingleServicePage from "../components/pages/vendorsPages/services/ServicesPage";
+import Login from "../components/pages/Login";
+import Profile from "../components/pages/Profile";
+import EditServices from "../components/pages/vendorsPages/services/EditServices";
 import MyBookings from "../components/pages/MyBookings";
-import ContactUs from "../components/ContactUs";
+import ContactUs from "../components/pages/ContactUs";
+import SubscriptionPage from "../components/pages/SubscriptionPage";
+import PaymentTerms from "../components/pages/payment/PaymentTerms";
+import TermsOfUse from "../components/pages/TermsOfUse";
+import PrivacyPolicy from "../components/pages/PrivacyPolicy";
+import RecommendedServices from "../components/pages/RecommendedVendors";
 
 interface AppRoutesProps {}
 
@@ -41,6 +46,13 @@ const AppRoutes: FunctionComponent<AppRoutesProps> = () => {
 			<Route path='/My-bookings' Component={MyBookings} />
 			<Route path='/service/:vendorId' Component={SingleServicePage} />
 			<Route path='/vendors/:vendorId' Component={EditServices} />
+			<Route path='/subscripe' Component={SubscriptionPage} />
+			<Route path='/privacy-policy' Component={PrivacyPolicy} />
+			<Route path='/payment-terms' Component={PaymentTerms} />
+			<Route path='/terms-of-use' Component={TermsOfUse} />
+			<Route path='/privacy-policy' Component={PrivacyPolicy} />
+			<Route path='/recommended-services' Component={RecommendedServices} />
+			{/* <Route path='/catgeries/:vendorId' Component={EditServices} /> */}
 
 			{/* chairses rent */}
 			<Route path='/chairses' Component={MainChairses} />
@@ -80,9 +92,6 @@ const AppRoutes: FunctionComponent<AppRoutesProps> = () => {
 
 			{/* cars decoration */}
 			<Route path='/cars-decoration' Component={MainCarsDecoration} />
-
-			{/* weddingHalls */}
-			<Route path='/wedding-halls' Component={MainWeddingHalls} />
 
 			{/* Frezzers */}
 			<Route path='/frezzer' Component={MainFrezzer} />

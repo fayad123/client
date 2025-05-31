@@ -45,3 +45,11 @@ export const getUserById = async (userId: string) => {
 	return data;
 };
 
+export const getVendorSubscriptionPlan = async (vendorId: string) => {
+	try {
+		const userPlan = await axios.get(`${api}/business/${vendorId}`);
+		return userPlan.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

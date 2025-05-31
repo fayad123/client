@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getServiceByCategories} from "../../../services/halsDecoration";
-import { Services } from "../../../interfaces/services";
+import {getServiceByCategories} from "../../../services/vendorsServices";
+import {Services} from "../../../interfaces/services";
 
 interface MainCosmaticsProps {}
 
@@ -37,15 +37,21 @@ const MainCosmatics: FunctionComponent<MainCosmaticsProps> = () => {
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((cosmatics) => (
-						<div
-							key={cosmatics.vendorId}
-						>
+						<div key={cosmatics.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{cosmatics.images.length > 0 && (
+								{cosmatics.images && (
 									<img
-										src={cosmatics.images[0]}
 										className='card-img-top'
-										alt={cosmatics.businessName}
+										src={
+											Array.isArray(cosmatics.images)
+												? cosmatics.images[0]?.url
+												: cosmatics.images?.url
+										}
+										alt={
+											Array.isArray(cosmatics.images)
+												? cosmatics.images[0]?.alt
+												: cosmatics.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -54,11 +60,14 @@ const MainCosmatics: FunctionComponent<MainCosmaticsProps> = () => {
 										{cosmatics.businessName}
 									</h5>
 									<p className='card-text flex-grow-1'>
-										{cosmatics.address.city}, {cosmatics.address.street}
+										{cosmatics.address.city},{" "}
+										{cosmatics.address.street}
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${cosmatics.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${cosmatics.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان

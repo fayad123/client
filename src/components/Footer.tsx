@@ -15,7 +15,7 @@ const Footer: FunctionComponent<FooterProps> = () => {
 				mt: 5,
 			}}
 		>
-			<Typography variant='body1'>© جميع الحقوق محفوظة - موقع أفراحنا</Typography>
+			<Typography dir='ltr' variant='body1'>© جميع الحقوق محفوظة - موقع أفراحنا 2025</Typography>
 		</Box>
 	);
 };

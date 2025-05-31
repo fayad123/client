@@ -1,85 +1,179 @@
 .calendarContainer {
-  background-color: grey;
-  color: yellow;
-  border-radius: 10px;
-  padding: 2rem;
+  background-color: #ffffff;
+  color: #333333;
+  border-radius: 12px;
+  padding: 1.5rem;
   font-family: 'Cairo', sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 650px;
+  max-width: 800px;
+  margin: 2rem auto;
+  overflow: hidden;
 }
 
-.reactCalendar {
+:global(.react-calendar) {
   width: 100%;
   border: none;
   background-color: transparent;
+  line-height: 1.5;
 }
 
-/* Use :global for react-calendar classes */
 :global(.react-calendar__navigation) {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eeeeee;
 }
 
 :global(.react-calendar__navigation button) {
   background: transparent;
-  color: #fff;
-  font-size: 1.2rem;
+  color: #007bff;
+  font-size: 1rem;
   font-weight: bold;
   border: none;
-  padding: 0.5rem;
+  padding: 0.5rem 0.8rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+:global(.react-calendar__navigation button:hover) {
+  background: rgba(0, 123, 255, 0.1);
+  color: #0056b3;
 }
 
 :global(.react-calendar__navigation button:disabled) {
-  color: #666;
+  color: #cccccc;
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+:global(.react-calendar__navigation__label) {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333333;
 }
 
 :global(.react-calendar__month-view__weekdays) {
   text-align: center;
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: #bdbdbd;
+  margin-bottom: 0.8rem;
+}
 
+:global(.react-calendar__month-view__weekdays__weekday abbr) {
+  color: #777777;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.3rem 0;
+  display: block;
 }
 
 :global(.react-calendar__tile) {
-  background: none;
-  border-radius: 10px;
-  padding: 1rem 0.5rem;
-  transition: background 0.3s ease, color 0.3s ease;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0.6rem 0.2rem;
+  transition: all 0.2s ease;
   cursor: pointer;
+  color: #333333;
+  position: relative;
+  border: 1px solid transparent;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 :global(.react-calendar__tile:enabled:hover) {
-  background: #660404;
-  color: #fff;
+  background: #e0f2f7;
+  color: #007bff;
+  transform: translateY(-2px);
 }
 
 :global(.react-calendar__tile--now) {
-  background: #1565c0;
-  color: #fff;
+  background: #007bff;
+  color: #ffffff;
   font-weight: bold;
-  
+  border-color: #007bff;
 }
 
 :global(.react-calendar__tile--active) {
-  background: #64b5f6;
-  color: #000;
+  background: #0056b3;
+  color: #ffffff;
+  font-weight: bold;
+  border-color: #0056b3;
 }
 
 :global(.react-calendar__tile:disabled) {
-  background-color: #ffffff;
-  color: #777;
+  background-color: #f8f8f8;
+  color: #ff0000;
   cursor: not-allowed;
-  border-radius: 0;
+  border-radius: 8px;
+  opacity: 0.7;
 }
 
 .unavailableDate {
-  background-color: #cc7474 !important;
-  color: rgb(247, 247, 247) !important;
-  border: 1px solid #000 !important;
-  font-weight: 700;
-  font-size: 1.1rem;
+  /* background-color: #ffebee; */
+  color: #ef5350;
+  font-weight: 600;
+  cursor: not-allowed !important;
+  border-color: #ef5350;
+  position: relative;
+  overflow: hidden;
+  background-color: #ef5350 !important;
+}
+
+.unavailableDate::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #000000;
+  transform: translateY(-50%) rotate(-45deg);
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .calendarContainer {
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  :global(.react-calendar__tile) {
+    padding: 0.4rem 0.2rem;
+    height: 45px;
+    font-size: 0.9rem;
+  }
+
+  :global(.react-calendar__navigation button) {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  :global(.react-calendar__navigation__label) {
+    font-size: 1rem;
+  }
+
+  :global(.react-calendar__month-view__weekdays__weekday abbr) {
+    font-size: 0.8rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:global(.react-calendar__viewContainer) {
+  animation: fadeIn 0.3s ease-out;
 }

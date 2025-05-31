@@ -1,6 +1,6 @@
 import {useFormik} from "formik";
 import {FunctionComponent} from "react";
-import {UserSchema} from "../interfaces/userSchema";
+import {UserSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 
@@ -13,10 +13,10 @@ import {
 	InputLabel,
 	Typography,
 } from "@mui/material";
-import {theme} from "../App";
-import {registerNewUser} from "../services/usersServices";
+import {theme} from "../../App";
+import {registerNewUser} from "../../services/usersServices";
 import {useNavigate} from "react-router-dom";
-import {successToast} from "../atoms/notifications/Toasts";
+import {successToast} from "../../atoms/notifications/Toasts";
 
 interface RegisterProps {}
 

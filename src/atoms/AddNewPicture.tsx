@@ -11,8 +11,7 @@ import {useFormik} from "formik";
 import * as yup from "yup";
 import {errorToast, successToast} from "./notifications/Toasts";
 import {forwardRef, FunctionComponent, ReactElement, Ref} from "react";
-import { addVendorPicture } from "../services/halsDecoration";
-
+import {addVendorPicture} from "../services/vendorsServices";
 
 const Transition = forwardRef(function Transition(
 	props: TransitionProps & {
@@ -38,13 +37,19 @@ const AddNewPicture: FunctionComponent<AddNewPictureProps> = ({
 }) => {
 	const formik = useFormik({
 		initialValues: {
-			image: "",
+			image: {
+				url: "",
+				alt: "",
+			},
 		},
 		validationSchema: yup.object({
-			image: yup
-				.string()
-				.url("الرجاء إدخال رابط صالح")
-				.required("الرجاء إدخال عنوان الصورة"),
+			image: yup.object({
+				url: yup
+					.string()
+					.url("الرجاء إدخال رابط صالح")
+					.required("الرجاء إدخال إدخال رابط"),
+				alt: yup.string().required("الرجاء إدخال عنوان الصورة"),
+			}),
 		}),
 		onSubmit: (values) => {
 			addVendorPicture(userId, values.image)
@@ -78,16 +83,36 @@ const AddNewPicture: FunctionComponent<AddNewPictureProps> = ({
 					<TextField
 						fullWidth
 						autoFocus
-						label='عنوان الصورة'
-						name='image'
+						label='رابط الصورة'
+						name='image.url'
 						variant='outlined'
-						value={formik.values.image}
+						value={formik.values.image.url}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
-						error={formik.touched.image && Boolean(formik.errors.image)}
-						helperText={formik.touched.image && formik.errors.image}
+						error={
+							formik.touched.image?.url && Boolean(formik.errors.image?.url)
+						}
+						helperText={formik.touched.image?.url && formik.errors.image?.url}
 						sx={{
 							textAlign: "right",
+						}}
+					/>
+					<TextField
+						fullWidth
+						autoFocus
+						label='عنوان الصورة'
+						name='image.alt'
+						variant='outlined'
+						value={formik.values.image.alt}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						error={
+							formik.touched.image?.alt && Boolean(formik.errors.image?.alt)
+						}
+						helperText={formik.touched.image?.alt && formik.errors.image?.alt}
+						sx={{
+							textAlign: "right",
+							mt: 5,
 						}}
 					/>
 				</DialogContent>

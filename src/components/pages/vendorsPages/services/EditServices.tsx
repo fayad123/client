@@ -1,12 +1,8 @@
-import {
-	getVendorData,
-	removeVendorService,
-	updateVendorServices,
-} from "../../../services/vendorServices";
-import {useUser} from "../../../contextApi/useUserData";
+import {getVendorData, updateVendorServices} from "../../../../services/vendorServices";
+import {useUser} from "../../../../contextApi/useUserData";
 import {FunctionComponent, useState, useEffect} from "react";
 import {useFormik} from "formik";
-import {Services} from "../../../interfaces/services";
+import {Services, vendorsServicesInitionalData} from "../../../../interfaces/services";
 import * as yup from "yup";
 import {
 	Button,
@@ -21,13 +17,14 @@ import {
 	FormControl,
 	FormHelperText,
 	TextareaAutosize,
-	ImageList,
-	ImageListItem,
 } from "@mui/material";
-import {successToast} from "../../../atoms/notifications/Toasts";
+import {successToast} from "../../../../atoms/notifications/Toasts";
 import AddIcon from "@mui/icons-material/Add";
-import AddNewServiceModal from "../../../atoms/AddNewServiceModal";
-import AddNewPicture from "../../../atoms/AddNewPicture";
+import AddNewPicture from "../../../../atoms/AddNewPicture";
+import ReactSlick from "../../../../atoms/reactSlick/ReactSlick";
+import ServicesSettings from "./ServicesSettings";
+import {JwtPayload} from "../../../../interfaces/userSchema";
+import {useNavigate} from "react-router-dom";
 
 interface EditServicesProps {}
 
@@ -36,15 +33,11 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [refresh, setRefresh] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
-	const [open, setOpen] = useState<boolean>(false);
 	const [openAddImage, setOpenAddImage] = useState<boolean>(false);
 	const {user} = useUser();
-
+	const navigate = useNavigate();
 	const handleClickOpenAddImage = () => setOpenAddImage(!openAddImage);
 	const handleCloseAddImage = () => setOpenAddImage(!openAddImage);
-
-	const handleClickOpen = () => setOpen(!open);
-	const handleClose = () => setOpen(!open);
 
 	useEffect(() => {
 		const fetchVendorData = async () => {
@@ -65,22 +58,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 		fetchVendorData();
 	}, [user, refresh]);
 
-	const initialValues =
-		vendor.length > 0
-			? vendor[0]
-			: {
-					businessName: "",
-					phone: "",
-					category: "",
-					images: [],
-					description: "",
-					priceType: "",
-					price: {min: 0, max: 0},
-					address: {city: "", street: ""},
-					availableDates: [],
-					services: [],
-					vendorId: "",
-			  };
+	const initialValues = vendor.length > 0 ? vendor[0] : vendorsServicesInitionalData;
 
 	const validationSchema = yup.object().shape({
 		businessName: yup.string().required("اسم التجاري مطلوب"),
@@ -167,22 +145,14 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 		);
 	}
 
-	const handleRemoveVendorService = async (vid: string, servName: string) => {
-		setLoading(true);
-		await removeVendorService(vid, servName);
-		setLoading(false);
-		setRefresh(!refresh);
-	};
-
 	return (
 		<main className=' container'>
+			{/* edit section */}
 			<Box
 				component='form'
 				onSubmit={formik.handleSubmit}
 				noValidate
-				autoComplete='off'
 				sx={{
-					backdropFilter: "blur(80px)",
 					p: 3,
 					borderRadius: 2,
 					boxShadow: 1,
@@ -192,7 +162,14 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 				<Typography variant='h4' gutterBottom sx={{textAlign: "center", mb: 3}}>
 					تعديل بيانات مزود الخدمة
 				</Typography>
-
+				<Button
+					size='small'
+					variant='contained'
+					sx={{mb: 2}}
+					onClick={() => navigate(`/service/${user?._id}`)}
+				>
+					صفحتي
+				</Button>
 				<Box className='row row-cols-1 row-cols-md-2 row-cols-lg-3' sx={{gap: 3}}>
 					{/* Business Info Section */}
 					<Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
@@ -361,6 +338,68 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 							/>
 						</Box>
 					</Box>
+
+					{/* details section */}
+					<Box
+						sx={{
+							border: 1,
+							borderColor: "divider",
+							borderRadius: 2,
+							mb: 3,
+							p: 2,
+							bgcolor: "divider",
+						}}
+					>
+						هنا سيتم عرض بيانات الاشتراك
+					</Box>
+					<Box
+						component='ul'
+						sx={{
+							bgcolor: "#ffffffeb",
+							fontFamily: "monospace",
+							borderRadius: 2,
+							p: 3,
+							my: 3,
+							boxShadow: 1,
+							transition: "all 0.3s ease",
+							listStyle: "none",
+							"&:hover": {
+								boxShadow: 3,
+								bgcolor: "#fffffff2",
+							},
+							"& li": {
+								position: "relative",
+								pl: 2,
+								mb: 1.5,
+								"&:before": {
+									content: '""',
+									position: "absolute",
+									right: 0,
+									transform: "translateX(100%)",
+									mr: 1,
+								},
+							},
+						}}
+					>
+						<Typography variant='h6' sx={{fontWeight: "bold", mb: 2}}>
+							التعليمات:
+						</Typography>
+						<Typography component='li' sx={{lineHeight: 1.8}}>
+							إذا أردت إضافة سطر جديد، يمكنك إضافة علامة الناقص (-) في أول
+							السطر
+						</Typography>
+						<Typography
+							component='li'
+							sx={{
+								bgcolor: "#F3B63F",
+								p: 1.5,
+								borderRadius: 1,
+								lineHeight: 1.8,
+							}}
+						>
+							-هذا سطر جديد مع علامة الناقص
+						</Typography>
+					</Box>
 					<TextareaAutosize
 						name='description'
 						aria-label='الوصف'
@@ -370,7 +409,6 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						style={{
-							marginBlock: 30,
 							width: "100%",
 							padding: "8px",
 							fontFamily: "inherit",
@@ -388,23 +426,24 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 							? formik.errors.description
 							: `عدد الأحرف: ${formik.values.description.length}/500`}
 					</FormHelperText>
-				</Box>
 
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "flex-end",
-					}}
-				>
-					<Button
-						type='submit'
-						variant='contained'
-						size='large'
-						disabled={loading}
-						sx={{minWidth: 120}}
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "flex-end",
+							mt: 3,
+						}}
 					>
-						{loading ? <CircularProgress size={24} /> : "حفظ التغييرات"}
-					</Button>
+						<Button
+							type='submit'
+							variant='contained'
+							size='large'
+							disabled={loading}
+							sx={{minWidth: 120}}
+						>
+							{loading ? <CircularProgress size={24} /> : "حفظ التغييرات"}
+						</Button>
+					</Box>
 				</Box>
 			</Box>
 
@@ -422,287 +461,21 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 				<Button
 					size='small'
 					variant='contained'
-					sx={{
-						borderRadius: 5,
-					}}
+					sx={{mb: 2}}
 					startIcon={<AddIcon />}
-					onClick={() => handleClickOpenAddImage()}
-				/>
+					onClick={handleClickOpenAddImage}
+				>
+					إضافة صورة جديدة
+				</Button>
 
-				{vendor.length > 0 && (
-					<ImageList variant='woven' cols={3} gap={10}>
-						{vendor[0].images?.map((item, index) => (
-							<ImageListItem key={index}>
-								<img
-									srcSet={`${item}?w=161&fit=crop&auto=format&dpr=2 2x`}
-									src={`${item}?w=161&fit=crop&auto=format`}
-									alt={item}
-									loading='lazy'
-								/>
-							</ImageListItem>
-						))}
-					</ImageList>
-				)}
+				{vendor.length > 0 && <ReactSlick images={vendor[0].images as any} />}
 			</Box>
 
 			<Divider sx={{my: 4}} />
 
 			{/* Services Section */}
-			<Box
-				sx={{
-					backdropFilter: "blur(80px)",
-					p: 3,
-					borderRadius: 2,
-					boxShadow: 1,
-				}}
-			>
-				<Typography variant='h5' gutterBottom sx={{textAlign: "center", mb: 3}}>
-					الخدمات المتاحة
-				</Typography>
+			<ServicesSettings user={user as JwtPayload} vendor={vendor} />
 
-				{vendor.length === 0 ? (
-					<Typography color='text.secondary'>لا توجد خدمات متاحة</Typography>
-				) : (
-					<>
-						{/* Desktop View */}
-						<Box sx={{display: {xs: "none", md: "block"}}}>
-							<Box sx={{textAlign: "start", mb: 2}}>
-								<Button
-									size='small'
-									variant='contained'
-									sx={{borderRadius: 5}}
-									startIcon={<AddIcon />}
-									onClick={handleClickOpen}
-								/>
-							</Box>
-							<table className='table fw-bold table-striped text-end table-bordered'>
-								<thead>
-									<tr>
-										<th>الاسم التجاري</th>
-										<th>الخدمات</th>
-										<th>نطاق الأسعار</th>
-									</tr>
-								</thead>
-								<tbody>
-									{vendor.map((vendorItem, index) => (
-										<tr key={index}>
-											<td>{vendorItem.businessName}</td>
-											<td>
-												{vendorItem.services?.length > 0 ? (
-													<ul
-														style={{
-															listStyleType: "none",
-															paddingRight: 0,
-														}}
-													>
-														{vendorItem.services.map(
-															(service, i) => (
-																<li key={i}>
-																	<div className=' d-flex  align-items-center'>
-																		<Button
-																			color='error'
-																			size='small'
-																			onClick={() =>
-																				handleRemoveVendorService(
-																					vendorItem.vendorId,
-																					service.featureName,
-																				)
-																			}
-																		>
-																			حذف
-																		</Button>
-																		-{" "}
-																		{service.featureName ||
-																			"Unnamed Service"}{" "}
-																		{service.price &&
-																			` (${service.price.toLocaleString(
-																				"he-IL",
-																				{
-																					currency:
-																						"ILS",
-																					style: "currency",
-																					minimumFractionDigits: 0,
-																					maximumFractionDigits: 0,
-																				},
-																			)})`}
-																	</div>
-																</li>
-															),
-														)}
-													</ul>
-												) : (
-													<Typography color='text.secondary'>
-														لا توجد خدمات
-													</Typography>
-												)}
-											</td>
-											<td>
-												{vendorItem.priceType === "fixed" ? (
-													<span>
-														سعر ثابت:{" "}
-														{vendorItem.price.min.toLocaleString(
-															"he-IL",
-															{
-																currency: "ILS",
-																style: "currency",
-																minimumFractionDigits: 0,
-																maximumFractionDigits: 0,
-															},
-														)}
-													</span>
-												) : (
-													<span>
-														من{" "}
-														{vendorItem.price.min.toLocaleString(
-															"he-IL",
-															{
-																currency: "ILS",
-																style: "currency",
-																minimumFractionDigits: 0,
-																maximumFractionDigits: 0,
-															},
-														)}{" "}
-														إلى{" "}
-														{vendorItem.price.max.toLocaleString(
-															"he-IL",
-															{
-																currency: "ILS",
-																style: "currency",
-															},
-														)}
-													</span>
-												)}
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</Box>
-
-						{/* Mobile View */}
-						<Box sx={{display: {xs: "block", md: "none"}}}>
-							<Box
-								sx={{
-									textAlign: "start",
-									mb: 2,
-								}}
-							>
-								<Button
-									size='small'
-									variant='contained'
-									sx={{
-										borderRadius: 5,
-									}}
-									startIcon={<AddIcon />}
-									onClick={handleClickOpen}
-								/>
-							</Box>
-
-							{vendor.map((vendorItem, index) => (
-								<Box
-									key={index}
-									className='card mb-3 text-end'
-									sx={{border: "1px solid #eee", borderRadius: 1}}
-								>
-									<Box className='card-body' sx={{p: 2}}>
-										<Typography
-											variant='h6'
-											className='card-title'
-											sx={{mb: 1, textAlign: "center"}}
-										>
-											{vendorItem.businessName}
-										</Typography>
-
-										<Typography variant='body2' sx={{mb: 1}}>
-											<strong>السعر: </strong>
-											{vendorItem.priceType === "fixed"
-												? `${vendorItem.price.min.toLocaleString(
-														"he-IL",
-														{
-															style: "currency",
-															currency: "ILS",
-														},
-												  )} (ثابت)`
-												: `من ${vendorItem.price.min.toLocaleString(
-														"he-IL",
-														{
-															style: "currency",
-															currency: "ILS",
-															minimumFractionDigits: 0,
-															maximumFractionDigits: 0,
-														},
-												  )} إلى ${vendorItem.price.max.toLocaleString(
-														"he-IL",
-														{
-															style: "currency",
-															currency: "ILS",
-															minimumFractionDigits: 0,
-															maximumFractionDigits: 0,
-														},
-												  )}`}
-										</Typography>
-
-										<Divider sx={{my: 1}} />
-
-										<Typography variant='subtitle2' sx={{mb: 1}}>
-											الخدمات:
-										</Typography>
-										{vendorItem.services?.length > 0 ? (
-											<ul
-												style={{
-													listStyleType: "none",
-													paddingRight: 0,
-													margin: 0,
-												}}
-											>
-												{vendorItem.services.map((service, i) => (
-													<li key={service.featureName + i}>
-														-{" "}
-														{service.featureName ||
-															"خدمة بدون اسم"}
-														{service.price !== undefined && (
-															<span
-																style={{
-																	marginRight: "8px",
-																}}
-															>
-																(
-																{service.price.toLocaleString(
-																	"he-IL",
-																	{
-																		style: "currency",
-																		currency: "ILS",
-																		minimumFractionDigits: 0,
-																		maximumFractionDigits: 0,
-																	},
-																)}
-																)
-															</span>
-														)}
-													</li>
-												))}
-											</ul>
-										) : (
-											<Typography
-												variant='body2'
-												color='text.secondary'
-											>
-												لا توجد خدمات
-											</Typography>
-										)}
-									</Box>
-								</Box>
-							))}
-						</Box>
-					</>
-				)}
-			</Box>
-			<AddNewServiceModal
-				userId={user?._id as string}
-				handleClose={handleClose}
-				open={open}
-				refresh={() => setRefresh(!refresh)}
-			/>
 			<AddNewPicture
 				userId={user?._id as string}
 				handleClose={handleCloseAddImage}

@@ -2,7 +2,7 @@ import {FunctionComponent, useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // تأكد من إضافة Bootstrap إلى مشروعك
 import {useNavigate} from "react-router-dom";
 import {Services} from "../../../interfaces/services";
-import {getServiceByCategories} from "../../../services/halsDecoration";
+import {getServiceByCategories} from "../../../services/vendorsServices";
 
 interface MainWaitersProps {}
 
@@ -27,21 +27,27 @@ const MainWaiters: FunctionComponent<MainWaitersProps> = () => {
 			</div>
 		);
 	return (
-		<>
+		<main>
 			<h1 className='text-center mb-4'>نادلين</h1>
 
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((waiters) => (
-						<div
-							key={waiters.vendorId}
-						>
+						<div key={waiters.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{waiters.images.length > 0 && (
+								{waiters.images && (
 									<img
-										src={waiters.images[0]}
 										className='card-img-top'
-										alt={waiters.businessName}
+										src={
+											Array.isArray(waiters.images)
+												? waiters.images[0]?.url
+												: waiters.images?.url
+										}
+										alt={
+											Array.isArray(waiters.images)
+												? waiters.images[0]?.alt
+												: waiters.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -54,7 +60,9 @@ const MainWaiters: FunctionComponent<MainWaitersProps> = () => {
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${waiters.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${waiters.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان
@@ -64,7 +72,7 @@ const MainWaiters: FunctionComponent<MainWaitersProps> = () => {
 					))}
 				</div>
 			</div>
-		</>
+		</main>
 	);
 };
 

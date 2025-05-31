@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Services} from "../../../interfaces/services";
-import {getServiceByCategories} from "../../../services/halsDecoration";
+import {getServiceByCategories} from "../../../services/vendorsServices";
 
 interface MainRestaurantsProps {}
 
@@ -33,15 +33,21 @@ const MainRestaurants: FunctionComponent<MainRestaurantsProps> = () => {
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((restaurants) => (
-						<div
-							key={restaurants.vendorId}
-						>
+						<div key={restaurants.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{restaurants.images.length > 0 && (
+								{restaurants.images && (
 									<img
-										src={restaurants.images[0]}
 										className='card-img-top'
-										alt={restaurants.businessName}
+										src={
+											Array.isArray(restaurants.images)
+												? restaurants.images[0]?.url
+												: restaurants.images?.url
+										}
+										alt={
+											Array.isArray(restaurants.images)
+												? restaurants.images[0]?.alt
+												: restaurants.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -50,11 +56,14 @@ const MainRestaurants: FunctionComponent<MainRestaurantsProps> = () => {
 										{restaurants.businessName}
 									</h5>
 									<p className='card-text flex-grow-1'>
-										{restaurants.address.city}, {restaurants.address.street}
+										{restaurants.address.city},{" "}
+										{restaurants.address.street}
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${restaurants.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${restaurants.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان

@@ -1,14 +1,12 @@
 import {useFormik} from "formik";
 import {FunctionComponent} from "react";
-import {LoginSchema} from "../interfaces/userSchema";
+import {LoginSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
-
 import {Button, Box, Typography} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {theme} from "../App";
-import {userLogin} from "../services/usersServices";
-import {errorToast, successToast} from "../atoms/notifications/Toasts";
+import {Link, useNavigate} from "react-router-dom";
+import {userLogin} from "../../services/usersServices";
+import {errorToast, successToast} from "../../atoms/notifications/Toasts";
 
 interface LoginProps {}
 
@@ -123,6 +121,15 @@ const Login: FunctionComponent<LoginProps> = () => {
 				>
 					بائع جديد
 				</Button>
+				<Box display='flex' justifyContent='center' gap={2}>
+					<Typography variant='body2'>
+						<Link to='/privacy-policy'>سياسة الخصوصية</Link>
+					</Typography>
+					<Typography variant='body2'>|</Typography>
+					<Typography variant='body2'>
+						<Link to='/terms-of-use'>شروط الاستخدام</Link>
+					</Typography>
+				</Box>
 			</Box>
 		</main>
 	);

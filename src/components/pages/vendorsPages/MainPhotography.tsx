@@ -1,5 +1,5 @@
 import {FunctionComponent, useEffect, useState} from "react";
-import {getServiceByCategories} from "../../../services/halsDecoration";
+import {getServiceByCategories} from "../../../services/vendorsServices";
 import {Services} from "../../../interfaces/services";
 import {useNavigate} from "react-router-dom";
 
@@ -36,15 +36,21 @@ const MainPhotography: FunctionComponent<MainPhotographyProps> = () => {
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((photography) => (
-						<div
-							key={photography.vendorId}
-						>
+						<div key={photography.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{photography.images.length > 0 && (
+								{photography.images && (
 									<img
-										src={photography.images[0]}
 										className='card-img-top'
-										alt={photography.businessName}
+										src={
+											Array.isArray(photography.images)
+												? photography.images[0]?.url
+												: photography.images?.url
+										}
+										alt={
+											Array.isArray(photography.images)
+												? photography.images[0]?.alt
+												: photography.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -53,11 +59,14 @@ const MainPhotography: FunctionComponent<MainPhotographyProps> = () => {
 										{photography.businessName}
 									</h5>
 									<p className='card-text flex-grow-1'>
-										{photography.address.city}, {photography.address.street}
+										{photography.address.city},{" "}
+										{photography.address.street}
 									</p>
 								</div>
 								<button
-									onClick={() => navigate(`/service/${photography.vendorId}`)}
+									onClick={() =>
+										navigate(`/service/${photography.vendorId}`)
+									}
 									className='btn btn-outline-success m-3'
 								>
 									احجز الان

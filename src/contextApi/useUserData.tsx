@@ -1,11 +1,9 @@
 import {createContext, ReactNode, useContext, useState} from "react";
-import { JwtPayload } from "../interfaces/userSchema";
-
-
+import {JwtPayload} from "../interfaces/userSchema";
 
 type UserContextType = {
 	user: JwtPayload | null;
-	setUser: (user: JwtPayload | null) => void;
+	setUser: React.Dispatch<React.SetStateAction<JwtPayload | null>>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

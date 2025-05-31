@@ -56,8 +56,6 @@ export const myBookings = async (userId: string): Promise<BookingData[]> => {
 export const getVendorsBooks = async (vendorId: string): Promise<BookingData[]> => {
 	try {
 		const vendorsBooks = await axios.get(`${api}/vendor/${vendorId}`);
-		console.log("vendorsBooks.data", vendorsBooks.data);
-
 		return vendorsBooks.data;
 	} catch (error) {
 		console.log(error);

@@ -1,7 +1,7 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {getServiceByCategories} from "../../../services/halsDecoration";
-import { Services } from "../../../interfaces/services";
+import {getServiceByCategories} from "../../../services/vendorsServices";
+import {Services} from "../../../interfaces/services";
 
 interface MainPastryProps {}
 
@@ -37,15 +37,21 @@ const MainPastry: FunctionComponent<MainPastryProps> = () => {
 			<div className='container align-content-center'>
 				<div className='row row-cols-1 row-cols-md-3 gap-1'>
 					{services.map((pasty) => (
-						<div
-							key={pasty.vendorId}
-						>
+						<div key={pasty.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{pasty.images.length > 0 && (
+								{pasty.images && (
 									<img
-										src={pasty.images[0]}
 										className='card-img-top'
-										alt={pasty.businessName}
+										src={
+											Array.isArray(pasty.images)
+												? pasty.images[0]?.url
+												: pasty.images?.url
+										}
+										alt={
+											Array.isArray(pasty.images)
+												? pasty.images[0]?.alt
+												: pasty.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}

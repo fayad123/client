@@ -1,8 +1,8 @@
 import {FunctionComponent, useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // تأكد من إضافة Bootstrap إلى مشروعك
-import {getServiceByCategories} from "../../../services/halsDecoration";
+import {getServiceByCategories} from "../../../services/vendorsServices";
 import {useNavigate} from "react-router-dom";
-import { Services } from "../../../interfaces/services";
+import {Services} from "../../../interfaces/services";
 
 interface MainFrezzerProps {}
 
@@ -36,11 +36,19 @@ const MainFrezzer: FunctionComponent<MainFrezzerProps> = () => {
 					{services.map((frezzers) => (
 						<div key={frezzers.vendorId}>
 							<div className='card h-100 shadow-sm border-0'>
-								{frezzers.images.length > 0 && (
+								{frezzers.images && (
 									<img
-										src={frezzers.images[0]}
 										className='card-img-top'
-										alt={frezzers.businessName}
+										src={
+											Array.isArray(frezzers.images)
+												? frezzers.images[0]?.url
+												: frezzers.images?.url
+										}
+										alt={
+											Array.isArray(frezzers.images)
+												? frezzers.images[0]?.alt
+												: frezzers.images?.alt
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
