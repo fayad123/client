@@ -4,7 +4,7 @@ import {getVendorData} from "../services/vendorServices";
 import {getServiceByVendorId, getUnavailableDates} from "../services/vendorsServices";
 import {getVisibleServices} from "../subscribtionTypes/subscription";
 import {JwtPayload} from "../interfaces/userSchema";
-import { getVendorSubscriptionPlan } from "../services/usersServices";
+import {getVendorSubscriptionPlan} from "../services/usersServices";
 
 interface ServiceData {
 	service: Services;
@@ -17,42 +17,45 @@ interface ServiceData {
 	}[];
 	loading: boolean;
 	error: Error | null;
+	planId: string | null;
 }
 
-export const useServiceData = (vendorId: string): ServiceData => {
-	const [data, setData] = useState<ServiceData>({
-		service: {
-			businessName: "",
-			email: "",
-			phone: "",
-			category: "",
-			images: [],
-			description: "",
-			priceType: "",
-			price: {
-				min: 0,
-				max: 0,
-			},
-			address: {
-				city: "",
-				street: "",
-			},
-			availableDates: [],
-			services: [],
-			vendorId: "",
-			planeId: "",
+const initialServiceData = (): ServiceData => ({
+	service: {
+		businessName: "",
+		email: "",
+		phone: "",
+		category: "",
+		images: [],
+		description: "",
+		priceType: "",
+		price: {
+			min: 0,
+			max: 0,
 		},
-		unavailableDates: [],
+		address: {
+			city: "",
+			street: "",
+		},
+		availableDates: [],
+		services: [],
 		vendorId: "",
-		visibleServices: [],
-		loading: true,
-		error: null,
-	});
+		planeId: "",
+	},
+	unavailableDates: [],
+	vendorId: "",
+	visibleServices: [],
+	loading: true,
+	error: null,
+	planId: null,
+});
+
+export const useServiceData = (vendorId: string): ServiceData => {
+	const [data, setData] = useState<ServiceData>(initialServiceData);
 
 	useEffect(() => {
+		if (!vendorId) return;
 		const loadData = async () => {
-			if (!vendorId) return;
-
 			try {
 				const [
 					businessData,
@@ -72,45 +75,30 @@ export const useServiceData = (vendorId: string): ServiceData => {
 					? vendorProfileDataResult[0]
 					: vendorProfileDataResult;
 
-				let effectivePlanId: string | undefined;
+				const subscriptionPlanId = (subscriptionResponse as JwtPayload)?.planId;
+				const profilePlanId = vendorProfile?.planId;
+				const effectivePlanId = subscriptionPlanId || profilePlanId || "basic";
 
-				if (
-					subscriptionResponse &&
-					typeof (subscriptionResponse as JwtPayload).planId === "string"
-				) {
-					effectivePlanId = (subscriptionResponse as JwtPayload).planId;
-				} else if (vendorProfile && typeof vendorProfile.planId === "string") {
-					effectivePlanId = vendorProfile.planId;
-				} else {
-					effectivePlanId = "basic";
-				}
+				const visibleServices = getVisibleServices(
+					effectivePlanId,
+					businessData.services,
+				);
 
-				let newVisibleServices = businessData.services;
-
-				if (effectivePlanId) {
-					newVisibleServices = getVisibleServices(
-						effectivePlanId,
-						businessData.services,
-					);
-				} else {
-					console.warn(
-						"No effective planId found, falling back to default services provided by getVisibleServices or showing all services.",
-					);
-					newVisibleServices = getVisibleServices(
-						"basic",
-						businessData.services,
-					);
-				}
+				const parsedUnavailableDates = (
+					unavailableData?.unavailableDates || []
+				).map((d: string) => {
+					const parsed = new Date(d);
+					return isNaN(parsed.getTime()) ? new Date() : parsed;
+				});
 
 				setData({
 					service: businessData,
-					unavailableDates: unavailableData.unavailableDates.map(
-						(d: string) => new Date(d),
-					),
+					unavailableDates: parsedUnavailableDates,
 					vendorId: vendorId,
-					visibleServices: newVisibleServices,
+					visibleServices,
 					loading: false,
 					error: null,
+					planId: effectivePlanId,
 				});
 			} catch (error) {
 				console.error("Error fetching service data:", error);

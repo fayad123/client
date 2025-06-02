@@ -25,6 +25,7 @@ import {useServiceData} from "../../../../hooks/useServiceData";
 import {useBookingHandler} from "../../../../hooks/useBookingHandler";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import HorizontalDevider from "../../../../atoms/customDeviders/HorizontalDevider";
+import SpicialLogo from "../../../../atoms/SpicialLogo";
 
 interface SingleServicePageProps {}
 
@@ -36,7 +37,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 	const [isDateAvailable, setIsDateAvailable] = useState<boolean>(true);
 
 	const {bookingState, handleBooking} = useBookingHandler();
-	const {service, unavailableDates, visibleServices, loading, error} =
+	const {service, planId, unavailableDates, visibleServices, loading, error} =
 		useServiceData(vendorId);
 
 	const descriptionPoints = service?.description
@@ -147,7 +148,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					color='primary'
 					onClick={() => window.location.reload()}
 				>
-					Retry
+					اعادة التحميل
 				</Button>
 			</Box>
 		);
@@ -199,7 +200,12 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 
 	return (
 		<Box
-			sx={{maxWidth: 1200,textAlign:"center", mx: "auto", p: {xs: 2, md: 3, fontFamily: "monospace"}}}
+			sx={{
+				maxWidth: 1200,
+				textAlign: "center",
+				mx: "auto",
+				p: {xs: 2, md: 3, fontFamily: "monospace"},
+			}}
 		>
 			<Box
 				sx={{
@@ -209,22 +215,21 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 				}}
 			>
 				<h1 className='text-center mb-4'>{service?.businessName}</h1>
-				{vendorId && <img style={{width:70}} src='/special.png' alt='' />}
 			</Box>
+			{planId === "premium" && <SpicialLogo/>}
 
 			<Chip
 				variant='outlined'
 				sx={{
 					p: 2,
-					m:"auto",
-					textAlign:"center",
+					m: "auto",
+					textAlign: "center",
 					borderRadius: 1,
 					borderColor: "primary.main",
 					backgroundColor: "background.paper",
 					"&:hover": {
 						backgroundColor: "action.hover",
 					},
-
 				}}
 				icon={
 					<LocationOnIcon
@@ -242,8 +247,31 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					</Typography>
 				}
 			/>
-
-			<HorizontalDevider/>
+			{vendorId && (
+				<Box
+					sx={{
+						position: "sticky",
+						width: 100,
+						left: {xs: 22, md: 123, lg: 50},
+						top: 0,
+						zIndex: 5,
+					}}
+				>
+					<Button
+						size='small'
+						color='primary'
+						variant='contained'
+						sx={{
+							position: "relative",
+							top: 80,
+						}}
+						onClick={() => navigate(`/vendors/${vendorId}`)}
+					>
+						ادارة الصفحه
+					</Button>
+				</Box>
+			)}
+			<HorizontalDevider />
 			<ReactSlick images={service?.images as any} />
 			<Box
 				sx={{
@@ -302,7 +330,6 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					))}
 				</Box>
 			</Box>
-
 			<div className='text-center mb-4'>
 				<Calendar
 					selectedDate={selectedDate}
@@ -310,7 +337,6 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					unavailableDates={unavailableDates}
 				/>
 			</div>
-
 			<Box
 				component='form'
 				onSubmit={formik.handleSubmit}

@@ -38,6 +38,8 @@ import MainLuxuryCarsPage from "../components/pages/vendorsPages/MainLuxuryCarsP
 import MainNutsPage from "../components/pages/vendorsPages/MainNutsPage";
 import MainReligiousBandsPage from "../components/pages/vendorsPages/MainReligiousBandsPage";
 import MainWeddingGiftsPage from "../components/pages/vendorsPages/MainWeddingGiftsPage";
+import UsersTable from "../components/pages/adminManagement/UsersTable";
+import VendorsTable from "../components/pages/adminManagement/VendorsTable";
 
 interface AppRoutesProps {}
 
@@ -60,7 +62,8 @@ const AppRoutes: FunctionComponent<AppRoutesProps> = () => {
 			<Route path='/terms-of-use' Component={TermsOfUse} />
 			<Route path='/privacy-policy' Component={PrivacyPolicy} />
 			<Route path='/recommended-services' Component={RecommendedServices} />
-			{/* <Route path='/catgeries/:vendorId' Component={EditServices} /> */}
+			<Route path='/manage/users' Component={UsersTable} />
+			<Route path='/manage/vendors' Component={VendorsTable} />
 
 			{/* chairses rent */}
 			<Route path='/chairses' Component={MainChairses} />

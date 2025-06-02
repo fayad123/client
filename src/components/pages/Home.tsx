@@ -28,7 +28,7 @@ interface HomeProps {}
 const api = `${import.meta.env.VITE_API_URI}/videos`;
 
 const Home: FunctionComponent<HomeProps> = () => {
-	const {setUser} = useUser();
+	const {user, setUser} = useUser();
 	const [videos, setVideos] = useState<string[]>([]);
 
 	useEffect(() => {
@@ -70,7 +70,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 				</Typography>
 			</Box>
 			<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
-				<VideoUpload />
+				{user?.role === "admin" && <VideoUpload />}
 				<VideoAds videos={videos} />
 			</Box>
 
@@ -98,7 +98,10 @@ const Home: FunctionComponent<HomeProps> = () => {
 									boxShadow: 1,
 									height: "100%",
 									transition: "all 0.3s",
-									"&:hover": {transform: "translateY(-8px)",boxShadow:8},
+									"&:hover": {
+										transform: "translateY(-8px)",
+										boxShadow: 8,
+									},
 								}}
 							>
 								<Link to={cat.link} style={{textDecoration: "none"}}>
@@ -107,7 +110,6 @@ const Home: FunctionComponent<HomeProps> = () => {
 											pt={3}
 											display='flex'
 											justifyContent='center'
-											
 										>
 											{typeof cat.icon === "string" ? (
 												<Box

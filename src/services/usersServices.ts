@@ -53,3 +53,14 @@ export const getVendorSubscriptionPlan = async (vendorId: string) => {
 		console.log(error);
 	}
 };
+
+export const getAllUsers = async () => {
+	try {
+		const response = await axios.get(`${api}/users/customers`, {
+			headers: {Authorization: localStorage.getItem("token")},
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

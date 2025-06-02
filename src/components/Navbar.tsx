@@ -16,9 +16,6 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useUser} from "../contextApi/useUserData";
 import {Person} from "@mui/icons-material";
@@ -26,6 +23,7 @@ import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SubscripbeButton from "../atoms/subscribeButton/SubscripbeButton";
 import theme from "../assets/theme";
+import {navbarItems} from "../routes/mainMenu";
 
 const Navbar: FunctionComponent = () => {
 	const [open, setOpen] = useState(false);
@@ -53,24 +51,7 @@ const Navbar: FunctionComponent = () => {
 		: `${user?.name?.first} ${user?.name?.last}` || "";
 
 	let currentUser = businesses;
-
-	const menuItems = [
-		{
-			text: "الرئيسيه",
-			icon: <HomeIcon sx={{fontSize: 30}} color='error' />,
-			path: "/",
-		},
-		{
-			text: "من نحن",
-			icon: <InfoIcon sx={{fontSize: 30}} color='warning' />,
-			path: "/about",
-		},
-		{
-			text: "اتصل بنا",
-			icon: <ContactMailIcon sx={{fontSize: 30}} color='success' />,
-			path: "/contact",
-		},
-	];
+	// user?.role === "admin" &&
 
 	return (
 		<Box
@@ -203,7 +184,7 @@ const Navbar: FunctionComponent = () => {
 					onKeyDown={toggleDrawer(false)}
 				>
 					<List>
-						{menuItems.map((item) => (
+						{navbarItems.map((item) => (
 							<ListItem key={item.text} disablePadding>
 								<Link
 									to={item.path}
@@ -293,6 +274,48 @@ const Navbar: FunctionComponent = () => {
 								</ListItemButton>
 							</Link>
 						</ListItem>
+					)}
+					{user && user.role === "admin" && (
+						<>
+							<ListItem disablePadding>
+								<Link
+									to={`/manage/users`}
+									style={{
+										width: "100%",
+										textDecoration: "none",
+									}}
+								>
+									<ListItemButton>
+										<ListItemIcon>
+											<SettingsIcon
+												color='info'
+												className='settings-icon'
+											/>
+										</ListItemIcon>
+										<ListItemText primary={"ادارة المستخدمين"} />
+									</ListItemButton>
+								</Link>
+							</ListItem>
+							<ListItem disablePadding>
+								<Link
+									to={`/manage/vendors`}
+									style={{
+										width: "100%",
+										textDecoration: "none",
+									}}
+								>
+									<ListItemButton>
+										<ListItemIcon>
+											<SettingsIcon
+												color='primary'
+												className='settings-icon'
+											/>
+										</ListItemIcon>
+										<ListItemText primary={"ادارو مزودي الخدمات"} />
+									</ListItemButton>
+								</Link>
+							</ListItem>
+						</>
 					)}
 					{user && (
 						<>

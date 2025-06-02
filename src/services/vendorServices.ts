@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = `${import.meta.env.VITE_API_URI}/services`;
+const api = `${import.meta.env.VITE_API_URI}`;
 
 // create new service for spicific vendor
 export const addVendorService = async (
@@ -8,7 +8,7 @@ export const addVendorService = async (
 	data: {featureName: string; price: number},
 ) => {
 	try {
-		const service = await axios.post(`${api}/${vendorId}`, data, {
+		const service = await axios.post(`${api}/services/${vendorId}`, data, {
 			headers: {Authorization: localStorage.getItem("token")},
 		});
 		return service.data;
@@ -20,7 +20,7 @@ export const addVendorService = async (
 // gell all services for spicific vendor
 export const getVendorData = async (vendorId: string) => {
 	try {
-		const service = await axios.get(`${api}/vendor/${vendorId}`, {
+		const service = await axios.get(`${api}/services/vendor/${vendorId}`, {
 			headers: {Authorization: localStorage.getItem("token")},
 		});
 		return service.data;
@@ -32,7 +32,7 @@ export const getVendorData = async (vendorId: string) => {
 // update spicific vendor data
 export const updateVendorServices = async (vendorId: string, newService: any) => {
 	try {
-		const service = await axios.put(`${api}/${vendorId}`, newService, {
+		const service = await axios.put(`${api}/services/${vendorId}`, newService, {
 			headers: {Authorization: localStorage.getItem("token")},
 		});
 		return service.data;
@@ -44,7 +44,7 @@ export const updateVendorServices = async (vendorId: string, newService: any) =>
 // remove exist service from spicific vendor
 export const removeVendorService = async (vendorId: string, serviceId: string) => {
 	try {
-		const service = await axios.delete(`${api}/${vendorId}/${serviceId}`, {
+		const service = await axios.delete(`${api}/services/${vendorId}/${serviceId}`, {
 			headers: {Authorization: localStorage.getItem("token")},
 		});
 		return service.data;
@@ -54,3 +54,13 @@ export const removeVendorService = async (vendorId: string, serviceId: string) =
 	}
 };
 
+export const getAllVendors = async () => {
+	try {
+		const response = await axios.get(`${api}/business/vendors`, {
+			headers: {Authorization: localStorage.getItem("token")},
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

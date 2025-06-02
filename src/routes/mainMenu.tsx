@@ -21,6 +21,9 @@ import {
 	LocalFlorist,
 	RestaurantMenu,
 } from "@mui/icons-material";
+import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
 
 export const mainMenu = [
 	{
@@ -132,5 +135,24 @@ export const mainMenu = [
 		label: "تأجير سيارات فخمة",
 		icon: <DirectionsCarFilled fontSize='medium' color='warning' />,
 		link: "/luxury-cars",
+	},
+];
+
+
+export const navbarItems = [
+	{
+		text: "الرئيسيه",
+		icon: <HomeIcon sx={{fontSize: 30}} color='error' />,
+		path: "/",
+	},
+	{
+		text: "من نحن",
+		icon: <InfoIcon sx={{fontSize: 30}} color='warning' />,
+		path: "/about",
+	},
+	{
+		text: "اتصل بنا",
+		icon: <ContactMailIcon sx={{fontSize: 30}} color='success' />,
+		path: "/contact",
 	},
 ];
