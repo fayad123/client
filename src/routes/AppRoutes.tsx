@@ -23,13 +23,21 @@ import SingleServicePage from "../components/pages/vendorsPages/services/Service
 import Login from "../components/pages/Login";
 import Profile from "../components/pages/Profile";
 import EditServices from "../components/pages/vendorsPages/services/EditServices";
-import MyBookings from "../components/pages/MyBookings";
+import MyBookings from "../components/pages/vendorsPages/services/MyBookings";
 import ContactUs from "../components/pages/ContactUs";
 import SubscriptionPage from "../components/pages/SubscriptionPage";
 import PaymentTerms from "../components/pages/payment/PaymentTerms";
 import TermsOfUse from "../components/pages/TermsOfUse";
 import PrivacyPolicy from "../components/pages/PrivacyPolicy";
 import RecommendedServices from "../components/pages/RecommendedVendors";
+import MainFireworksPage from "../components/pages/vendorsPages/MainFireworksPage";
+import MainFruitDecorationPage from "../components/pages/vendorsPages/MainFruitDecorationPage";
+import MainInvitationCardsPage from "../components/pages/vendorsPages/MainInvitationCardsPage";
+import MainKidsEntertainmentPage from "../components/pages/vendorsPages/MainKidsEntertainmentPage";
+import MainLuxuryCarsPage from "../components/pages/vendorsPages/MainLuxuryCarsPage";
+import MainNutsPage from "../components/pages/vendorsPages/MainNutsPage";
+import MainReligiousBandsPage from "../components/pages/vendorsPages/MainReligiousBandsPage";
+import MainWeddingGiftsPage from "../components/pages/vendorsPages/MainWeddingGiftsPage";
 
 interface AppRoutesProps {}
 
@@ -46,7 +54,7 @@ const AppRoutes: FunctionComponent<AppRoutesProps> = () => {
 			<Route path='/My-bookings' Component={MyBookings} />
 			<Route path='/service/:vendorId' Component={SingleServicePage} />
 			<Route path='/vendors/:vendorId' Component={EditServices} />
-			<Route path='/subscripe' Component={SubscriptionPage} />
+			<Route path='/subscribtion' Component={SubscriptionPage} />
 			<Route path='/privacy-policy' Component={PrivacyPolicy} />
 			<Route path='/payment-terms' Component={PaymentTerms} />
 			<Route path='/terms-of-use' Component={TermsOfUse} />
@@ -95,6 +103,30 @@ const AppRoutes: FunctionComponent<AppRoutesProps> = () => {
 
 			{/* Frezzers */}
 			<Route path='/frezzer' Component={MainFrezzer} />
+
+			{/* FireworksPage */}
+			<Route path='/fireworks' Component={MainFireworksPage} />
+
+			{/* Fruit Decoration */}
+			<Route path='/fruit-decoration' Component={MainFruitDecorationPage} />
+
+			{/* Invitation Cards */}
+			<Route path='/invitation-cards' Component={MainInvitationCardsPage} />
+
+			{/* Kids Entertainment */}
+			<Route path='/Kids-entertainment' Component={MainKidsEntertainmentPage} />
+
+			{/* Luxury Cars */}
+			<Route path='/luxury-cars' Component={MainLuxuryCarsPage} />
+
+			{/* Nuts */}
+			<Route path='/nuts' Component={MainNutsPage} />
+
+			{/* Religious Bands */}
+			<Route path='/religious-bands' Component={MainReligiousBandsPage} />
+
+			{/* Wedding Gifts */}
+			<Route path='/wedding-gifts' Component={MainWeddingGiftsPage} />
 
 			<Route path='*' Component={Pnf} />
 		</Routes>

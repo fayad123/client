@@ -45,12 +45,12 @@ const MainDabkePlatforms: FunctionComponent<MainDabkePlatformsProps> = () => {
 										src={
 											Array.isArray(dabkaPlatforms.images)
 												? dabkaPlatforms.images[0]?.url
-												: dabkaPlatforms.images?.url
+												: dabkaPlatforms.businessName
 										}
 										alt={
 											Array.isArray(dabkaPlatforms.images)
 												? dabkaPlatforms.images[0]?.alt
-												: dabkaPlatforms.images?.alt
+												: dabkaPlatforms.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

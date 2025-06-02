@@ -1,5 +1,12 @@
-import {FunctionComponent, useEffect} from "react";
-import {Box, Typography, CardContent, CardActionArea, Card} from "@mui/material";
+import {FunctionComponent, useEffect, useState} from "react";
+import {
+	Box,
+	Typography,
+	CardContent,
+	CardActionArea,
+	Card,
+	Container,
+} from "@mui/material";
 
 import {Link} from "react-router-dom";
 import {mainMenu} from "../../routes/mainMenu";
@@ -10,11 +17,28 @@ import TestimonialsSlider from "./TestimonialsSlider";
 import FAQPage from "./FAQPage";
 import RecommendedServices from "./RecommendedVendors";
 import {theme} from "../../App";
+import VideoUpload from "../../atoms/Ads/VideoUpload";
+import VideoAds from "../../atoms/Ads/VideoAds";
+import {getAdsVideos} from "../../services/videos";
+import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
+import VarticalDevider from "../../atoms/customDeviders/VarticalDevider";
 
 interface HomeProps {}
 
+const api = `${import.meta.env.VITE_API_URI}/videos`;
+
 const Home: FunctionComponent<HomeProps> = () => {
 	const {setUser} = useUser();
+	const [videos, setVideos] = useState<string[]>([]);
+
+	useEffect(() => {
+		const fetchVideos = async () => {
+			const videos = await getAdsVideos();
+			const urls = videos.map((v: any) => `${api}/${v._id}`);
+			setVideos(urls);
+		};
+		fetchVideos();
+	}, []);
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
@@ -30,36 +54,32 @@ const Home: FunctionComponent<HomeProps> = () => {
 	}, []);
 
 	return (
-		<main>
-			<Typography variant='h3' align='center' gutterBottom color='primary'>
-				منـصة أفراحـنـا
-			</Typography>
+		<Box component={"main"}>
+			<Box sx={{my: 5}}>
+				<Typography variant='h3' align='center' gutterBottom color='primary'>
+					منـصة أفراحـنـا
+				</Typography>
+				<HorizontalDevider />
+				<Typography
+					variant='h5'
+					align='center'
+					gutterBottom
+					sx={{color: "#5d4037", mb: 4}}
+				>
+					لدينا جميع الخدمات التي تحتاجها ليوم الزفاف
+				</Typography>
+			</Box>
+			<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
+				<VideoUpload />
+				<VideoAds videos={videos} />
+			</Box>
 
-			<Typography
-				variant='h5'
-				align='center'
-				gutterBottom
-				sx={{color: "#5d4037", mb: 4}}
-			>
-				لدينا جميع الخدمات التي تحتاجها ليوم الزفاف
-			</Typography>
-			<Box sx={{height:800}}>
+			<Box sx={{maxHeight: 800}}>
 				<RecommendedServices />
 			</Box>
 			<div className='container'>
 				<Typography
-					sx={{
-						position: "relative",
-						"&:after": {
-							content: '""',
-							display: "block",
-							width: 200,
-							height: 4,
-							backgroundColor: theme.palette.primary.main,
-							margin: "50px auto",
-							borderRadius: 2,
-						},
-					}}
+					sx={{mt: 15}}
 					variant='h3'
 					align='center'
 					gutterBottom
@@ -67,6 +87,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 				>
 					خدمـات منـصة أفراحـنـا
 				</Typography>
+				<HorizontalDevider />
 				<div className='row row-cols-1 row-cols-2  row-cols-lg-6 '>
 					{mainMenu.map((cat) => (
 						<div className='my-2  text-center' key={cat.label}>
@@ -74,10 +95,10 @@ const Home: FunctionComponent<HomeProps> = () => {
 								sx={{
 									textAlign: "center",
 									borderRadius: 4,
-									boxShadow: 5,
+									boxShadow: 1,
 									height: "100%",
-									transition: "transform 0.3s",
-									"&:hover": {transform: "scale(1.05)"},
+									transition: "all 0.3s",
+									"&:hover": {transform: "translateY(-8px)",boxShadow:8},
 								}}
 							>
 								<Link to={cat.link} style={{textDecoration: "none"}}>
@@ -86,6 +107,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 											pt={3}
 											display='flex'
 											justifyContent='center'
+											
 										>
 											{typeof cat.icon === "string" ? (
 												<Box
@@ -119,7 +141,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 			{/* FAQ */}
 			<FAQPage />
 			<TestimonialsSlider />
-		</main>
+		</Box>
 	);
 };
 

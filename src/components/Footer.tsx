@@ -8,14 +8,16 @@ const Footer: FunctionComponent<FooterProps> = () => {
 		<Box
 			component='footer'
 			sx={{
-				backgroundColor: "#915200",
+				backgroundColor: "#681024",
 				color: "white",
 				textAlign: "center",
 				py: 2,
 				mt: 5,
 			}}
 		>
-			<Typography dir='ltr' variant='body1'>© جميع الحقوق محفوظة - موقع أفراحنا 2025</Typography>
+			<Typography dir='ltr' variant='body1'>
+				© جميع الحقوق محفوظة - موقع أفراحنا 2025
+			</Typography>
 		</Box>
 	);
 };

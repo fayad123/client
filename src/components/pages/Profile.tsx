@@ -2,7 +2,7 @@ import {FunctionComponent} from "react";
 import {useUser} from "../../contextApi/useUserData";
 import {Box, Button, Divider, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import MyBookings from "./MyBookings";
+import MyBookings from "./vendorsPages/services/MyBookings";
 import {subscriptionColor, subscriptionPlans} from "../../subscribtionTypes/subscription";
 import {CheckCircleOutline} from "@mui/icons-material";
 
@@ -12,12 +12,11 @@ const Profile: FunctionComponent<ProfileProps> = () => {
 	const {user} = useUser();
 	const navigate = useNavigate();
 
-	const businesses: string = `${user?.businessName}`;
-	const userName: string = `${user?.name?.first} ${user?.name?.last}`;
-	let currentUser = businesses || userName;
+	const currentUser =
+		(user && user.businessName) ||
+		`${user && user.name?.first} ${user && user.name?.last}`;
 
 	const currentPlan = subscriptionPlans.find((plan) => plan.id === user?.planId);
-	console.log(currentPlan);
 
 	if (!user) {
 		return (
@@ -61,8 +60,8 @@ const Profile: FunctionComponent<ProfileProps> = () => {
 							<thead>
 								<tr>
 									<th>اشتراك</th>
-									<th>تاريخ البدء</th>
-									<th>تاريخ الانتهاء</th>
+									<th>تاريخ الاشتراء</th>
+									<th>تاريخ انتهاء الاشتراك</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -119,9 +118,11 @@ const Profile: FunctionComponent<ProfileProps> = () => {
 						</Box>
 					</>
 				)}
-				<Button onClick={() => navigate("/subscripe")} variant='contained'>
-					{user.isSubscribed ? "ترقية الحسحاب" : "	اشترك الان"}
-				</Button>
+				{user.role === "isVendor" && (
+					<Button onClick={() => navigate("/subscribtion")} variant='contained'>
+						{user.isSubscribed ? "ترقية الحسحاب" : "	اشترك الان"}
+					</Button>
+				)}
 				<Divider className='my-4' />
 			</div>
 			<div

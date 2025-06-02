@@ -12,11 +12,11 @@ import {
 	Box,
 	Button,
 	Checkbox,
+	Chip,
 	CircularProgress,
 	FormControlLabel,
 	TextField,
 	Typography,
-	useTheme,
 } from "@mui/material";
 import Calendar from "../../../../atoms/calendar/Calendar";
 import ReactSlick from "../../../../atoms/reactSlick/ReactSlick";
@@ -24,13 +24,13 @@ import {formatCurrency} from "../../../../helpers/vendors";
 import {useServiceData} from "../../../../hooks/useServiceData";
 import {useBookingHandler} from "../../../../hooks/useBookingHandler";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import HorizontalDevider from "../../../../atoms/customDeviders/HorizontalDevider";
 
 interface SingleServicePageProps {}
 
 const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 	const {vendorId = ""} = useParams<{vendorId: string}>();
 	const navigate = useNavigate();
-	const theme = useTheme();
 	const {user} = useUser();
 	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 	const [isDateAvailable, setIsDateAvailable] = useState<boolean>(true);
@@ -113,7 +113,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			if (result?.success) {
 				successToast(
 					`تم إرسال الطلب لتاريخ ${selectedDate.toLocaleDateString()} مع الخدمات:\n${values.features
-						.map((f) => `${f.featureName} - ${f.price} ₪`)
+						.map((feature) => `${feature.featureName} - ${feature.price} ₪`)
 						.join(", ")}`,
 				);
 				resetForm();
@@ -140,7 +140,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 		return (
 			<Box sx={{textAlign: "center", p: 4}}>
 				<Typography color='error' variant='h6' gutterBottom>
-					Failed to load service data
+					فشل تحميل بيانات الخدمة
 				</Typography>
 				<Button
 					variant='contained'
@@ -199,7 +199,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 
 	return (
 		<Box
-			sx={{maxWidth: 1200, mx: "auto", p: {xs: 2, md: 3, fontFamily: "monospace"}}}
+			sx={{maxWidth: 1200,textAlign:"center", mx: "auto", p: {xs: 2, md: 3, fontFamily: "monospace"}}}
 		>
 			<Box
 				sx={{
@@ -209,31 +209,41 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 				}}
 			>
 				<h1 className='text-center mb-4'>{service?.businessName}</h1>
-				{vendorId && <img src='/special.png' alt='' />}
+				{vendorId && <img style={{width:70}} src='/special.png' alt='' />}
 			</Box>
 
-			<Typography color='textSecondary' variant='h6' align='center' className='mb-3'>
-				<LocationOnIcon fontSize='large' color='primary' sx={{mr: 1}} />
-				{service?.address?.city}, {service?.address?.street}
-			</Typography>
-			<Typography color='textSecondary' variant='h6' align='center' className='mb-3'>
-				{service?.address?.city}, {service?.address?.street}
-			</Typography>
-
-			<Typography
-				variant='h4'
+			<Chip
+				variant='outlined'
 				sx={{
-					"&:after": {
-						content: '""',
-						display: "block",
-						width: "70%",
-						height: 4,
-						backgroundColor: theme.palette.warning.main,
-						margin: "20px auto",
-						borderRadius: 2,
+					p: 2,
+					m:"auto",
+					textAlign:"center",
+					borderRadius: 1,
+					borderColor: "primary.main",
+					backgroundColor: "background.paper",
+					"&:hover": {
+						backgroundColor: "action.hover",
 					},
+
 				}}
+				icon={
+					<LocationOnIcon
+						fontSize='large'
+						color='primary'
+						sx={{
+							fontSize: "1.5rem",
+						}}
+					/>
+				}
+				label={
+					<Typography variant='body1' component='span'>
+						{service?.address?.city || "غير محدد"},{" "}
+						{service?.address?.street || "غير محدد"}
+					</Typography>
+				}
 			/>
+
+			<HorizontalDevider/>
 			<ReactSlick images={service?.images as any} />
 			<Box
 				sx={{
@@ -268,7 +278,8 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 								display: "flex",
 								alignItems: "flex-start",
 								"&:before": {
-									content: '"▹"',
+									// content: '"▹"',
+									content: '""',
 									color: "primary.main",
 									mr: 1.5,
 									fontSize: "0.9em",
@@ -298,13 +309,6 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					handleDateChange={handleDateChange}
 					unavailableDates={unavailableDates}
 				/>
-				<Typography
-					variant='body1'
-					className='mt-2'
-					color={isDateAvailable ? "green" : "red"}
-				>
-					{isDateAvailable ? "التاريخ متاح" : "التاريخ غير متاح"}
-				</Typography>
 			</div>
 
 			<Box

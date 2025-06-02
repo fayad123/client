@@ -286,9 +286,12 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 												: "action.hover",
 										},
 									}}
-									onClick={() =>
-										setSelectedPlanId(isSelected ? "" : plan.id)
-									}
+									onClick={() => {
+										setSelectedPlanId(isSelected ? "" : plan.id);
+										if (plan.id === "free") {
+											navigate("/");
+										}
+									}}
 								>
 									{isSelected
 										? "الباقة المختارة اضغط للالغاء"

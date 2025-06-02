@@ -46,12 +46,12 @@ const MainCooks: FunctionComponent<MainCooksProps> = () => {
 										src={
 											Array.isArray(cooks.images)
 												? cooks.images[0]?.url
-												: cooks.images?.url
+												: cooks.businessName
 										}
 										alt={
 											Array.isArray(cooks.images)
 												? cooks.images[0]?.alt
-												: cooks.images?.alt
+												: cooks.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

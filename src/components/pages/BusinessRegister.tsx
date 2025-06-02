@@ -1,5 +1,5 @@
 import {useFormik} from "formik";
-import {FunctionComponent} from "react";
+import {FunctionComponent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {BusinessUserSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
@@ -22,6 +22,7 @@ import {successToast} from "../../atoms/notifications/Toasts";
 interface BusinessRegisterProps {}
 
 const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
 	const formik = useFormik<BusinessUserSchema>({
@@ -53,9 +54,10 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 		}),
 
 		onSubmit: (values) => {
-			console.log(values);
+			setLoading(true);
 			newBusinessRegisterUser(values).then((userData) => {
 				localStorage.setItem("token", userData);
+				setLoading(false);
 				navigate("/subscription");
 				successToast("مرحبا بك في منصه افراحنا");
 			});

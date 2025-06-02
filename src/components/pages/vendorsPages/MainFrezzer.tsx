@@ -42,12 +42,12 @@ const MainFrezzer: FunctionComponent<MainFrezzerProps> = () => {
 										src={
 											Array.isArray(frezzers.images)
 												? frezzers.images[0]?.url
-												: frezzers.images?.url
+												: frezzers.businessName
 										}
 										alt={
 											Array.isArray(frezzers.images)
 												? frezzers.images[0]?.alt
-												: frezzers.images?.alt
+												: frezzers.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

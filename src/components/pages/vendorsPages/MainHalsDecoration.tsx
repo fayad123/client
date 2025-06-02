@@ -44,12 +44,12 @@ const MainHalsDecoration: FunctionComponent<MainHalsDecorationProps> = () => {
 										src={
 											Array.isArray(hallsDrcoration.images)
 												? hallsDrcoration.images[0]?.url
-												: hallsDrcoration.images?.url
+												: hallsDrcoration.businessName
 										}
 										alt={
 											Array.isArray(hallsDrcoration.images)
 												? hallsDrcoration.images[0]?.alt
-												: hallsDrcoration.images?.alt
+												: hallsDrcoration.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
