@@ -1,4 +1,5 @@
-import React, {FunctionComponent, useEffect, useState} from "react";
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+import  {FunctionComponent, useEffect, useState} from "react";
 import {
 	Grid,
 	Typography,
