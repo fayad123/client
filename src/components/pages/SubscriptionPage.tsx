@@ -40,7 +40,7 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 			cardHolderName: Yup.string().required("اسم حامل البطاقة مطلوب"),
 		}),
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		onSubmit: async (values) => {
+		onSubmit: async (_) => {
 			if (!user?._id) {
 				errorToast("يجب تسجيل الدخول لإتمام عملية الاشتراك");
 				return;
