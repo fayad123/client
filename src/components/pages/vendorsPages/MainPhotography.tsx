@@ -44,12 +44,12 @@ const MainPhotography: FunctionComponent<MainPhotographyProps> = () => {
 										src={
 											Array.isArray(photography.images)
 												? photography.images[0]?.url
-												: photography.images?.url
+												: photography.businessName
 										}
 										alt={
 											Array.isArray(photography.images)
 												? photography.images[0]?.alt
-												: photography.images?.alt
+												: photography.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

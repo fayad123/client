@@ -5,39 +5,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "monospace";
-
-}
-
-
-body,
-main,
-button,
-input,
-textarea,
-table,
-span {
   font-family: "Noto Kufi Arabic", sans-serif;
 }
 
-
-
 main {
   min-height: 90vh;
-  text-align: center;
-  padding-top: 5rem;
-
-}
-
-body a {
-  text-decoration: none;
-}
-
-.main-constainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
 }
 
 .MuiCardActionArea-root {
@@ -51,6 +23,10 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+
+  & a {
+    text-decoration: none;
+  }
 
 }
 
@@ -163,4 +139,8 @@ form {
   padding: 20px;
   position: relative;
   overflow: hidden;
+}
+
+.hover-zoom:hover {
+  transform: scale(1.03);
 }

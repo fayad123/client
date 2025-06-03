@@ -1,9 +1,8 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import { useUser } from "../contextApi/useUserData";
-import { errorToast, successToast } from "../atoms/notifications/Toasts";
-import { newbooking } from "../services/booking";
-
+import {useUser} from "../contextApi/useUserData";
+import {errorToast, successToast} from "../atoms/notifications/Toasts";
+import {newbooking} from "../services/booking";
 
 interface BookingState {
 	success: boolean;
@@ -48,8 +47,6 @@ export const useBookingHandler = () => {
 				note: values.note,
 				vendorId,
 			});
-
-			successToast(`Booking confirmed for ${selectedDate.toLocaleDateString()}`);
 
 			setBookingState({
 				success: true,

@@ -1,9 +1,8 @@
-import {FunctionComponent, useState} from "react";
+import {FunctionComponent, useEffect, useState} from "react";
 import {
 	AppBar,
 	Box,
 	Button,
-	CardMedia,
 	Divider,
 	Drawer,
 	IconButton,
@@ -14,17 +13,17 @@ import {
 	ListItemText,
 	Toolbar,
 	Typography,
+	useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useUser} from "../contextApi/useUserData";
 import {Person} from "@mui/icons-material";
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SubscripbeButton from "../atoms/subscribeButton/SubscripbeButton";
+import theme from "../assets/theme";
+import {navbarItems} from "../routes/mainMenu";
 
 const Navbar: FunctionComponent = () => {
 	const [open, setOpen] = useState(false);
@@ -33,6 +32,13 @@ const Navbar: FunctionComponent = () => {
 		setOpen(open);
 	};
 	const {user, setUser} = useUser();
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+	const location = useLocation();
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location.pathname]);
 
 	const logout = () => {
 		localStorage.removeItem("token");
@@ -45,24 +51,7 @@ const Navbar: FunctionComponent = () => {
 		: `${user?.name?.first} ${user?.name?.last}` || "";
 
 	let currentUser = businesses;
-
-	const menuItems = [
-		{
-			text: "الرئيسيه",
-			icon: <HomeIcon sx={{fontSize: 30}} color='error' />,
-			path: "/",
-		},
-		{
-			text: "من نحن",
-			icon: <InfoIcon sx={{fontSize: 30}} color='warning' />,
-			path: "/about",
-		},
-		{
-			text: "اتصل بنا",
-			icon: <ContactMailIcon sx={{fontSize: 30}} color='success' />,
-			path: "/contact",
-		},
-	];
+	// user?.role === "admin" &&
 
 	return (
 		<Box
@@ -72,13 +61,15 @@ const Navbar: FunctionComponent = () => {
 				top: 0,
 				zIndex: 2,
 				p: 1,
+				margin: "auto",
 			}}
+			width={isMobile ? "100%" : "80%"}
 		>
 			<AppBar
 				sx={{
-					backgroundColor: "#c99700",
+					backgroundColor: "#681024",
 					zIndex: 2,
-					borderRadius: 20,
+					borderRadius: 10,
 					fontSize: "1.2rem",
 				}}
 				position='sticky'
@@ -91,9 +82,10 @@ const Navbar: FunctionComponent = () => {
 							justifyContent: "space-between",
 							px: 2,
 							py: 2,
-							backgroundColor: "#c99700",
+							backgroundColor: "#681024",
 							color: "white",
 							width: "100%",
+							// borderRadius: 4,
 						}}
 					>
 						<IconButton
@@ -147,14 +139,18 @@ const Navbar: FunctionComponent = () => {
 				</Toolbar>
 			</AppBar>
 
-			<Drawer anchor='right' open={open} onClose={toggleDrawer(false)}>
+			<Drawer
+				anchor={isMobile ? "top" : "right"}
+				open={open}
+				onClose={toggleDrawer(false)}
+			>
 				{user && (
 					<Box
 						style={{
 							width: "100%",
 							textDecoration: "none",
 							color: "white",
-							backgroundColor: "#915200be",
+							backgroundColor: "#681024",
 						}}
 					>
 						<Typography
@@ -188,7 +184,7 @@ const Navbar: FunctionComponent = () => {
 					onKeyDown={toggleDrawer(false)}
 				>
 					<List>
-						{menuItems.map((item) => (
+						{navbarItems.map((item) => (
 							<ListItem key={item.text} disablePadding>
 								<Link
 									to={item.path}
@@ -278,6 +274,48 @@ const Navbar: FunctionComponent = () => {
 								</ListItemButton>
 							</Link>
 						</ListItem>
+					)}
+					{user && user.role === "admin" && (
+						<>
+							<ListItem disablePadding>
+								<Link
+									to={`/manage/users`}
+									style={{
+										width: "100%",
+										textDecoration: "none",
+									}}
+								>
+									<ListItemButton>
+										<ListItemIcon>
+											<SettingsIcon
+												color='info'
+												className='settings-icon'
+											/>
+										</ListItemIcon>
+										<ListItemText primary={"ادارة المستخدمين"} />
+									</ListItemButton>
+								</Link>
+							</ListItem>
+							<ListItem disablePadding>
+								<Link
+									to={`/manage/vendors`}
+									style={{
+										width: "100%",
+										textDecoration: "none",
+									}}
+								>
+									<ListItemButton>
+										<ListItemIcon>
+											<SettingsIcon
+												color='primary'
+												className='settings-icon'
+											/>
+										</ListItemIcon>
+										<ListItemText primary={"ادارو مزودي الخدمات"} />
+									</ListItemButton>
+								</Link>
+							</ListItem>
+						</>
 					)}
 					{user && (
 						<>

@@ -42,10 +42,14 @@ const MainWeddingweddingHalls: FunctionComponent<MainWeddingweddingHallsProps> =
 										src={
 											Array.isArray(weddingHalls.images)
 												? weddingHalls.images[0]?.url
-												: weddingHalls.images?.url
+												: weddingHalls.businessName
 										}
 										className='card-img-top'
-										alt={Array.isArray(weddingHalls.images)?weddingHalls.images[0]?.alt:weddingHalls.images?.alt}
+										alt={
+											Array.isArray(weddingHalls.images)
+												? weddingHalls.images[0]?.alt
+												: weddingHalls.businessName
+										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
@@ -64,7 +68,7 @@ const MainWeddingweddingHalls: FunctionComponent<MainWeddingweddingHallsProps> =
 									}
 									variant='outlined'
 									color='warning'
-									sx={{m:1}}
+									sx={{m: 1}}
 								>
 									احجز الان
 								</Button>

@@ -8,6 +8,8 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {FunctionComponent} from "react";
+import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
+import VarticalDevider from "../../atoms/customDeviders/VarticalDevider";
 
 const faqs = [
 	{
@@ -36,17 +38,25 @@ interface FAQPageProps {}
 
 const FAQPage: FunctionComponent<FAQPageProps> = () => {
 	return (
-		<Container maxWidth='md' sx={{py: 5, my: 20}}>
-			<Typography variant='h3' align='center' gutterBottom color='primary'>
+		<Container maxWidth='md' sx={{py: 5}}>
+			<VarticalDevider />
+			<Typography
+				sx={{ mt: 3}}
+				variant='h3'
+				align='center'
+				gutterBottom
+				color='primary'
+			>
 				الاسـئـلـه الـشـائـعـه فـي مـنــصـه أفراحـنـا
 			</Typography>
+			<HorizontalDevider />
 			<Box
 				sx={{
 					backgroundColor: "background.paper",
 					borderRadius: 3,
 					p: 4,
 					boxShadow: 3,
-					mt:5
+					mt: 5,
 				}}
 			>
 				{faqs.map((faq, index) => (

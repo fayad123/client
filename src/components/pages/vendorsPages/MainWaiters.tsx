@@ -41,12 +41,12 @@ const MainWaiters: FunctionComponent<MainWaitersProps> = () => {
 										src={
 											Array.isArray(waiters.images)
 												? waiters.images[0]?.url
-												: waiters.images?.url
+												: waiters.businessName
 										}
 										alt={
 											Array.isArray(waiters.images)
 												? waiters.images[0]?.alt
-												: waiters.images?.alt
+												: waiters.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

@@ -41,12 +41,12 @@ const MainCoffeeKiosks: FunctionComponent<MainCoffeeKiosksProps> = () => {
 										src={
 											Array.isArray(coffee.images)
 												? coffee.images[0]?.url
-												: coffee.images?.url
+												: coffee.businessName
 										}
 										alt={
 											Array.isArray(coffee.images)
 												? coffee.images[0]?.alt
-												: coffee.images?.alt
+												: coffee.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

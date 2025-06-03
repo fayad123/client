@@ -45,12 +45,12 @@ const MainCosmatics: FunctionComponent<MainCosmaticsProps> = () => {
 										src={
 											Array.isArray(cosmatics.images)
 												? cosmatics.images[0]?.url
-												: cosmatics.images?.url
+												: cosmatics.businessName
 										}
 										alt={
 											Array.isArray(cosmatics.images)
 												? cosmatics.images[0]?.alt
-												: cosmatics.images?.alt
+												: cosmatics.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

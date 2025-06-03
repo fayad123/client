@@ -41,12 +41,12 @@ const MainSterio: FunctionComponent<MainSterioProps> = () => {
 										src={
 											Array.isArray(sterios.images)
 												? sterios.images[0]?.url
-												: sterios.images?.url
+												: sterios.businessName
 										}
 										alt={
 											Array.isArray(sterios.images)
 												? sterios.images[0]?.alt
-												: sterios.images?.alt
+												: sterios.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

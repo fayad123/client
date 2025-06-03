@@ -1,5 +1,5 @@
 import {useFormik} from "formik";
-import {FunctionComponent} from "react";
+import {FunctionComponent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {BusinessUserSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
@@ -18,11 +18,17 @@ import {
 import {mainMenu} from "../../routes/mainMenu";
 import {newBusinessRegisterUser} from "../../services/usersServices";
 import {successToast} from "../../atoms/notifications/Toasts";
+import zxcvbn from "zxcvbn";
+import LinearProgress from "@mui/material/LinearProgress";
+import {getStrengthColor, getPasswordStrengthLabel} from "../../helpers/passwordChecker";
 
 interface BusinessRegisterProps {}
 
 const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+	const [passwordScore, setPasswordScore] = useState(0);
+	const [passwordFeedback, setPasswordFeedback] = useState<string[]>([]);
 
 	const formik = useFormik<BusinessUserSchema>({
 		initialValues: {
@@ -43,8 +49,13 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 				.email("البريد الإلكتروني غير صالح")
 				.required("الرجاء إدخال البريد الإلكتروني"),
 			password: Yup.string()
-				.min(6, "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل")
-				.required("الرجاء إدخال كلمة المرور"),
+				.min(8, "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل")
+				.max(30)
+				.required("الرجاء إدخال كلمة المرور")
+				.matches(
+					/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
+					"كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز خاص",
+				),
 			address: Yup.object({
 				city: Yup.string().required("الرجاء إدخال المدينة"),
 				street: Yup.string().required("الرجاء إدخال الشارع"),
@@ -53,9 +64,10 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 		}),
 
 		onSubmit: (values) => {
-			console.log(values);
+			setLoading(true);
 			newBusinessRegisterUser(values).then((userData) => {
 				localStorage.setItem("token", userData);
+				setLoading(false);
 				navigate("/subscription");
 				successToast("مرحبا بك في منصه افراحنا");
 			});
@@ -143,7 +155,12 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 							name='password'
 							type='password'
 							value={formik.values.password}
-							onChange={formik.handleChange}
+							onChange={(e) => {
+								formik.handleChange(e);
+								const result = zxcvbn(e.target.value);
+								setPasswordScore(result.score);
+								setPasswordFeedback(result.feedback.suggestions || []);
+							}}
 							onBlur={formik.handleBlur}
 							error={
 								formik.touched.password && Boolean(formik.errors.password)
@@ -152,6 +169,49 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 							variant='filled'
 							fullWidth
 						/>
+						{passwordFeedback.length > 0 && (
+							<ul
+								style={{
+									paddingLeft: "20px",
+									marginTop: "4px",
+									color: "#888",
+								}}
+							>
+								{passwordFeedback.map((suggestion, idx) => (
+									<li key={idx} style={{fontSize: "0.85rem"}}>
+										{suggestion}
+									</li>
+								))}
+							</ul>
+						)}
+						{formik.values.password && (
+							<>
+								<Box sx={{mt: 1}}>
+									<LinearProgress
+										variant='determinate'
+										value={(passwordScore + 1) * 20}
+										sx={{
+											height: 8,
+											borderRadius: 2,
+											backgroundColor: "#eee",
+											"& .MuiLinearProgress-bar": {
+												backgroundColor:
+													getStrengthColor(passwordScore),
+											},
+										}}
+									/>
+									<Typography
+										variant='body2'
+										sx={{
+											color: getStrengthColor(passwordScore),
+											mt: 0.5,
+										}}
+									>
+										{getPasswordStrengthLabel(passwordScore)}
+									</Typography>
+								</Box>
+							</>
+						)}
 					</div>
 					<div className=' mb-3'>
 						<TextField

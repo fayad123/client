@@ -24,6 +24,8 @@ import {formatCurrency} from "../../helpers/vendors";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; // Essential for basic slider styling
 import "slick-carousel/slick/slick-theme.css"; // Essential for default theme (dots, arrows)
+import VarticalDevider from "../../atoms/customDeviders/VarticalDevider";
+import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 
 interface RecommendedServicesProps {}
 
@@ -137,7 +139,14 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 	}
 
 	return (
-		<Box sx={{p: 2, my: 4}}>
+		<Box
+			sx={{
+				p: 2,
+				my: 4,
+				width: "95%",
+				margin: "auto",
+			}}
+		>
 			<Typography
 				variant='h4'
 				gutterBottom
@@ -145,50 +154,28 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 					textAlign: "center",
 					fontWeight: "bold",
 					color: theme.palette.primary.main,
-					mb: 4,
-					position: "relative",
-					"&:after": {
-						content: '""',
-						display: "block",
-						width: 4,
-						height: 100,
-						backgroundColor: theme.palette.primary.main,
-						margin: "20px auto",
-						borderRadius: 2,
-					},
+					mt: 10,
 				}}
 			>
 				الخدمات الموصى بها
 			</Typography>
-			<Typography
-				variant='h4'
-				sx={{
-					"&:after": {
-						content: '""',
-						display: "block",
-						width: "70%",
-						height: 4,
-						backgroundColor: theme.palette.warning.main,
-						margin: "20px auto",
-						borderRadius: 2,
-					},
-				}}
-			/>
+			<VarticalDevider/>
+			<HorizontalDevider/>
 			{services.length ? (
 				<Slider {...settings}>
 					{services.map((service, index) => (
-						<Box key={service.vendorId} sx={{p: 2}}>
+						<Box key={service.vendorId} sx={{p: 1}}>
 							<Card
 								sx={{
-									borderRadius: 4,
-									boxShadow: 3,
+									borderRadius: 2,
+									boxShadow: 1,
 									display: "flex",
 									flexDirection: "column",
 									height: "100%",
 									transition: "transform 0.3s, box-shadow 0.3s",
 									"&:hover": {
 										transform: "translateY(-5px)",
-										boxShadow: 6,
+										boxShadow: 8,
 									},
 									cursor: "pointer",
 								}}
@@ -199,7 +186,7 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 								>
 									<Box sx={{position: "relative"}}>
 										{service.images && (
-											<Box key={service.vendorId+index}>
+											<Box key={service.vendorId + index}>
 												<CardMedia
 													component='img'
 													height='200'
@@ -209,10 +196,6 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 															: service.businessName
 													}
 													alt={service.businessName}
-													sx={{
-														objectFit: "cover",
-														borderRadius: "16px 16px 0 0",
-													}}
 												/>
 												<Chip
 													label={formatCurrency(
@@ -331,33 +314,7 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 					</Typography>
 				</Box>
 			)}
-			<Typography
-				variant='h4'
-				sx={{
-					"&:after": {
-						content: '""',
-						display: "block",
-						width: "70%",
-						height: 4,
-						backgroundColor: theme.palette.warning.main,
-						margin: "20px auto",
-						borderRadius: 2,
-					},
-				}}
-			/>
-			<Typography
-				sx={{
-					"&:after": {
-						content: '""',
-						display: "block",
-						width: 4,
-						height: 100,
-						backgroundColor: theme.palette.primary.main,
-						margin: "50px auto",
-						borderRadius: 2,
-					},
-				}}
-			/>
+			<VarticalDevider />
 		</Box>
 	);
 };

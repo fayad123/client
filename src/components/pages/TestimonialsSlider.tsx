@@ -6,6 +6,8 @@ import "swiper/swiper-bundle.css";
 
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
+import VarticalDevider from "../../atoms/customDeviders/VarticalDevider";
 
 const testimonials = [
 	{
@@ -63,34 +65,26 @@ const TestimonialsSlider = () => {
 		<Box
 			sx={{
 				py: 3,
-        mt:20,
+				mt: 20,
 				borderTop: `1px solid ${theme.palette.divider}`,
 				borderBottom: `1px solid ${theme.palette.divider}`,
 			}}
 		>
 			<Container maxWidth='lg'>
+				<VarticalDevider />
+
 				<Typography
 					variant='h3'
 					align='center'
 					gutterBottom
-					fontWeight='bold'
+					color='primary'
 					sx={{
-						mb: 6,
-						position: "relative",
-						"&:after": {
-							content: '""',
-							display: "block",
-							width: 80,
-							height: 4,
-							backgroundColor: theme.palette.primary.main,
-							margin: "16px auto 0",
-							borderRadius: 2,
-						},
+						mt: 6,
 					}}
 				>
 					آراء عملائنا الكرام
 				</Typography>
-
+				<HorizontalDevider />
 				<Swiper
 					modules={[Pagination, Autoplay]}
 					spaceBetween={30}

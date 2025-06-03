@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>server-afrahna API Documentation</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			body {
+				font-family: "Inter", sans-serif;
+				background-color: #f0f2f5; /* Light gray background */
+				color: #2d3748; /* Dark gray text */
+			}
+			.code-block {
+				font-family: "JetBrains Mono", monospace;
+				background-color: #e2e8f0; /* Lighter gray for code blocks */
+				color: #2a4365; /* Darker blue for code text */
+			}
+			.sidebar-link {
+				transition: background-color 0.2s, color 0.2s;
+			}
+			.sidebar-link:hover {
+				background-color: #cbd5e0; /* Medium gray on hover */
+				color: #2a4365;
+			}
+			.sidebar-link.active {
+				background-color: #4a5568; /* Darker gray for active link */
+				color: #ffffff;
+			}
+			.header-link {
+				transition: color 0.2s;
+			}
+			.header-link:hover {
+				color: #435a7d;
+			}
+		</style>
+	</head>
+
+	<body class="flex flex-col min-h-screen">
+		<header class="bg-gray-800 text-white shadow-lg sticky top-0 z-50">
+			<nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+				<h1 class="text-2xl font-bold">server-afrahna API Docs</h1>
+				<div class="hidden md:flex space-x-6 text-gray-300 font-medium">
+					<a href="#overview" class="header-link">Overview</a>
+					<a href="#getting-started" class="header-link">Getting Started</a>
+					<a href="#api-endpoints" class="header-link">API Endpoints</a>
+					<a href="#database-models" class="header-link">Models</a>
+				</div>
+				<button
+					id="mobile-menu-button"
+					class="md:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+				>
+					<span class="text-2xl">☰</span>
+				</button>
+			</nav>
+			<div id="mobile-menu" class="hidden md:hidden bg-gray-700">
+				<a
+					href="#overview"
+					class="block py-2 px-4 text-sm text-gray-200 hover:bg-gray-600"
+					>Overview</a
+				>
+				<a
+					href="#getting-started"
+					class="block py-2 px-4 text-sm text-gray-200 hover:bg-gray-600"
+					>Getting Started</a
+				>
+				<a
+					href="#api-endpoints"
+					class="block py-2 px-4 text-sm text-gray-200 hover:bg-gray-600"
+					>API Endpoints</a
+				>
+				<a
+					href="#database-models"
+					class="block py-2 px-4 text-sm text-gray-200 hover:bg-gray-600"
+					>Models</a
+				>
+			</div>
+		</header>
+
+		<div class="flex flex-1">
+			<aside
+				class="hidden md:block w-64 bg-gray-700 text-gray-200 p-6 shadow-md overflow-y-auto sticky top-20 h-[calc(100vh-80px)]"
+			>
+				<nav class="space-y-4">
+					<div class="text-lg font-semibold text-gray-100 mb-2">
+						Documentation
+					</div>
+					<a href="#overview" class="sidebar-link block py-2 px-3 rounded-md"
+						>Overview</a
+					>
+					<a
+						href="#getting-started"
+						class="sidebar-link block py-2 px-3 rounded-md"
+						>Getting Started</a
+					>
+					<div>
+						<span class="block py-2 px-3 text-sm font-semibold text-gray-400"
+							>API Endpoints</span
+						>
+						<a
+							href="#auth-api"
+							class="sidebar-link block py-2 pl-6 pr-3 text-sm rounded-md"
+							>Authentication</a
+						>
+						<a
+							href="#users-api"
+							class="sidebar-link block py-2 pl-6 pr-3 text-sm rounded-md"
+							>Users</a
+						>
+						<a
+							href="#events-api"
+							class="sidebar-link block py-2 pl-6 pr-3 text-sm rounded-md"
+							>Events</a
+						>
+						<a
+							href="#bookings-api"
+							class="sidebar-link block py-2 pl-6 pr-3 text-sm rounded-md"
+							>Bookings</a
+						>
+					</div>
+					<a
+						href="#database-models"
+						class="sidebar-link block py-2 px-3 rounded-md"
+						>Database Models</a
+					>
+				</nav>
+			</aside>
+
+			<main class="flex-1 p-8 overflow-y-auto">
+				<section id="overview" class="mb-12 pb-8 border-b border-gray-200">
+					<h2 class="text-3xl font-bold mb-4 text-gray-800">
+						Project Overview
+					</h2>
+					<p class="text-lg text-gray-700 mb-4">
+						The `server-afrahna` project is a robust backend API built with
+						Node.js and Express. It serves as the core data and logic provider
+						for the Afrahna application, managing various aspects of events,
+						users, and bookings.
+					</p>
+					<p class="text-lg text-gray-700">
+						It leverages MongoDB as its database through Mongoose, ensuring
+						flexible and scalable data storage. Key features include JWT-based
+						authentication, user management, event creation and management,
+						and booking functionalities.
+					</p>
+					<h3 class="text-2xl font-semibold mt-8 mb-4 text-gray-800">
+						Key Technologies
+					</h3>
+					<ul class="list-disc list-inside text-gray-700 space-y-2">
+						<li>
+							Node.js & Express.js: Fast, unopinionated, minimalist web
+							framework.
+						</li>
+						<li>
+							MongoDB & Mongoose: Flexible NoSQL database and elegant
+							MongoDB object modeling for Node.js.
+						</li>
+						<li>
+							JWT (JSON Web Tokens): For secure and stateless
+							authentication.
+						</li>
+						<li>Bcryptjs: For hashing passwords securely.</li>
+						<li>Dotenv: For managing environment variables.</li>
+					</ul>
+				</section>
+
+				<section id="getting-started" class="mb-12 pb-8 border-b border-gray-200">
+					<h2 class="text-3xl font-bold mb-4 text-gray-800">Getting Started</h2>
+					<p class="text-lg text-gray-700 mb-6">
+						Follow these steps to set up and run the `server-afrahna` project
+						locally.
+					</p>
+
+					<h3 class="text-2xl font-semibold mb-4 text-gray-800">
+						Prerequisites
+					</h3>
+					<ul class="list-disc list-inside text-gray-700 space-y-2 mb-6">
+						<li>Node.js (LTS version recommended)</li>
+						<li>npm (comes with Node.js) or Yarn</li>
+						<li>MongoDB instance (local or cloud-hosted)</li>
+					</ul>
+
+					<h3 class="text-2xl font-semibold mb-4 text-gray-800">
+						Installation
+					</h3>
+					<ol class="list-decimal list-inside text-gray-700 space-y-4">
+						<li>
+							<p><strong>Clone the repository:</strong></p>
+							<pre
+								class="code-block p-4 rounded-lg overflow-x-auto"
+							><code>git clone https://github.com/Anismhamid/server-afrahna.git</code></pre>
+						</li>
+						<li>
+							<p><strong>Navigate into the project directory:</strong></p>
+							<pre
+								class="code-block p-4 rounded-lg overflow-x-auto"
+							><code>cd server-afrahna</code></pre>
+						</li>
+						<li>
+							<p><strong>Install dependencies:</strong></p>
+							<pre
+								class="code-block p-4 rounded-lg overflow-x-auto"
+							><code>npm install</code></pre>
+							<p class="mt-2 text-sm text-gray-600">or</p>
+							<pre
+								class="code-block p-4 rounded-lg overflow-x-auto"
+							><code>yarn install</code></pre>
+						</li>
+					</ol>
+
+					<h3 class="text-2xl font-semibold mt-8 mb-4 text-gray-800">
+						Environment Variables
+					</h3>
+					<p class="text-lg text-gray-700 mb-4">
+						Create a `.env` file in the root of the project with the following
+						variables:
+					</p>
+					<pre class="code-block p-4 rounded-lg overflow-x-auto"><code>PORT=5000
+MONGO_URI=mongodb://localhost:27017/afrahna-db
+JWT_SECRET=YOUR_VERY_STRONG_JWT_SECRET
+JWT_EXPIRES_IN=1h</code></pre>
+					<ul class="list-disc list-inside text-gray-700 mt-4 space-y-1">
+						<li>
+							<code class="code-block px-1 rounded">PORT</code>: The port
+							the server will run on.
+						</li>
+						<li>
+							<code class="code-block px-1 rounded">MONGO_URI</code>: Your
+							MongoDB connection string.
+						</li>
+						<li>
+							<code class="code-block px-1 rounded">JWT_SECRET</code>: A
+							secret key for signing JWTs. **Use a strong, unique value for
+							production.**
+						</li>
+						<li>
+							<code class="code-block px-1 rounded">JWT_EXPIRES_IN</code>:
+							The expiration time for JWTs (e.g., `1h`, `7d`).
+						</li>
+					</ul>
+
+					<h3 class="text-2xl font-semibold mt-8 mb-4 text-gray-800">
+						Running the Server
+					</h3>
+					<p class="text-lg text-gray-700 mb-4">
+						Once all dependencies are installed and the `.env` file is
+						configured, you can start the server:
+					</p>
+					<pre
+						class="code-block p-4 rounded-lg overflow-x-auto"
+					><code>npm start</code></pre>
+					<p class="text-lg text-gray-700 mt-4">
+						The server will typically start on the port specified in your
+						`.env` file (e.g., `http://localhost:5000`).
+					</p>
+				</section>
+
+				<section id="api-endpoints" class="mb-12 pb-8 border-b border-gray-200">
+					<h2 class="text-3xl font-bold mb-6 text-gray-800">API Endpoints</h2>
+					<p class="text-lg text-gray-700 mb-8">
+						The `server-afrahna` API provides the following endpoints. All
+						successful responses will typically include a `status` and
+						`message` field, along with the requested `data`.
+					</p>
+
+					<section
+						id="auth-api"
+						class="mb-10 p-6 bg-white rounded-lg shadow-md"
+					>
+						<h3 class="text-2xl font-semibold mb-4 text-gray-800">
+							Authentication API
+							<span class="text-sm text-gray-500"
+								>(<code>/api/auth</code>)</span
+							>
+						</h3>
+						<p class="text-gray-700 mb-4">
+							Handles user registration and login, returning JWT tokens for
+							authenticated requests.
+						</p>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>POST /api/auth/register</code>
+							</h4>
+							<p class="text-gray-600 mb-2">Registers a new user.</p>
+							<div class="mb-4">
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Request Body:
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "username": "string",
+  "email": "string",
+  "password": "string"
+}</code></pre>
+							</div>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 201):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "User registered successfully",
+  "data": {
+    "_id": "string",
+    "username": "string",
+    "email": "string"
+  }
+}</code></pre>
+							</div>
+						</div>
+
+						<div>
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>POST /api/auth/login</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Authenticates a user and returns a JWT token.
+							</p>
+							<div class="mb-4">
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Request Body:
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "email": "string",
+  "password": "string"
+}</code></pre>
+							</div>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Logged in successfully",
+  "data": {
+    "token": "string",
+    "user": {
+      "_id": "string",
+      "username": "string",
+      "email": "string"
+    }
+  }
+}</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section
+						id="users-api"
+						class="mb-10 p-6 bg-white rounded-lg shadow-md"
+					>
+						<h3 class="text-2xl font-semibold mb-4 text-gray-800">
+							Users API
+							<span class="text-sm text-gray-500"
+								>(<code>/api/users</code>)</span
+							>
+						</h3>
+						<p class="text-gray-700 mb-4">
+							Manage user profiles. Requires authentication for most
+							operations.
+						</p>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>GET /api/users/:id</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Retrieve a user by ID.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required</span
+								>
+							</p>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "User fetched successfully",
+  "data": {
+    "_id": "string",
+    "username": "string",
+    "email": "string",
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  }
+}</code></pre>
+							</div>
+						</div>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>PUT /api/users/:id</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Update a user's profile.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required</span
+								>
+							</p>
+							<div class="mb-4">
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Request Body (Partial):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "username": "string",
+  "email": "string"
+  // password can be updated here too, typically in a separate endpoint or with re-auth
+}</code></pre>
+							</div>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "User updated successfully",
+  "data": {
+    "_id": "string",
+    "username": "string",
+    "email": "string"
+  }
+}</code></pre>
+							</div>
+						</div>
+
+						<div>
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>DELETE /api/users/:id</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Delete a user.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required</span
+								>
+							</p>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "User deleted successfully"
+}</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section
+						id="events-api"
+						class="mb-10 p-6 bg-white rounded-lg shadow-md"
+					>
+						<h3 class="text-2xl font-semibold mb-4 text-gray-800">
+							Events API
+							<span class="text-sm text-gray-500"
+								>(<code>/api/events</code>)</span
+							>
+						</h3>
+						<p class="text-gray-700 mb-4">
+							Manage event details. Requires authentication for most
+							operations.
+						</p>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>POST /api/events</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Create a new event.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required</span
+								>
+							</p>
+							<div class="mb-4">
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Request Body:
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "title": "string",
+  "description": "string",
+  "date": "Date (ISO string)",
+  "location": "string",
+  "price": "number",
+  "capacity": "number"
+}</code></pre>
+							</div>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 201):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Event created successfully",
+  "data": {
+    "_id": "string",
+    "title": "string",
+    "description": "string",
+    "date": "Date",
+    "location": "string",
+    "price": "number",
+    "capacity": "number",
+    "organizer": "string (User ID)",
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  }
+}</code></pre>
+							</div>
+						</div>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>GET /api/events</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Retrieve all events. Optionally filtered by query
+								parameters (e.g., `?date=YYYY-MM-DD`).
+							</p>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Events fetched successfully",
+  "data": [
+    {
+      "_id": "string",
+      "title": "string",
+      "description": "string",
+      "date": "Date",
+      "location": "string",
+      "price": "number",
+      "capacity": "number",
+      "organizer": { "_id": "string", "username": "string" },
+      "createdAt": "Date",
+      "updatedAt": "Date"
+    }
+  ]
+}</code></pre>
+							</div>
+						</div>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>GET /api/events/:id</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Retrieve a single event by ID.
+							</p>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Event fetched successfully",
+  "data": {
+    "_id": "string",
+    "title": "string",
+    "description": "string",
+    "date": "Date",
+    "location": "string",
+    "price": "number",
+    "capacity": "number",
+    "organizer": { "_id": "string", "username": "string" },
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  }
+}</code></pre>
+							</div>
+						</div>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>PUT /api/events/:id</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Update an event by ID.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required (Organizer only)</span
+								>
+							</p>
+							<div class="mb-4">
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Request Body (Partial):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "title": "string",
+  "description": "string"
+  // ... other fields
+}</code></pre>
+							</div>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Event updated successfully",
+  "data": { /* Updated event object */ }
+}</code></pre>
+							</div>
+						</div>
+
+						<div>
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>DELETE /api/events/:id</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Delete an event by ID.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required (Organizer only)</span
+								>
+							</p>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Event deleted successfully"
+}</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section
+						id="bookings-api"
+						class="mb-10 p-6 bg-white rounded-lg shadow-md"
+					>
+						<h3 class="text-2xl font-semibold mb-4 text-gray-800">
+							Bookings API
+							<span class="text-sm text-gray-500"
+								>(<code>/api/bookings</code>)</span
+							>
+						</h3>
+						<p class="text-gray-700 mb-4">
+							Manage event bookings. Requires authentication for all
+							operations.
+						</p>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>POST /api/bookings</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Create a new booking for an event.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required</span
+								>
+							</p>
+							<div class="mb-4">
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Request Body:
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "event": "string (Event ID)",
+  "tickets": "number"
+}</code></pre>
+							</div>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 201):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Booking created successfully",
+  "data": {
+    "_id": "string",
+    "user": "string (User ID)",
+    "event": "string (Event ID)",
+    "tickets": "number",
+    "bookingDate": "Date",
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  }
+}</code></pre>
+							</div>
+						</div>
+
+						<div class="mb-6">
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>GET /api/bookings/my</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Retrieve bookings made by the authenticated user.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required</span
+								>
+							</p>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "User bookings fetched successfully",
+  "data": [
+    {
+      "_id": "string",
+      "user": "string (User ID)",
+      "event": { "_id": "string", "title": "string", "date": "Date" },
+      "tickets": "number",
+      "bookingDate": "Date",
+      "createdAt": "Date",
+      "updatedAt": "Date"
+    }
+  ]
+}</code></pre>
+							</div>
+						</div>
+
+						<div>
+							<h4 class="text-xl font-medium text-gray-800 mb-2">
+								<code>DELETE /api/bookings/:id</code>
+							</h4>
+							<p class="text-gray-600 mb-2">
+								Cancel a booking by ID.
+								<span class="font-semibold text-teal-600"
+									>Authentication Required (User who made the
+									booking)</span
+								>
+							</p>
+							<div>
+								<h5 class="text-lg font-medium text-gray-700 mb-1">
+									Response (Success 200):
+								</h5>
+								<pre class="code-block p-3 rounded-lg text-sm"><code>{
+  "status": "success",
+  "message": "Booking cancelled successfully"
+}</code></pre>
+							</div>
+						</div>
+					</section>
+				</section>
+
+				<section id="database-models" class="mb-12">
+					<h2 class="text-3xl font-bold mb-4 text-gray-800">Database Models</h2>
+					<p class="text-lg text-gray-700 mb-6">
+						The `server-afrahna` project uses Mongoose schemas to define the
+						structure of its data in MongoDB. Here's a high-level overview of
+						the primary models:
+					</p>
+
+					<div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+						<h3 class="text-2xl font-semibold mb-3 text-gray-800">
+							User Model
+						</h3>
+						<p class="text-gray-700 mb-2">
+							Represents a user of the application.
+						</p>
+						<ul class="list-disc list-inside text-gray-700 space-y-1">
+							<li><code>username</code>: String, unique, required.</li>
+							<li><code>email</code>: String, unique, required.</li>
+							<li><code>password</code>: String, required (hashed).</li>
+							<li><code>createdAt</code>: Date, automatically set.</li>
+							<li><code>updatedAt</code>: Date, automatically set.</li>
+						</ul>
+					</div>
+
+					<div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+						<h3 class="text-2xl font-semibold mb-3 text-gray-800">
+							Event Model
+						</h3>
+						<p class="text-gray-700 mb-2">
+							Defines an event created by an organizer.
+						</p>
+						<ul class="list-disc list-inside text-gray-700 space-y-1">
+							<li><code>title</code>: String, required.</li>
+							<li><code>description</code>: String.</li>
+							<li><code>date</code>: Date, required.</li>
+							<li><code>location</code>: String.</li>
+							<li><code>price</code>: Number, required.</li>
+							<li><code>capacity</code>: Number, required.</li>
+							<li>
+								<code>organizer</code>: ObjectId (ref to User), required.
+							</li>
+							<li><code>createdAt</code>: Date, automatically set.</li>
+							<li><code>updatedAt</code>: Date, automatically set.</li>
+						</ul>
+					</div>
+
+					<div class="mb-8 p-6 bg-white rounded-lg shadow-md">
+						<h3 class="text-2xl font-semibold mb-3 text-gray-800">
+							Booking Model
+						</h3>
+						<p class="text-gray-700 mb-2">
+							Records a user's booking for an event.
+						</p>
+						<ul class="list-disc list-inside text-gray-700 space-y-1">
+							<li><code>user</code>: ObjectId (ref to User), required.</li>
+							<li>
+								<code>event</code>: ObjectId (ref to Event), required.
+							</li>
+							<li><code>tickets</code>: Number, required.</li>
+							<li>
+								<code>bookingDate</code>: Date, required (when the booking
+								was made).
+							</li>
+							<li><code>createdAt</code>: Date, automatically set.</li>
+							<li><code>updatedAt</code>: Date, automatically set.</li>
+						</ul>
+					</div>
+				</section>
+			</main>
+		</div>
+
+		<footer class="bg-gray-800 text-gray-400 border-t border-gray-700">
+			<div class="container mx-auto px-6 py-6 text-center text-sm">
+				<p>&copy; 2025 server-afrahna Documentation. Powered by AI.</p>
+				<p class="mt-1">
+					Source:
+					<a
+						href="https://github.com/Anismhamid/server-afrahna"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-teal-400 hover:underline"
+						>GitHub Repository</a
+					>
+				</p>
+			</div>
+		</footer>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const mobileMenuButton = document.getElementById("mobile-menu-button");
+				const mobileMenu = document.getElementById("mobile-menu");
+				if (mobileMenuButton && mobileMenu) {
+					mobileMenuButton.addEventListener("click", () => {
+						mobileMenu.classList.toggle("hidden");
+					});
+					const mobileNavLinks = mobileMenu.querySelectorAll("a");
+					mobileNavLinks.forEach((link) => {
+						link.addEventListener("click", () => {
+							mobileMenu.classList.add("hidden");
+						});
+					});
+				}
+
+				const sidebarLinks = document.querySelectorAll(".sidebar-link");
+				const sections = document.querySelectorAll("section[id]");
+
+				const observerOptions = {
+					root: null,
+					rootMargin: "0px",
+					threshold: 0.3,
+				};
+
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							const currentSectionId = entry.target.id;
+							sidebarLinks.forEach((link) => {
+								link.classList.remove("active");
+								if (
+									link.getAttribute("href") === `#${currentSectionId}`
+								) {
+									link.classList.add("active");
+								}
+								// Handle sub-links for API Endpoints
+								if (currentSectionId.includes("-api")) {
+									const parentApiLink = document.querySelector(
+										`.sidebar-link[href="#api-endpoints"]`,
+									);
+									if (parentApiLink)
+										parentApiLink.classList.add("active");
+								}
+							});
+						}
+					});
+				}, observerOptions);
+
+				sections.forEach((section) => {
+					observer.observe(section);
+				});
+
+				// Set initial active link on load (e.g., for direct URL access)
+				const initialHash = window.location.hash || "#overview";
+				const initialLink = document.querySelector(
+					`.sidebar-link[href="${initialHash}"]`,
+				);
+				if (initialLink) {
+					initialLink.classList.add("active");
+					if (initialHash.includes("-api")) {
+						const parentApiLink = document.querySelector(
+							`.sidebar-link[href="#api-endpoints"]`,
+						);
+						if (parentApiLink) parentApiLink.classList.add("active");
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

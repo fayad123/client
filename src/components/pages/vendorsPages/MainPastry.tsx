@@ -45,12 +45,12 @@ const MainPastry: FunctionComponent<MainPastryProps> = () => {
 										src={
 											Array.isArray(pasty.images)
 												? pasty.images[0]?.url
-												: pasty.images?.url
+												: pasty.businessName
 										}
 										alt={
 											Array.isArray(pasty.images)
 												? pasty.images[0]?.alt
-												: pasty.images?.alt
+												: pasty.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>

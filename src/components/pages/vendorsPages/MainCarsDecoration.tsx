@@ -11,6 +11,7 @@ const MainCarsDecoration: FunctionComponent<MainCarsDecorationProps> = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		document.title = "Cars Decoration - afrahna - تزيين سيارات - أفراحنا";
 		getServiceByCategories("تزيين سيارات")
 			.then((res) => {
 				setServices(res);
@@ -27,51 +28,60 @@ const MainCarsDecoration: FunctionComponent<MainCarsDecorationProps> = () => {
 		);
 
 	return (
-		<main>
-			<h1 className='text-center text-primary mb-4'>تزيين السيارات</h1>
-			<p className='text-center fs-5 text-muted mb-5'>
-				نحن نهتم بأدق التفاصيل لتكون لحظتك مميزة. اختَر من بين أجمل باقات تزيين
-				السيارات بتصاميم راقية وألوان تناسب ذوقك وتضفي لمسة فخمة على موكب زفافك.
-			</p>
+		<main className='py-5' style={{background: "#fdfcfb", minHeight: "100vh"}}>
+			<div className='text-center mb-5'>
+				<h1 className='display-4 fw-bold text-success mb-3'>تزيين السيارات</h1>
+				<p className='lead text-muted'>
+					نحن نهتم بأدق التفاصيل لتكون لحظتك مميزة. اختَر من بين أجمل باقات
+					تزيين السيارات بتصاميم راقية وألوان تناسب ذوقك وتضفي لمسة فخمة على
+					موكب زفافك.
+				</p>
+			</div>
 
-			<div className='container align-content-center'>
-				<div className='row row-cols-1 row-cols-md-3 gap-1'>
+			<div className='container '>
+				<div className='row m-auto row-cols-1 row-cols-md-2 row-cols-xl-4 g-5'>
 					{services.map((carsDecoration) => (
-						<div key={carsDecoration.vendorId}>
-							<div className='card h-100 shadow-sm border-0'>
-								{carsDecoration.images?.url && (
+						<div className='col' key={carsDecoration.vendorId}>
+							<div
+								className='card border-0 shadow-lg h-100 hover-zoom'
+								style={{transition: "transform 0.3s ease"}}
+							>
+								{carsDecoration.images && (
 									<img
-										className='card-img-top'
+										className='card-img-top rounded-top'
 										src={
 											Array.isArray(carsDecoration.images)
 												? carsDecoration.images[0]?.url
-												: carsDecoration.images?.url
+												: carsDecoration.businessName
 										}
 										alt={
 											Array.isArray(carsDecoration.images)
 												? carsDecoration.images[0]?.alt
-												: carsDecoration.images?.alt
+												: carsDecoration.businessName
 										}
 										style={{height: "200px", objectFit: "cover"}}
 									/>
 								)}
 								<div className='card-body d-flex flex-column'>
-									<h5 className='card-title text-success'>
+									<h5 className='card-title text-success fw-bold'>
 										{carsDecoration.businessName}
 									</h5>
-									<p className='card-text flex-grow-1'>
+									<p className='card-text text-muted'>
 										العنوان: {carsDecoration.address.city},{" "}
 										{carsDecoration.address.street}
 									</p>
+
+									<button
+										onClick={() =>
+											navigate(
+												`/service/${carsDecoration.vendorId}`,
+											)
+										}
+										className='btn btn-outline-success w-100 mt-3'
+									>
+										احجز الان
+									</button>
 								</div>
-								<button
-									onClick={() =>
-										navigate(`/service/${carsDecoration.vendorId}`)
-									}
-									className='btn btn-outline-success m-3'
-								>
-									احجز الان
-								</button>
 							</div>
 						</div>
 					))}
