@@ -1,10 +1,9 @@
 import {FunctionComponent, useState} from "react";
 import {uploadVideo} from "../../services/videos";
-import {Box, Button, TextField, Typography} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {styled} from "@mui/material/styles";
 
-interface VideoUploadProps {}
 
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
@@ -18,7 +17,7 @@ const VisuallyHiddenInput = styled("input")({
 	width: 1,
 });
 
-const VideoUpload: FunctionComponent<VideoUploadProps> = () => {
+const VideoUpload: FunctionComponent = () => {
 	const [file, setFile] = useState<File | null>(null);
 	const [message, setMessage] = useState("");
 

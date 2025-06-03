@@ -1,6 +1,5 @@
 import {Button} from "@mui/material";
 import toast from "react-hot-toast";
-import {Navigate, useNavigate} from "react-router-dom";
 
 const baseStyle = {
 	fontFamily: "Cairo, sans-serif",

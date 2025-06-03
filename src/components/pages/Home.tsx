@@ -5,7 +5,6 @@ import {
 	CardContent,
 	CardActionArea,
 	Card,
-	Container,
 } from "@mui/material";
 
 import {Link} from "react-router-dom";
@@ -16,13 +15,12 @@ import {jwtDecode} from "jwt-decode";
 import TestimonialsSlider from "./TestimonialsSlider";
 import FAQPage from "./FAQPage";
 import RecommendedServices from "./RecommendedVendors";
-import {theme} from "../../App";
 import VideoUpload from "../../atoms/Ads/VideoUpload";
 import VideoAds from "../../atoms/Ads/VideoAds";
 import {getAdsVideos} from "../../services/videos";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
-import VarticalDevider from "../../atoms/customDeviders/VarticalDevider";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface HomeProps {}
 
 const api = `${import.meta.env.VITE_API_URI}/videos`;
@@ -34,6 +32,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 	useEffect(() => {
 		const fetchVideos = async () => {
 			const videos = await getAdsVideos();
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const urls = videos.map((v: any) => `${api}/${v._id}`);
 			setVideos(urls);
 		};
@@ -51,7 +50,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 				localStorage.removeItem("token");
 			}
 		}
-	}, []);
+	}, [setUser]);
 
 	return (
 		<Box component={"main"}>

@@ -11,6 +11,7 @@ import {useNavigate} from "react-router-dom";
 import {JwtPayload} from "../../interfaces/userSchema";
 import {CheckCircleOutline, HighlightOff, Star} from "@mui/icons-material";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface SubscriptionPageProps {}
 
 const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
@@ -38,6 +39,7 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 				.matches(/^\d{3}$/, "CVV غير صالح"),
 			cardHolderName: Yup.string().required("اسم حامل البطاقة مطلوب"),
 		}),
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		onSubmit: async (values) => {
 			if (!user?._id) {
 				errorToast("يجب تسجيل الدخول لإتمام عملية الاشتراك");

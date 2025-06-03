@@ -22,10 +22,8 @@ import zxcvbn from "zxcvbn";
 import LinearProgress from "@mui/material/LinearProgress";
 import {getStrengthColor, getPasswordStrengthLabel} from "../../helpers/passwordChecker";
 
-interface BusinessRegisterProps {}
 
-const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
-	const [loading, setLoading] = useState(false);
+const BusinessRegister: FunctionComponent = () => {
 	const navigate = useNavigate();
 	const [passwordScore, setPasswordScore] = useState(0);
 	const [passwordFeedback, setPasswordFeedback] = useState<string[]>([]);
@@ -53,7 +51,7 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 				.max(30)
 				.required("الرجاء إدخال كلمة المرور")
 				.matches(
-					/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
+					/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])/,
 					"كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز خاص",
 				),
 			address: Yup.object({
@@ -64,10 +62,8 @@ const BusinessRegister: FunctionComponent<BusinessRegisterProps> = () => {
 		}),
 
 		onSubmit: (values) => {
-			setLoading(true);
 			newBusinessRegisterUser(values).then((userData) => {
 				localStorage.setItem("token", userData);
-				setLoading(false);
 				navigate("/subscription");
 				successToast("مرحبا بك في منصه افراحنا");
 			});
