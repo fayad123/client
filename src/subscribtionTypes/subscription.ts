@@ -126,25 +126,7 @@ export const subscriptionPlans = [
 	},
 ];
 
-export const subscriptionDetails = {
-	colors: {
-		free: "#f5f5f5",
-		basic: "#c0c0c0",
-		gold: "#ffd700",
-		premium: "#b9f2ff",
-		enterprise: "#a7c7e7",
-	},
-	featuresCategories: {
-		profile: "الملف التعريفي",
-		media: "الوسائط",
-		services: "الخدمات",
-		visibility: "الظهور",
-		communication: "التواصل",
-		analytics: "التحليلات",
-		support: "الدعم",
-		marketing: "التسويق",
-	},
-};
+
 export const subscriptionColor = (plans: string) => {
 	switch (plans) {
 		case "free":

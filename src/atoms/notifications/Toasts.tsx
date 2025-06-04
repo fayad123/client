@@ -11,7 +11,7 @@ const baseStyle = {
 
 export const successToast = (msg: string) =>
 	toast.success(msg, {
-		duration: 4000,
+		duration: 1000,
 		position: "top-center",
 
 		// Styling
@@ -39,7 +39,7 @@ export const successToast = (msg: string) =>
 
 export const errorToast = (msg: string) =>
 	toast.error(msg, {
-		duration: 4000,
+		duration: 2000,
 		position: "top-center",
 		style: {
 			...baseStyle,
@@ -55,10 +55,17 @@ export const errorToast = (msg: string) =>
 	});
 
 export const customToast = (msg: string, navigate: (path: string) => void) => {
+	const handleToast = (id: string) => {
+		navigate("/login");
+		toast.dismiss(id);
+	};
+
 	return toast.custom(
 		(t) => (
 			<div
-				className={`rounded-2 text-light ${t.visible ? "animate-enter" : "animate-leave" } max-w-md w-full bg-dark shadow-lg rounded pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+				className={`rounded-2 text-light ${
+					t.visible ? "animate-enter" : "animate-leave"
+				} max-w-md w-full bg-dark shadow-lg rounded pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
 			>
 				<div className='flex-1 w-0 p-4'>
 					<div className='flex items-center'>
@@ -67,24 +74,21 @@ export const customToast = (msg: string, navigate: (path: string) => void) => {
 						</div>
 					</div>
 				</div>
-				<div  className='flex border-l border-gray-200 text-center m-auto'>
+				<div className='flex border-l border-gray-200 text-center m-auto'>
 					<Button
 						variant='contained'
 						sx={{
 							my: 1,
-							mx:"auto",
-							textAlign:"center"
+							mx: "auto",
+							textAlign: "center",
 						}}
-						onClick={() => {
-							navigate("/login");
-							toast.dismiss(t.id);
-						}}
+						onClick={() => handleToast(t.id)}
 					>
 						سجل الدخول الان
 					</Button>
 				</div>
 			</div>
 		),
-		{duration: Infinity},
+		{duration: 2000},
 	);
 };

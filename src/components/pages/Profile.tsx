@@ -2,9 +2,10 @@ import {FunctionComponent} from "react";
 import {useUser} from "../../contextApi/useUserData";
 import {Box, Button, Divider, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import MyBookings from "./vendorsPages/services/MyBookings";
+import MyBookings from "./MyBookings";
 import {subscriptionColor, subscriptionPlans} from "../../subscribtionTypes/subscription";
 import {CheckCircleOutline} from "@mui/icons-material";
+import VendorsAnalyticsDashboard from "./VendorsAnalyticsDashboard";
 
 interface ProfileProps {}
 
@@ -31,6 +32,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
 
 	return (
 		<main>
+			<VendorsAnalyticsDashboard />
 			<div
 				className={`container text p-5 rounded-5 ${subscriptionColor(
 					user.planId as string,

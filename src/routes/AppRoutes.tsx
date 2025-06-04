@@ -19,11 +19,11 @@ import MainHalsDecoration from "../components/pages/vendorsPages/MainHalsDecorat
 import MainCarsDecoration from "../components/pages/vendorsPages/MainCarsDecoration";
 import MainFrezzer from "../components/pages/vendorsPages/MainFrezzer";
 import Pnf from "../components/Pnf";
-import SingleServicePage from "../components/pages/vendorsPages/services/ServicesPage";
+import SingleServicePage from "../components/pages/ServicesPage";
 import Login from "../components/pages/Login";
 import Profile from "../components/pages/Profile";
-import EditServices from "../components/pages/vendorsPages/services/EditServices";
-import MyBookings from "../components/pages/vendorsPages/services/MyBookings";
+import EditServices from "../components/editVendorPriofileAndServices/EditServices";
+import MyBookings from "../components/pages/MyBookings";
 import ContactUs from "../components/pages/ContactUs";
 import SubscriptionPage from "../components/pages/SubscriptionPage";
 import PaymentTerms from "../components/pages/payment/PaymentTerms";
