@@ -1,31 +1,27 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {FunctionComponent, useState} from "react";
-import {
-	customToast,
-	errorToast,
-	successToast,
-} from "../../../../atoms/notifications/Toasts";
+import {customToast, errorToast, successToast} from "../../atoms/notifications/Toasts";
 import {useFormik} from "formik";
 import * as yup from "yup";
-import {useUser} from "../../../../contextApi/useUserData";
+import {useUser} from "../../contextApi/useUserData";
 import {
 	Box,
 	Button,
 	Checkbox,
 	Chip,
-	CircularProgress,
 	FormControlLabel,
 	TextField,
 	Typography,
 } from "@mui/material";
-import Calendar from "../../../../atoms/calendar/Calendar";
-import ReactSlick from "../../../../atoms/reactSlick/ReactSlick";
-import {formatCurrency} from "../../../../helpers/vendors";
-import {useServiceData} from "../../../../hooks/useServiceData";
-import {useBookingHandler} from "../../../../hooks/useBookingHandler";
+import Calendar from "../../atoms/calendar/Calendar";
+import ReactSlick from "../../atoms/reactSlick/ReactSlick";
+import {formatCurrency} from "../../helpers/vendors";
+import {useServiceData} from "../../hooks/useServiceData";
+import {useBookingHandler} from "../../hooks/useBookingHandler";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import HorizontalDevider from "../../../../atoms/customDeviders/HorizontalDevider";
-import SpicialLogo from "../../../../atoms/SpicialLogo";
+import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
+import SpicialLogo from "../../atoms/SpicialLogo";
+import Loader from "../../atoms/Loader";
 
 interface SingleServicePageProps {}
 
@@ -91,7 +87,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 						price: yup.number().required(),
 					}),
 				)
-				.min(1, "יש לבחור לפחות תכונה אחת"),
+				.min(1, "يجب تحديد ميزة واحدة على الأقل."),
 			note: yup.string(),
 		}),
 		onSubmit: async (values, {resetForm}) => {
@@ -121,25 +117,13 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			}
 		},
 	});
+	const totalPrice = formik.values.features.reduce((acc, f) => acc + f.price, 0);
 
-	if (loading) {
-		return (
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					minHeight: "50vh",
-				}}
-			>
-				<CircularProgress />
-			</Box>
-		);
-	}
+	if (loading) return <Loader />;
 
 	if (error) {
 		return (
-			<Box sx={{textAlign: "center", p: 4}}>
+			<Box component={"main"} sx={{textAlign: "center", p: 4}}>
 				<Typography color='error' variant='h6' gutterBottom>
 					فشل تحميل بيانات الخدمة
 				</Typography>
@@ -169,7 +153,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 						تم إرسال طلبك بنجاح!
 					</Typography>
 					<Typography variant='body1' sx={{mb: 3}}>
-						سيتم التواصل معك قريبًا لتأكيد الطلب.
+						سيتم التواصل معك قريبًا لتأكيد الطلب {service.phone}
 					</Typography>
 					<Button
 						variant='contained'
@@ -198,6 +182,9 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 		);
 	}
 
+	const sameUser = user?._id === service.vendorId;
+	const adminUser = user?.role === "admin";
+
 	return (
 		<Box
 			sx={{
@@ -216,8 +203,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			>
 				<h1 className='text-center mb-4'>{service?.businessName}</h1>
 			</Box>
-			{planId === "premium" && <SpicialLogo/>}
-
+			{planId === "premium" && <SpicialLogo />}
 			<Chip
 				variant='outlined'
 				sx={{
@@ -247,30 +233,31 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					</Typography>
 				}
 			/>
-			{vendorId && (
-				<Box
-					sx={{
-						position: "sticky",
-						width: 100,
-						left: {xs: 22, md: 123, lg: 50},
-						top: 0,
-						zIndex: 5,
-					}}
-				>
-					<Button
-						size='small'
-						color='primary'
-						variant='contained'
+			{sameUser ||
+				(adminUser && (
+					<Box
 						sx={{
-							position: "relative",
-							top: 80,
+							position: "sticky",
+							width: 100,
+							left: {xs: 22, md: 123, lg: 50},
+							top: 0,
+							zIndex: 5,
 						}}
-						onClick={() => navigate(`/vendors/${vendorId}`)}
 					>
-						ادارة الصفحه
-					</Button>
-				</Box>
-			)}
+						<Button
+							size='small'
+							color='primary'
+							variant='contained'
+							sx={{
+								position: "relative",
+								top: 80,
+							}}
+							onClick={() => navigate(`/vendors/${vendorId}`)}
+						>
+							ادارة الصفحه
+						</Button>
+					</Box>
+				))}{" "}
 			<HorizontalDevider />
 			<ReactSlick images={service?.images as any} />
 			<Box
@@ -397,6 +384,11 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 						</Typography>
 					)}
 				</Box>
+				<Box sx={{p: 1, borderRadius: 5, m: 5, boxShadow: 3}}>
+					<Typography my={5} color='primary' fontWeight={700} variant='h6'>
+						سعر الطلبات المؤشرة {formatCurrency(totalPrice)}
+					</Typography>
+				</Box>
 
 				<TextField
 					fullWidth
@@ -409,9 +401,8 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					onBlur={formik.handleBlur}
 					error={formik.touched.note && Boolean(formik.errors.note)}
 					helperText={formik.touched.note && formik.errors.note}
-					sx={{mb: 3}}
+					sx={{my: 3}}
 				/>
-
 				<Box sx={{textAlign: "center"}}>
 					<Button
 						disabled={!(formik.isValid && formik.dirty && isDateAvailable)}

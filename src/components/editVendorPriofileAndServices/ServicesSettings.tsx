@@ -22,17 +22,20 @@ import {
 	Theme,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import AddNewServiceModal from "../../../../atoms/AddNewServiceModal";
-import {JwtPayload} from "../../../../interfaces/userSchema";
-import {Services} from "../../../../interfaces/services";
-import {formatCurrency} from "../../../../helpers/vendors";
+import AddNewServiceModal from "../../atoms/AddNewServiceModal";
+import {JwtPayload} from "../../interfaces/userSchema";
+import {Services} from "../../interfaces/services";
+import {formatCurrency} from "../../helpers/vendors";
 
 interface ServicesSettingsProps {
-	vendor: Services[];
+	vendorServices: Services[];
 	user: JwtPayload;
 }
 
-const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({vendor, user}) => {
+const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
+	vendorServices,
+	user,
+}) => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [refresh, setRefresh] = useState<boolean>(false);
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
@@ -80,14 +83,14 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({vendor, use
 				</Button>
 			</Box>
 
-			{vendor.length === 0 ? (
+			{vendorServices.length === 0 ? (
 				<Typography color='text.secondary' textAlign='center' py={4}>
 					لا توجد خدمات متاحة
 				</Typography>
 			) : isMobile ? (
 				// Mobile View
 				<List sx={{width: "100%"}}>
-					{vendor.map((vendorItem, index) => (
+					{vendorServices.map((vendorItem, index) => (
 						<Paper key={index} sx={{mb: 3, overflow: "hidden"}}>
 							<Box sx={{p: 2}}>
 								<Typography variant='h6' textAlign='center' gutterBottom>
@@ -175,21 +178,24 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({vendor, use
 								<TableCell sx={{fontWeight: "bold"}}>
 									الاسم التجاري
 								</TableCell>
-								<TableCell>{vendor[0].businessName}</TableCell>
+								<TableCell>{vendorServices[0].businessName}</TableCell>
 
 								<TableCell sx={{fontWeight: "bold"}}>
 									نطاق الأسعار
 								</TableCell>
 
 								<TableCell>
-									{vendor[0].priceType === "fixed" ? (
+									{vendorServices[0].priceType === "fixed" ? (
 										<span>
-											{formatCurrency(vendor[0].price.min)} (ثابت)
+											{formatCurrency(vendorServices[0].price.min)}{" "}
+											(ثابت)
 										</span>
 									) : (
 										<span>
-											من {formatCurrency(vendor[0].price.min)} إلى{" "}
-											{formatCurrency(vendor[0].price.max)}
+											من{" "}
+											{formatCurrency(vendorServices[0].price.min)}{" "}
+											إلى{" "}
+											{formatCurrency(vendorServices[0].price.max)}
 										</span>
 									)}
 								</TableCell>
@@ -203,7 +209,7 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({vendor, use
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{vendor.map((vendorItem, index) => (
+							{vendorServices.map((vendorItem, index) => (
 								<TableRow key={index}>
 									<TableCell>
 										{vendorItem.services?.length > 0 ? (

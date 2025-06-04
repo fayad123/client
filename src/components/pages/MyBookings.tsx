@@ -1,14 +1,14 @@
 import {FunctionComponent, useEffect, useState} from "react";
-import {BookingData} from "../../../../interfaces/booking";
-import {getVendorsBooks, myBookings} from "../../../../services/booking";
-import {errorToast} from "../../../../atoms/notifications/Toasts";
+import {BookingData} from "../../interfaces/booking";
+import {getVendorsBooks, myBookings} from "../../services/booking";
+import {errorToast} from "../../atoms/notifications/Toasts";
 import {Box, Button, CircularProgress, Typography} from "@mui/material";
-import {useUser} from "../../../../contextApi/useUserData";
-import {getUserById} from "../../../../services/usersServices";
-import {JwtPayload} from "../../../../interfaces/userSchema";
+import {useUser} from "../../contextApi/useUserData";
+import {getUserById} from "../../services/usersServices";
+import {JwtPayload} from "../../interfaces/userSchema";
 import {Link, useNavigate} from "react-router-dom";
-import {handleDeletBook} from "../../../../helpers/vendors";
-import {handleDeletCustomerBook} from "../../../../helpers/customers";
+import {handleDeletBook} from "../../helpers/vendors";
+import {handleDeletCustomerBook} from "../../helpers/customers";
 
 interface MyBookingsProps {}
 
