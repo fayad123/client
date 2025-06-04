@@ -5,6 +5,7 @@ import {getServiceByVendorId, getUnavailableDates} from "../services/vendorsServ
 import {getVisibleServices} from "../subscribtionTypes/subscription";
 import {JwtPayload} from "../interfaces/userSchema";
 import {getVendorSubscriptionPlan} from "../services/usersServices";
+import { WorkingHours } from "../components/editVendorPriofileAndServices/servicesFormik";
 
 interface ServiceData {
 	service: Services;
@@ -19,6 +20,16 @@ interface ServiceData {
 	error: Error | null;
 	planId: string | null;
 }
+
+export const getDefaultWorkingHours = (): WorkingHours => ({
+	sunday: {from: "", to: "", closed: false},
+	monday: {from: "", to: "", closed: false},
+	tuesday: {from: "", to: "", closed: false},
+	wednesday: {from: "", to: "", closed: false},
+	thursday: {from: "", to: "", closed: false},
+	friday: {from: "", to: "", closed: false},
+	saturday: {from: "", to: "", closed: false},
+});
 
 const initialServiceData = (): ServiceData => ({
 	service: {
@@ -41,6 +52,11 @@ const initialServiceData = (): ServiceData => ({
 		services: [],
 		vendorId: "",
 		planeId: "",
+		maxBookingsPerDay: 0,
+		allowOverlappingBookings: false,
+		bookingDurationInHours: 1,
+		bookingType: "single",
+		workingHours: getDefaultWorkingHours()
 	},
 	unavailableDates: [],
 	vendorId: "",
