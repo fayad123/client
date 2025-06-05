@@ -18,7 +18,7 @@ main {
 }
 
 body {
-  background-image: linear-gradient(to right bottom, #FEF8F1, #ffffff);
+  background-image: linear-gradient(to right bottom, #FDFCFB, #FDFCFB);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -64,7 +64,7 @@ form {
   color: #E0EDEE;
   font-weight: bold;
   background: linear-gradient(45deg, #e0efff, #ffffff, #a6c7ff);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   overflow: hidden;
 }

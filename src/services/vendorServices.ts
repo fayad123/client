@@ -64,3 +64,15 @@ export const getAllVendors = async () => {
 		console.log(error);
 	}
 };
+
+// get vendor by id fo admin
+export const getVendorbyId = async (vendorId: string) => {
+	try {
+		const response = await axios.get(`${api}/business/vendors/${vendorId}`, {
+			headers: {Authorization: localStorage.getItem("token")},
+		});
+		return response.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

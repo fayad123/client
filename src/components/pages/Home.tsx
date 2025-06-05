@@ -1,11 +1,5 @@
 import {FunctionComponent, useEffect, useState} from "react";
-import {
-	Box,
-	Typography,
-	CardContent,
-	CardActionArea,
-	Card,
-} from "@mui/material";
+import {Box, Typography, CardContent, CardActionArea, Card} from "@mui/material";
 
 import {Link} from "react-router-dom";
 import {mainMenu} from "../../routes/mainMenu";
@@ -13,11 +7,11 @@ import {useUser} from "../../contextApi/useUserData";
 import {JwtPayload} from "../../interfaces/userSchema";
 import {jwtDecode} from "jwt-decode";
 import TestimonialsSlider from "./TestimonialsSlider";
-import FAQPage from "./FAQPage";
-import RecommendedServices from "./RecommendedVendors";
+import FAQPage from "../settings/FAQPage";
+import RecommendedServices from "../serviceView/RecommendedVendors";
 import VideoUpload from "../../atoms/Ads/VideoUpload";
 import VideoAds from "../../atoms/Ads/VideoAds";
-import {getAdsVideos} from "../../services/videos";
+import {getAdsVideos} from "../../services/videosForAds";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

@@ -2,10 +2,10 @@ import {useState, useEffect} from "react";
 import {Services} from "../interfaces/services";
 import {getVendorData} from "../services/vendorServices";
 import {getServiceByVendorId, getUnavailableDates} from "../services/vendorsServices";
-import {getVisibleServices} from "../subscribtionTypes/subscription";
+import {getVisibleServices} from "../subscribes/subscribtionTypes/subscription";
 import {JwtPayload} from "../interfaces/userSchema";
 import {getVendorSubscriptionPlan} from "../services/usersServices";
-import { WorkingHours } from "../components/editVendorPriofileAndServices/servicesFormik";
+import {WorkingHours} from "../components/editVendorPriofileAndServices/servicesFormik";
 
 interface ServiceData {
 	service: Services;
@@ -56,7 +56,7 @@ const initialServiceData = (): ServiceData => ({
 		allowOverlappingBookings: false,
 		bookingDurationInHours: 1,
 		bookingType: "single",
-		workingHours: getDefaultWorkingHours()
+		workingHours: getDefaultWorkingHours(),
 	},
 	unavailableDates: [],
 	vendorId: "",

@@ -17,13 +17,13 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useUser} from "../contextApi/useUserData";
+import {useUser} from "../../contextApi/useUserData";
 import {Person} from "@mui/icons-material";
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import SettingsIcon from "@mui/icons-material/Settings";
-import SubscripbeButton from "../atoms/subscribeButton/SubscripbeButton";
-import theme from "../assets/theme";
-import {navbarItems} from "../routes/mainMenu";
+import SubscripbeButton from "../../subscribes/subscribeButton/SubscripbeButton";
+import theme from "../../assets/theme";
+import {navbarItems} from "../../routes/mainMenu";
 
 const Navbar: FunctionComponent = () => {
 	const [open, setOpen] = useState(false);

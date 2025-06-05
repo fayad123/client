@@ -22,6 +22,9 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import SpicialLogo from "../../atoms/SpicialLogo";
 import Loader from "../../atoms/Loader";
+import WorkingHours from "../serviceView/WorkingHours";
+import SocialMediaLinks from "../../atoms/socialMediaLinks/SocialMediaLinks";
+import VendorGalleryTabs from "../../atoms/VendotGalleryTabs";
 
 interface SingleServicePageProps {}
 
@@ -182,13 +185,14 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 		);
 	}
 
-	const sameUser = user?._id === service.vendorId;
-	const adminUser = user?.role === "admin";
+	// const sameUser = user && user._id === service.vendorId;
+	const adminUser = user && user.role === "admin";
+	// const adminUserOrSameUsaer = adminUser || sameUser;
 
 	return (
 		<Box
+			component={"main"}
 			sx={{
-				maxWidth: 1200,
 				textAlign: "center",
 				mx: "auto",
 				p: {xs: 2, md: 3, fontFamily: "monospace"},
@@ -203,7 +207,9 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			>
 				<h1 className='text-center mb-4'>{service?.businessName}</h1>
 			</Box>
+			{/* special vendor tag */}
 			{planId === "premium" && <SpicialLogo />}
+			{/* vendor address chip */}
 			<Chip
 				variant='outlined'
 				sx={{
@@ -233,33 +239,70 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					</Typography>
 				}
 			/>
-			{sameUser ||
-				(adminUser && (
-					<Box
-						sx={{
-							position: "sticky",
-							width: 100,
-							left: {xs: 22, md: 123, lg: 50},
-							top: 0,
-							zIndex: 5,
-						}}
-					>
-						<Button
-							size='small'
-							color='primary'
-							variant='contained'
-							sx={{
-								position: "relative",
-								top: 80,
-							}}
-							onClick={() => navigate(`/vendors/${vendorId}`)}
-						>
-							ادارة الصفحه
-						</Button>
-					</Box>
-				))}{" "}
+
+			{/* social media links */}
+			<SocialMediaLinks
+				instagram={"https://instagram.com"}
+				facebook={"https://facebook.com"}
+				twitter={"https://x.com"}
+			/>
+
 			<HorizontalDevider />
+
+			{/* vedios, images, manage => buttons */}
+			{adminUser && (
+				<VendorGalleryTabs  vendorId={vendorId}/>
+				// <Box
+				// 	width={"100%"}
+				// 	display={"flex"}
+				// 	alignItems={"center"}
+				// 	justifyContent={"space-around"}
+				// >
+				// 	<Button
+				// 		size='medium'
+				// 		color='primary'
+				// 		variant='contained'
+				// 		sx={{
+				// 			position: "relative",
+				// 			top: 0,
+				// 		}}
+				// 		onClick={() => navigate(`/vendors/${vendorId}`)}
+				// 	>
+				// 		ادارة الصفحه
+				// 	</Button>
+
+				// 	<Button
+				// 		size='medium'
+				// 		color='primary'
+				// 		variant='contained'
+				// 		sx={{
+				// 			position: "relative",
+				// 			top: 0,
+				// 		}}
+				// 		onClick={() => navigate(`/vendors/${vendorId}`)}
+				// 	>
+				// 		صور
+				// 	</Button>
+
+				// 	<Button
+				// 		size='medium'
+				// 		color='primary'
+				// 		variant='contained'
+				// 		sx={{
+				// 			position: "relative",
+				// 			top: 0,
+				// 		}}
+				// 		onClick={() => navigate(`/vendors/${vendorId}`)}
+				// 	>
+				// 		فيديوهات
+				// 	</Button>
+				// </Box>
+			)}
+			{/* facing image view */}
 			<ReactSlick images={service?.images as any} />
+			{/* vendor working hours */}
+			<WorkingHours service={service} />
+			{/* facing description */}
 			<Box
 				sx={{
 					backgroundColor: "#ffffffeb",
@@ -293,8 +336,8 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 								display: "flex",
 								alignItems: "flex-start",
 								"&:before": {
-									// content: '"▹"',
-									content: '""',
+									content: '"▹"',
+									// content: '""',
 									color: "primary.main",
 									mr: 1.5,
 									fontSize: "0.9em",
@@ -309,6 +352,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 									fontFamily: "monospace",
 									fontSize: {xs: "0.875rem", sm: "1rem"},
 									flex: 1,
+									textAlign: "start",
 								}}
 							>
 								{point}
@@ -317,13 +361,13 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					))}
 				</Box>
 			</Box>
-			<div className='text-center mb-4'>
-				<Calendar
-					selectedDate={selectedDate}
-					handleDateChange={handleDateChange}
-					unavailableDates={unavailableDates}
-				/>
-			</div>
+			{/* booking calendar */}
+			<Calendar
+				selectedDate={selectedDate}
+				handleDateChange={handleDateChange}
+				unavailableDates={unavailableDates}
+			/>
+			{/* facing services */}
 			<Box
 				component='form'
 				onSubmit={formik.handleSubmit}
@@ -386,7 +430,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 				</Box>
 				<Box sx={{p: 1, borderRadius: 5, m: 5, boxShadow: 3}}>
 					<Typography my={5} color='primary' fontWeight={700} variant='h6'>
-						سعر الطلبات المؤشرة {formatCurrency(totalPrice)}
+						سعر الطلبات المحددة الشامل {formatCurrency(totalPrice)}
 					</Typography>
 				</Box>
 

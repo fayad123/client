@@ -2,13 +2,13 @@ import {Box, Typography, Button, Paper, Tooltip, Chip, Divider} from "@mui/mater
 import {useFormik} from "formik";
 import {FunctionComponent, useState} from "react";
 import * as Yup from "yup";
-import {subscriptionPlans} from "../../subscribtionTypes/subscription";
+import {subscriptionPlans} from "./subscribtionTypes/subscription";
 import PaymentForm from "./payment/PaymentForm";
-import {errorToast, successToast} from "../../atoms/notifications/Toasts";
-import {useUser} from "../../contextApi/useUserData";
-import {subscriptionToPlans} from "../../services/subscriprion";
+import {errorToast, successToast} from "../atoms/notifications/Toasts";
+import {useUser} from "../contextApi/useUserData";
+import {subscriptionToPlans} from "../services/subscription";
 import {useNavigate} from "react-router-dom";
-import {JwtPayload} from "../../interfaces/userSchema";
+import {JwtPayload} from "../interfaces/userSchema";
 import {CheckCircleOutline, HighlightOff, Star} from "@mui/icons-material";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -56,6 +56,7 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 					isSubscribed: true,
 					planId: selectedPlanId,
 				});
+				console.log(sub);
 
 				if (sub.token) {
 					localStorage.setItem("token", sub.token);

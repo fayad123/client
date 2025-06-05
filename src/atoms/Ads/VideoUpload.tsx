@@ -1,9 +1,8 @@
 import {FunctionComponent, useState} from "react";
-import {uploadVideo} from "../../services/videos";
+import {uploadVideo} from "../../services/videosForAds";
 import {Box, Button, Typography} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {styled} from "@mui/material/styles";
-
 
 const VisuallyHiddenInput = styled("input")({
 	clip: "rect(0 0 0 0)",
@@ -17,6 +16,10 @@ const VisuallyHiddenInput = styled("input")({
 	width: 1,
 });
 
+/**
+ * Files video upload
+ * @returns  buttons they can upload vedios to database
+ */
 const VideoUpload: FunctionComponent = () => {
 	const [file, setFile] = useState<File | null>(null);
 	const [message, setMessage] = useState("");
@@ -39,7 +42,11 @@ const VideoUpload: FunctionComponent = () => {
 
 	return (
 		<Box sx={{width: "100%", display: "flex", flexDirection: "column"}}>
-			<Button sx={{mb: 2}} component='label' variant='contained'>
+			<Button
+				sx={{width: "50%", m: "auto", mb: 2}}
+				component='label'
+				variant='contained'
+			>
 				حدد الفيديو
 				<VisuallyHiddenInput
 					type='file'
@@ -64,6 +71,7 @@ const VideoUpload: FunctionComponent = () => {
 				tabIndex={-1}
 				startIcon={<CloudUploadIcon />}
 				disabled={!file}
+				sx={{width: "50%", m: "auto", mb: 2}}
 			>
 				اضافه فيديو
 				<VisuallyHiddenInput type='file' onChange={handleUpload} multiple />

@@ -3,7 +3,10 @@ import {useUser} from "../../contextApi/useUserData";
 import {Box, Button, Divider, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import MyBookings from "./MyBookings";
-import {subscriptionColor, subscriptionPlans} from "../../subscribtionTypes/subscription";
+import {
+	subscriptionColor,
+	subscriptionPlans,
+} from "../../subscribes/subscribtionTypes/subscription";
 import {CheckCircleOutline} from "@mui/icons-material";
 import VendorsAnalyticsDashboard from "./VendorsAnalyticsDashboard";
 
