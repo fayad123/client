@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://client-afrahna.vercel.app/sitemap.xml
