@@ -16,7 +16,7 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useUser} from "../../contextApi/useUserData";
 import {Person} from "@mui/icons-material";
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
@@ -100,28 +100,21 @@ const Navbar: FunctionComponent = () => {
 						{user && user.role === "isVendor" && !user.isSubscribed && (
 							<SubscripbeButton />
 						)}
-						<Typography
-							onClick={() => navigate("/")}
-							variant='h5'
-							sx={{
+						<NavLink
+							to='/'
+							style={{
 								cursor: "pointer",
 								fontWeight: "bold",
 								color: "white",
-								"&:hover": {color: "yellow"},
 							}}
 						>
 							افراحــنـا
-						</Typography>
+						</NavLink>
 						{!user?._id ? (
 							<Box>
-								<Button
-									color='warning'
-									variant='contained'
-									size='medium'
-									onClick={() => navigate("/login")}
-								>
+								<NavLink to='/login' color='warning'>
 									الدخول
-								</Button>
+								</NavLink>
 							</Box>
 						) : (
 							<Box>
@@ -186,7 +179,7 @@ const Navbar: FunctionComponent = () => {
 					<List>
 						{navbarItems.map((item) => (
 							<ListItem key={item.text} disablePadding>
-								<Link
+								<NavLink
 									to={item.path}
 									style={{
 										width: "100%",
@@ -198,7 +191,7 @@ const Navbar: FunctionComponent = () => {
 										<ListItemIcon>{item.icon}</ListItemIcon>
 										<ListItemText primary={item.text} />
 									</ListItemButton>
-								</Link>
+								</NavLink>
 							</ListItem>
 						))}
 					</List>{" "}
@@ -217,7 +210,7 @@ const Navbar: FunctionComponent = () => {
 							</Typography>
 
 							<ListItem disablePadding>
-								<Link
+								<NavLink
 									to={"/profile"}
 									style={{
 										width: "100%",
@@ -231,11 +224,11 @@ const Navbar: FunctionComponent = () => {
 										</ListItemIcon>
 										<ListItemText primary={"الملف الشخصي"} />
 									</ListItemButton>
-								</Link>
+								</NavLink>
 							</ListItem>
 
 							<ListItem disablePadding>
-								<Link
+								<NavLink
 									to={"/my-bookings"}
 									style={{
 										width: "100%",
@@ -249,13 +242,13 @@ const Navbar: FunctionComponent = () => {
 										</ListItemIcon>
 										<ListItemText primary={"حجوزات"} />
 									</ListItemButton>
-								</Link>
+								</NavLink>
 							</ListItem>
 						</>
 					)}
 					{user && user?.role === "isVendor" && (
 						<ListItem disablePadding>
-							<Link
+							<NavLink
 								to={`/vendors/${user._id}`}
 								style={{
 									width: "100%",
@@ -272,13 +265,13 @@ const Navbar: FunctionComponent = () => {
 									</ListItemIcon>
 									<ListItemText primary={"اداره الخدمات"} />
 								</ListItemButton>
-							</Link>
+							</NavLink>
 						</ListItem>
 					)}
 					{user && user.role === "admin" && (
 						<>
 							<ListItem disablePadding>
-								<Link
+								<NavLink
 									to={`/manage/users`}
 									style={{
 										width: "100%",
@@ -294,10 +287,10 @@ const Navbar: FunctionComponent = () => {
 										</ListItemIcon>
 										<ListItemText primary={"ادارة المستخدمين"} />
 									</ListItemButton>
-								</Link>
+								</NavLink>
 							</ListItem>
 							<ListItem disablePadding>
-								<Link
+								<NavLink
 									to={`/manage/vendors`}
 									style={{
 										width: "100%",
@@ -313,7 +306,7 @@ const Navbar: FunctionComponent = () => {
 										</ListItemIcon>
 										<ListItemText primary={"ادارو مزودي الخدمات"} />
 									</ListItemButton>
-								</Link>
+								</NavLink>
 							</ListItem>
 						</>
 					)}
