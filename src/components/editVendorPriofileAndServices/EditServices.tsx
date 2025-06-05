@@ -1,5 +1,4 @@
 import {
-	getVendorbyId,
 	getVendorData,
 	updateVendorServices,
 } from "../../services/vendorServices";
