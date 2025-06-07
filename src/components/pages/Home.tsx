@@ -63,7 +63,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 				</Typography>
 			</Box>
 			<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
-				{user?.role === "admin" && <VideoUpload />}
+				{user&& user.role === "admin" && <VideoUpload />}
 				<VideoAds videos={videos} />
 			</Box>
 
