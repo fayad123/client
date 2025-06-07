@@ -13,6 +13,8 @@ import VideoUpload from "../../atoms/Ads/VideoUpload";
 import VideoAds from "../../atoms/Ads/VideoAds";
 import {getAdsVideos} from "../../services/videosForAds";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
+import JsonLd from "../JsonLd";
+import { generateCategoriesItemListJsonLd } from "../../utils/structuredData";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface HomeProps {}
@@ -49,7 +51,11 @@ const Home: FunctionComponent<HomeProps> = () => {
 	return (
 		<Box component={"main"}>
 			<Box sx={{my: 5}}>
-				<Typography variant='h3' align='center' gutterBottom color='primary'>
+				{mainMenu.length > 0 && (
+					<JsonLd data={generateCategoriesItemListJsonLd(mainMenu)} />
+				)}
+
+				<Typography variant='h1' align='center' gutterBottom color='primary'>
 					منـصة أفراحـنـا
 				</Typography>
 				<HorizontalDevider />
@@ -57,23 +63,22 @@ const Home: FunctionComponent<HomeProps> = () => {
 					variant='h5'
 					align='center'
 					gutterBottom
-					sx={{color: "#5d4037", mb: 4}}
 				>
 					لدينا جميع الخدمات التي تحتاجها ليوم الزفاف
 				</Typography>
 			</Box>
 			<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
-				{user&& user.role === "admin" && <VideoUpload />}
+				{user && user.role === "admin" && <VideoUpload />}
 				<VideoAds videos={videos} />
 			</Box>
 
-			<Box sx={{maxHeight: 800}}>
+			<Box sx={{overflowY: 'auto'}}>
 				<RecommendedServices />
 			</Box>
 			<div className='container'>
 				<Typography
 					sx={{mt: 15}}
-					variant='h3'
+					variant='h2'
 					align='center'
 					gutterBottom
 					color='primary'

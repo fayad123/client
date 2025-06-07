@@ -25,6 +25,8 @@ import Loader from "../../atoms/Loader";
 import WorkingHours from "../serviceView/WorkingHours";
 import SocialMediaLinks from "../../atoms/socialMediaLinks/SocialMediaLinks";
 import VendorGalleryTabs from "../../atoms/VendotGalleryTabs";
+import JsonLd from "../JsonLd";
+import {generateSingleServiceJsonLd} from "../../utils/structuredData";
 
 interface SingleServicePageProps {}
 
@@ -198,15 +200,16 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 				p: {xs: 2, md: 3, fontFamily: "monospace"},
 			}}
 		>
+			<JsonLd data={generateSingleServiceJsonLd(service)} />
+
+			<h1 className='text-center mb-4'>{service?.businessName}</h1>
 			<Box
 				sx={{
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "space-around",
 				}}
-			>
-				<h1 className='text-center mb-4'>{service?.businessName}</h1>
-			</Box>
+			></Box>
 			{/* special vendor tag */}
 			{planId === "premium" && <SpicialLogo />}
 			{/* vendor address chip */}
@@ -251,7 +254,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 
 			{/* vedios, images, manage => buttons */}
 			{adminUser && (
-				<VendorGalleryTabs  vendorId={vendorId}/>
+				<VendorGalleryTabs vendorId={vendorId} />
 				// <Box
 				// 	width={"100%"}
 				// 	display={"flex"}

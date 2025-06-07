@@ -2,6 +2,8 @@ import {FunctionComponent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {getServiceByCategories} from "../../../services/vendorsServices";
 import {Services} from "../../../interfaces/services";
+import {generateServiceJsonLd} from "../../../utils/structuredData";
+import JsonLd from "../../JsonLd";
 
 interface MainCarsDecorationProps {}
 
@@ -28,8 +30,14 @@ const MainCarsDecoration: FunctionComponent<MainCarsDecorationProps> = () => {
 		);
 
 	return (
-		<main className='py-5' style={{background: "#fdfcfb", minHeight: "100vh"}}>
+		<main className='py-5' >
 			<div className='text-center mb-5'>
+				<JsonLd
+					data={generateServiceJsonLd({
+						serviceType: "تزيين سيارات",
+						serviceUrl: `https://client-afrahna.vercel.app/${services[0].vendorId}`,
+					})}
+				/>
 				<h1 className='display-4 fw-bold text-success mb-3'>تزيين السيارات</h1>
 				<p className='lead text-muted'>
 					نحن نهتم بأدق التفاصيل لتكون لحظتك مميزة. اختَر من بين أجمل باقات

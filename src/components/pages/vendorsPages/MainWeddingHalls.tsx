@@ -4,6 +4,8 @@ import {getServiceByCategories} from "../../../services/vendorsServices";
 import {useNavigate} from "react-router-dom";
 import {Services} from "../../../interfaces/services";
 import {Button} from "@mui/material";
+import JsonLd from "../../JsonLd";
+import { generateSingleServiceJsonLd } from "../../../utils/structuredData";
 
 interface MainWeddingweddingHallsProps {}
 
@@ -30,6 +32,8 @@ const MainWeddingweddingHalls: FunctionComponent<MainWeddingweddingHallsProps> =
 
 	return (
 		<main className='min-vh-100'>
+			<JsonLd data={generateSingleServiceJsonLd(services[0])} />
+
 			<h1 className='text-center mb-4'>قاعات افراح</h1>
 
 			<div className='container align-content-center'>
