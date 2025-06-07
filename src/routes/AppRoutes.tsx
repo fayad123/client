@@ -99,7 +99,7 @@ const AppRoutes: FunctionComponent<AppRoutesProps> = () => {
 			<Route path='/wedding-halls' Component={MainWeddingHalls} />
 
 			{/* hals decoration */}
-			<Route path='/hals-decoration' Component={MainHalsDecoration} />
+			<Route path='/halls-decoration' Component={MainHalsDecoration} />
 
 			{/* cars decoration */}
 			<Route path='/cars-decoration' Component={MainCarsDecoration} />

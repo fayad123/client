@@ -8,7 +8,7 @@ export default function VarticalDevider() {
 				"&:after": {
 					content: '""',
 					display: "block",
-					width: 4,
+					width: 10,
 					height: 100,
 					backgroundColor: theme.palette.primary.main,
 					margin: "50px auto",

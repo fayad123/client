@@ -10,7 +10,12 @@
 
 main {
   min-height: 90vh;
+  /* background-color: #180409; */
 }
+
+/* #root{
+    background-color: #180409;
+} */
 
 .MuiCardActionArea-root {
   background: #FEF8F1;
@@ -18,11 +23,12 @@ main {
 }
 
 body {
-  background-image: linear-gradient(to right bottom, #FDFCFB, #FDFCFB);
+  background-image: linear-gradient(to right bottom, #0e0306, #FDFCFB);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  /* background-attachment: fixed; */
+
 
   & a {
     text-decoration: none;

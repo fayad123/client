@@ -9,11 +9,12 @@ export default function horizontalDevider() {
 				"&:after": {
 					content: '""',
 					display: "block",
-					width: "70%",
-					height: 4,
+					width: "100%",
+					height: 20,
 					backgroundColor: theme.palette.warning.main,
 					margin: "20px auto",
-					borderRadius: 2,
+					borderRadius: "20px 20px 0 0"
+					,
 				},
 			}}
 		/>
