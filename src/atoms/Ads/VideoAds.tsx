@@ -103,7 +103,7 @@ useEffect(() => {
 
 	return (
 		<Box sx={{maxWidth: "100%", mx: "auto"}}>
-			<Typography textAlign={"left"}>دعاية منصة افراحنا</Typography>
+			<Typography variant="h5" color="warning" textAlign={"left"}>دعاية منصة افراحنا</Typography>
 			<Box
 				sx={{
 					position: "relative",

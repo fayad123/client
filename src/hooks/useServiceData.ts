@@ -67,7 +67,7 @@ const initialServiceData = (): ServiceData => ({
 });
 
 export const useServiceData = (vendorId: string): ServiceData => {
-	const [data, setData] = useState<ServiceData>(initialServiceData);
+	const [data, setData] = useState<ServiceData>(initialServiceData());
 
 	useEffect(() => {
 		if (!vendorId) return;

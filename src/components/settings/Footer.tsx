@@ -8,7 +8,6 @@ const Footer: FunctionComponent<FooterProps> = () => {
 		<Box
 			component='footer'
 			sx={{
-				backgroundColor: "#681024",
 				color: "white",
 				textAlign: "center",
 				py: 2,

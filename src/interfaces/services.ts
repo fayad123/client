@@ -1,3 +1,10 @@
+export interface Address {
+	city: string;
+	street: string;
+	lat?: number; // إحداثيات خط العرض (اختيارية)
+	lng?: number; // إحداثيات خط الطول (اختيارية)
+}
+
 export interface Services {
 	businessName: string;
 	email: string;
@@ -7,7 +14,7 @@ export interface Services {
 	description: string;
 	priceType: string;
 	price: {min: number; max: number};
-	address: {city: string; street: string};
+	address: Address;
 	availableDates: Date[];
 	services: {
 		id?: string;

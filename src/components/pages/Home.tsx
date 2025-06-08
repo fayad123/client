@@ -2,7 +2,7 @@ import {FunctionComponent, useEffect, useState} from "react";
 import {Box, Typography, CardContent, CardActionArea, Card} from "@mui/material";
 
 import {Link} from "react-router-dom";
-import {mainMenu} from "../../routes/mainMenu";
+import {mainMenu} from "../../config/mainMenu";
 import {useUser} from "../../contextApi/useUserData";
 import {JwtPayload} from "../../interfaces/userSchema";
 import {jwtDecode} from "jwt-decode";
@@ -14,7 +14,7 @@ import VideoAds from "../../atoms/Ads/VideoAds";
 import {getAdsVideos} from "../../services/videosForAds";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import JsonLd from "../JsonLd";
-import { generateCategoriesItemListJsonLd } from "../../utils/structuredData";
+import {generateCategoriesItemListJsonLd} from "../../utils/structuredData";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface HomeProps {}
@@ -49,99 +49,99 @@ const Home: FunctionComponent<HomeProps> = () => {
 	}, [setUser]);
 
 	return (
-		<Box component={"main"}>
-			<Box sx={{my: 5}}>
-				{mainMenu.length > 0 && (
-					<JsonLd data={generateCategoriesItemListJsonLd(mainMenu)} />
-				)}
+		<>
+			<title>الرئيسية | افراحنا</title>
+			<Box component={"main"}>
+				<Box>
+					{mainMenu.length > 0 && (
+						<JsonLd data={generateCategoriesItemListJsonLd(mainMenu)} />
+					)}
 
-				<Typography variant='h1' align='center' gutterBottom color='primary'>
-					منـصة أفراحـنـا
-				</Typography>
-				<HorizontalDevider />
-				<Typography
-					variant='h5'
-					align='center'
-					gutterBottom
-				>
-					لدينا جميع الخدمات التي تحتاجها ليوم الزفاف
-				</Typography>
-			</Box>
-			<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
-				{user && user.role === "admin" && <VideoUpload />}
-				<VideoAds videos={videos} />
-			</Box>
+					<h1 className='display-2 pt-3 fw-bold text-primary text-center mb-3'>
+						منـصة أفراحـنـا
+					</h1>
+					<HorizontalDevider />
+					<Typography
+						color='white'
+						fontSize={"2rem"}
+						variant='h2'
+						align='center'
+						gutterBottom
+					>
+						لدينا جميع الخدمات التي تحتاجها ليوم الزفاف
+					</Typography>
+				</Box>
+				<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
+					{user && user.role === "admin" && <VideoUpload />}
+					<VideoAds videos={videos} />
+				</Box>
 
-			<Box sx={{overflowY: 'auto'}}>
-				<RecommendedServices />
-			</Box>
-			<div className='container'>
-				<Typography
-					sx={{mt: 15}}
-					variant='h2'
-					align='center'
-					gutterBottom
-					color='primary'
-				>
-					خدمـات منـصة أفراحـنـا
-				</Typography>
-				<HorizontalDevider />
-				<div className='row row-cols-1 row-cols-2  row-cols-lg-6 '>
-					{mainMenu.map((cat) => (
-						<div className='my-2  text-center' key={cat.label}>
-							<Card
-								sx={{
-									textAlign: "center",
-									borderRadius: 4,
-									boxShadow: 1,
-									height: "100%",
-									transition: "all 0.3s",
-									"&:hover": {
-										transform: "translateY(-8px)",
-										boxShadow: 8,
-									},
-								}}
-							>
-								<Link to={cat.link} style={{textDecoration: "none"}}>
-									<CardActionArea>
-										<Box
-											pt={3}
-											display='flex'
-											justifyContent='center'
-										>
-											{typeof cat.icon === "string" ? (
-												<Box
-													component='img'
-													src={cat.icon}
-													alt={cat.label}
-													sx={{
-														objectFit: "cover",
-													}}
-												/>
-											) : (
-												cat.icon
-											)}
-										</Box>
-										<CardContent>
-											<Typography
-												variant='subtitle1'
-												fontWeight='bold'
-												color='text.primary'
+				<Box sx={{overflowY: "auto"}}>
+					<RecommendedServices />
+				</Box>
+
+				<div className='container'>
+					<Typography variant='h2' align='center' gutterBottom color='primary'>
+						خدمـات منـصة أفراحـنـا
+					</Typography>
+					<HorizontalDevider />
+					<div className='row row-cols-1 row-cols-2  row-cols-lg-6 '>
+						{mainMenu.map((cat) => (
+							<div className='my-2  text-center' key={cat.label}>
+								<Card
+									sx={{
+										textAlign: "center",
+										borderRadius: 4,
+										boxShadow: 1,
+										height: "100%",
+										transition: "all 0.3s",
+										"&:hover": {
+											transform: "translateY(-8px)",
+											boxShadow: 8,
+										},
+									}}
+								>
+									<Link to={cat.link} style={{textDecoration: "none"}}>
+										<CardActionArea>
+											<Box
+												pt={3}
+												display='flex'
+												justifyContent='center'
 											>
-												{cat.label}
-											</Typography>
-										</CardContent>
-									</CardActionArea>
-								</Link>
-							</Card>
-						</div>
-					))}
+												{typeof cat.icon === "string" ? (
+													<Box
+														component='img'
+														src={cat.icon}
+														alt={cat.label}
+														sx={{
+															objectFit: "cover",
+														}}
+													/>
+												) : (
+													cat.icon
+												)}
+											</Box>
+											<CardContent>
+												<Typography
+													variant='subtitle1'
+													fontWeight='bold'
+													color='text.primary'
+												>
+													{cat.label}
+												</Typography>
+											</CardContent>
+										</CardActionArea>
+									</Link>
+								</Card>
+							</div>
+						))}
+					</div>
 				</div>
-			</div>
-			{/* FAQ */}
-			<FAQPage />
-			<TestimonialsSlider />
-		</Box>
+				{/* FAQ */}
+				<FAQPage />
+				<TestimonialsSlider />
+			</Box>
+		</>
 	);
 };
 

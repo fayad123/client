@@ -23,7 +23,7 @@ import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SubscripbeButton from "../../subscribes/subscribeButton/SubscripbeButton";
 import theme from "../../assets/theme";
-import {navbarItems} from "../../routes/mainMenu";
+import {navbarItems} from "../../config/mainMenu";
 
 const Navbar: FunctionComponent = () => {
 	const [open, setOpen] = useState(false);
@@ -67,7 +67,6 @@ const Navbar: FunctionComponent = () => {
 		>
 			<AppBar
 				sx={{
-					backgroundColor: "#681024",
 					zIndex: 2,
 					borderRadius: 10,
 					fontSize: "1.2rem",
@@ -76,13 +75,13 @@ const Navbar: FunctionComponent = () => {
 			>
 				<Toolbar>
 					<Box
+						component={"nav"}
 						sx={{
 							display: "flex",
 							alignItems: "center",
 							justifyContent: "space-between",
 							px: 2,
 							py: 2,
-							backgroundColor: "#681024",
 							color: "white",
 							width: "100%",
 							// borderRadius: 4,
@@ -133,7 +132,8 @@ const Navbar: FunctionComponent = () => {
 			</AppBar>
 
 			<Drawer
-				anchor={isMobile ? "top" : "right"}
+				variant='temporary'
+				anchor={isMobile ? "top" : "left"}
 				open={open}
 				onClose={toggleDrawer(false)}
 			>

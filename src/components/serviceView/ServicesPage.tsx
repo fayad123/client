@@ -22,7 +22,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import SpicialLogo from "../../atoms/SpicialLogo";
 import Loader from "../../atoms/Loader";
-import WorkingHours from "../serviceView/WorkingHours";
+import WorkingHours from "./WorkingHours";
 import SocialMediaLinks from "../../atoms/socialMediaLinks/SocialMediaLinks";
 import VendorGalleryTabs from "../../atoms/VendotGalleryTabs";
 import JsonLd from "../JsonLd";
@@ -201,7 +201,6 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			}}
 		>
 			<JsonLd data={generateSingleServiceJsonLd(service)} />
-
 			<h1 className='text-center mb-4'>{service?.businessName}</h1>
 			<Box
 				sx={{
@@ -242,65 +241,65 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					</Typography>
 				}
 			/>
-
 			{/* social media links */}
 			<SocialMediaLinks
 				instagram={"https://instagram.com"}
 				facebook={"https://facebook.com"}
 				twitter={"https://x.com"}
 			/>
-
 			<HorizontalDevider />
-
 			{/* vedios, images, manage => buttons */}
 			{adminUser && (
-				<VendorGalleryTabs vendorId={vendorId} />
-				// <Box
-				// 	width={"100%"}
-				// 	display={"flex"}
-				// 	alignItems={"center"}
-				// 	justifyContent={"space-around"}
-				// >
-				// 	<Button
-				// 		size='medium'
-				// 		color='primary'
-				// 		variant='contained'
-				// 		sx={{
-				// 			position: "relative",
-				// 			top: 0,
-				// 		}}
-				// 		onClick={() => navigate(`/vendors/${vendorId}`)}
-				// 	>
-				// 		ادارة الصفحه
-				// 	</Button>
-
-				// 	<Button
-				// 		size='medium'
-				// 		color='primary'
-				// 		variant='contained'
-				// 		sx={{
-				// 			position: "relative",
-				// 			top: 0,
-				// 		}}
-				// 		onClick={() => navigate(`/vendors/${vendorId}`)}
-				// 	>
-				// 		صور
-				// 	</Button>
-
-				// 	<Button
-				// 		size='medium'
-				// 		color='primary'
-				// 		variant='contained'
-				// 		sx={{
-				// 			position: "relative",
-				// 			top: 0,
-				// 		}}
-				// 		onClick={() => navigate(`/vendors/${vendorId}`)}
-				// 	>
-				// 		فيديوهات
-				// 	</Button>
-				// </Box>
+				<>
+					<VendorGalleryTabs vendorId={vendorId} />
+				</>
 			)}
+			<Box
+				width={"100%"}
+				display={"flex"}
+				alignItems={"center"}
+				justifyContent={"space-around"}
+			>
+				{adminUser && (
+					<Button
+						size='medium'
+						color='primary'
+						variant='contained'
+						sx={{
+							position: "relative",
+							top: 0,
+						}}
+						onClick={() => navigate(`/vendors/${vendorId}`)}
+					>
+						ادارة الصفحه
+					</Button>
+				)}
+				<Button
+					size='medium'
+					color='primary'
+					variant='contained'
+					sx={{
+						position: "relative",
+						top: 0,
+					}}
+					onClick={() => {}}
+				>
+					صور
+				</Button>
+
+				<Button
+					size='medium'
+					color='primary'
+					variant='contained'
+					sx={{
+						position: "relative",
+						top: 0,
+					}}
+					onClick={() => {}}
+				>
+					فيديوهات
+				</Button>
+			</Box>
 			{/* facing image view */}
 			<ReactSlick images={service?.images as any} />
 			{/* vendor working hours */}
@@ -308,16 +307,14 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			{/* facing description */}
 			<Box
 				sx={{
-					backgroundColor: "#ffffffeb",
 					fontFamily: "monospace",
 					borderRadius: 5,
-					p: 3,
+					p: 5,
 					my: 5,
 					boxShadow: 1,
 					transition: "all 0.3s ease",
 					"&:hover": {
-						boxShadow: 3,
-						backgroundColor: "#fffffff2",
+						boxShadow: 8,
 					},
 				}}
 			>
@@ -377,9 +374,8 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 				sx={{
 					mt: 4,
 					p: 3,
-					backgroundColor: "background.paper",
-					borderRadius: 2,
-					boxShadow: 1,
+					borderRadius: "0px 0 50px 50px",
+					boxShadow: 8,
 				}}
 			>
 				<Typography variant='h5' align='center' gutterBottom>

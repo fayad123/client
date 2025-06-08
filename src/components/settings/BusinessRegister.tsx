@@ -15,13 +15,12 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import {mainMenu} from "../../routes/mainMenu";
+import {mainMenu} from "../../config/mainMenu";
 import {newBusinessRegisterUser} from "../../services/usersServices";
 import {successToast} from "../../atoms/notifications/Toasts";
 import zxcvbn from "zxcvbn";
 import LinearProgress from "@mui/material/LinearProgress";
 import {getStrengthColor, getPasswordStrengthLabel} from "../../helpers/passwordChecker";
-
 
 const BusinessRegister: FunctionComponent = () => {
 	const navigate = useNavigate();

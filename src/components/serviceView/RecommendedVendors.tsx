@@ -41,33 +41,42 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 	const settings = {
 		infinite: true,
 		slidesToScroll: 1,
-		slidesToShow: isMobile ? 1 : isTablet ? 2 : 4,
+		slidesToShow: isMobile ? 3 : isTablet ? 2 : 5,
 		autoplay: true,
+		speed: 800,
+		dots: true,
 		autoplaySpeed: 3000,
 		pauseOnHover: true,
+		centerPadding: isMobile ? "20px" : "60px",
+		cssEase: "cubic-bezier(0.645, 0.045, 0.355, 1)",
 		responsive: [
 			{
 				breakpoint: theme.breakpoints.values.xl,
 				settings: {
 					slidesToShow: 4,
+					centerPadding: "60px",
 				},
 			},
 			{
 				breakpoint: theme.breakpoints.values.lg,
 				settings: {
 					slidesToShow: 3,
+					centerPadding: "40px",
 				},
 			},
 			{
 				breakpoint: theme.breakpoints.values.md,
 				settings: {
 					slidesToShow: 2,
+					centerMode: false,
 				},
 			},
 			{
 				breakpoint: theme.breakpoints.values.xs,
 				settings: {
-					slidesToShow: 2,
+					slidesToShow: 1,
+					arrows: false,
+					dots: true,
 				},
 			},
 		],

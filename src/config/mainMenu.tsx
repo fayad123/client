@@ -42,9 +42,9 @@ export const mainMenu = [
 		link: "/cars-decoration",
 	},
 	{
-		label: "كيوسكات قهوه",
+		label: "كيوسكات قهوة",
 		icon: <Coffee fontSize='medium' color='warning' />,
-		link: "/coffee-Kiosks",
+		link: "/coffee-kiosks",
 	},
 	{
 		label: "صالونات تجميل",
@@ -54,7 +54,7 @@ export const mainMenu = [
 	{
 		label: "تأجير كراسي",
 		icon: <Chair fontSize='medium' color='warning' />,
-		link: "/chairses",
+		link: "/chairs",
 	},
 	{
 		label: "حلويات",
@@ -97,7 +97,7 @@ export const mainMenu = [
 		link: "/Waiters",
 	},
 	{
-		label: "ألعاب نارية",
+		label: "العاب نارية",
 		icon: <LocalFireDepartment fontSize='medium' color='warning' />,
 		link: "/fireworks",
 	},

@@ -1,88 +1,12 @@
-import {FunctionComponent, useEffect, useState} from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // تأكد من إضافة Bootstrap إلى مشروعك
-import {getServiceByCategories} from "../../../services/vendorsServices";
-import {useNavigate} from "react-router-dom";
-import {Services} from "../../../interfaces/services";
-import {Button} from "@mui/material";
-import JsonLd from "../../JsonLd";
-import { generateSingleServiceJsonLd } from "../../../utils/structuredData";
+import {FunctionComponent} from "react";
+import {servicePagesConfig} from "../../../config/servicePagesConfig";
+import GlobalServicePage from "./GlobalVendorsPage";
+const config = servicePagesConfig.hals;
 
 interface MainWeddingweddingHallsProps {}
 
 const MainWeddingweddingHalls: FunctionComponent<MainWeddingweddingHallsProps> = () => {
-	const [services, setServices] = useState<Services[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		getServiceByCategories("قاعات")
-			.then((res) => {
-				setServices(res);
-			})
-			.catch((err) => console.log(err))
-			.finally(() => setLoading(false));
-	}, []);
-
-	if (loading)
-		return (
-			<div className='text-center mt-5'>
-				<div className='spinner-border text-success' role='status' />
-			</div>
-		);
-
-	return (
-		<main className='min-vh-100'>
-			<JsonLd data={generateSingleServiceJsonLd(services[0])} />
-
-			<h1 className='text-center mb-4'>قاعات افراح</h1>
-
-			<div className='container align-content-center'>
-				<div className='row row-cols-1 row-cols-md-3 gap-1'>
-					{services.map((weddingHalls) => (
-						<div key={weddingHalls.vendorId}>
-							<div className='card shadow-sm border-0'>
-								{weddingHalls.images && (
-									<img
-										src={
-											Array.isArray(weddingHalls.images)
-												? weddingHalls.images[0]?.url
-												: weddingHalls.businessName
-										}
-										className='card-img-top'
-										alt={
-											Array.isArray(weddingHalls.images)
-												? weddingHalls.images[0]?.alt
-												: weddingHalls.businessName
-										}
-										style={{height: "200px", objectFit: "cover"}}
-									/>
-								)}
-								<div className='card-body d-flex flex-column'>
-									<h5 className='card-title text-success'>
-										{weddingHalls.businessName}
-									</h5>
-									<p className='card-text flex-grow-1'>
-										{weddingHalls.address.city},{" "}
-										{weddingHalls.address.street}
-									</p>
-								</div>
-								<Button
-									onClick={() =>
-										navigate(`/service/${weddingHalls.vendorId}`)
-									}
-									variant='outlined'
-									color='warning'
-									sx={{m: 1}}
-								>
-									احجز الان
-								</Button>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</main>
-	);
+	return <GlobalServicePage {...config} />;
 };
 
 export default MainWeddingweddingHalls;
