@@ -78,6 +78,6 @@ export const generateCategoriesItemListJsonLd = (
 		"@type": "ListItem",
 		position: index + 1,
 		name: item.label,
-		url: `https://client-afrahna.vercel.app${item.link}`,
+		url: `https://client-afrahna.vercel.app/${item.link}`,
 	})),
 });

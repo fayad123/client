@@ -27,6 +27,7 @@ import SocialMediaLinks from "../../atoms/socialMediaLinks/SocialMediaLinks";
 import VendorGalleryTabs from "../../atoms/VendotGalleryTabs";
 import JsonLd from "../JsonLd";
 import {generateSingleServiceJsonLd} from "../../utils/structuredData";
+import LeafletMap from "../../atoms/LeafletMap";
 
 interface SingleServicePageProps {}
 
@@ -38,8 +39,15 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 	const [isDateAvailable, setIsDateAvailable] = useState<boolean>(true);
 
 	const {bookingState, handleBooking} = useBookingHandler();
-	const {service, planId, unavailableDates, visibleServices, loading, error} =
-		useServiceData(vendorId);
+	const {
+		businessAddress,
+		service,
+		planId,
+		unavailableDates,
+		visibleServices,
+		loading,
+		error,
+	} = useServiceData(vendorId);
 
 	const descriptionPoints = service?.description
 		? service.description
@@ -208,7 +216,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					alignItems: "center",
 					justifyContent: "space-around",
 				}}
-			></Box>
+			/>
 			{/* special vendor tag */}
 			{planId === "premium" && <SpicialLogo />}
 			{/* vendor address chip */}
@@ -241,6 +249,7 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					</Typography>
 				}
 			/>
+
 			{/* social media links */}
 			<SocialMediaLinks
 				instagram={"https://instagram.com"}
@@ -302,6 +311,10 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			</Box>
 			{/* facing image view */}
 			<ReactSlick images={service?.images as any} />
+
+			{/* Map */}
+			<LeafletMap position={[businessAddress.lat, businessAddress.lng]} />
+
 			{/* vendor working hours */}
 			<WorkingHours service={service} />
 			{/* facing description */}
@@ -378,12 +391,20 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					boxShadow: 8,
 				}}
 			>
-				<Typography variant='h5' align='center' gutterBottom>
+				<Typography color='info' variant='h5' align='center' gutterBottom>
 					اختر الخدمات المطلوبة
 				</Typography>
-				<Typography variant='h5' align='center' gutterBottom>
-					{service.email}
-				</Typography>
+
+				{service.planeId !== "basic" && service.planeId !== "free" && (
+					<>
+						<Typography color='info' variant='h6' align='center' gutterBottom>
+							ايميل: {service.email}
+						</Typography>
+						<Typography color='info' variant='h6' align='center' gutterBottom>
+							هاتف: {service.phone}
+						</Typography>
+					</>
+				)}
 
 				<Box
 					sx={{

@@ -14,13 +14,11 @@ const WorkingHours: FunctionComponent<WorkingHoursProps> = ({service}) => {
 	return (
 		<Box
 			sx={{
-				width: 300,
-				m:"auto",
-				mt:10,
-				backgroundColor: "background.paper",
+				maxWidth: 300,
+				m: "auto",
+				mt: 10,
 				p: 2,
 				borderRadius: 2,
-				boxShadow: 1,
 			}}
 		>
 			<Typography variant='h6' gutterBottom>

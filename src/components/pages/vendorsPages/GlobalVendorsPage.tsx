@@ -8,22 +8,21 @@ import {generateServiceJsonLd} from "../../../utils/structuredData";
 import {getCoordinates} from "../../../atoms/OpenStreetMap";
 import ServiceFilters from "./ServiceFilters";
 import ServiceCard from "./ServiceCard";
+import useMetaDocument from "../../../hooks/useMetaDocunent";
 
-interface GlobalServicePageProps {
+interface GlobalVendorsPageProps {
 	category: string;
 	pageTitle: string;
 	metaDescription: string;
 	introText: string;
-	backgroundStyle?: React.CSSProperties;
 	subCategories?: string[];
 }
 
-const GlobalServicePage: FunctionComponent<GlobalServicePageProps> = ({
+const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 	category,
 	pageTitle,
 	metaDescription,
 	introText,
-	backgroundStyle = {},
 	subCategories = [],
 }) => {
 	const [services, setServices] = useState<Services[]>([]);
@@ -39,74 +38,82 @@ const GlobalServicePage: FunctionComponent<GlobalServicePageProps> = ({
 	);
 	const navigate = useNavigate();
 
-  // creating meta tags on the head
-  useEffect(() => {
-		document.title = pageTitle;
-		const metaTag =
-			document.querySelector("meta[name='description']") ||
-			document.createElement("meta");
-		metaTag.setAttribute("content", metaDescription);
-		document.head.appendChild(metaTag);
-  }, [pageTitle, metaDescription]);
-
-	useEffect(() => {
-		if (sortBy === "location") {
-			navigator.geolocation?.getCurrentPosition(
-				(position) => {
-					setUserLocation({
-						lat: position.coords.latitude,
-						lng: position.coords.longitude,
-					});
-				},
-				(error) => console.error("Error getting location:", error),
-			);
-		}
-
-		getServiceByCategories(category)
-			.then((res) => setServices(res))
-			.catch((err) => console.log(err))
-			.finally(() => setLoading(false));
-	}, [category, pageTitle, metaDescription, sortBy]);
+	// creating meta data
+		useMetaDocument(pageTitle, metaDescription);
 
 	useEffect(() => {
 		const fetchServices = async () => {
 			try {
+				setLoading(true);
+
+				// Get user location if needed
+				if (sortBy === "location" && !userLocation) {
+					const cachedLocation = localStorage.getItem("userLocation");
+					if (cachedLocation) {
+						setUserLocation(JSON.parse(cachedLocation));
+					} else {
+						navigator.geolocation.getCurrentPosition(
+							(position) => {
+								const loc = {
+									lat: position.coords.latitude,
+									lng: position.coords.longitude,
+								};
+								setUserLocation(loc);
+								localStorage.setItem("userLocation", JSON.stringify(loc));
+							},
+							(error) => console.error("Location error:", error),
+						);
+					}
+				}
+				
+				
+
+				// Fetch and enhance services
 				const servicesData = await getServiceByCategories(category);
-				const servicesWithCoords = await Promise.all(
-					servicesData.map(async (service: { address: { city: string; street: string; }; businessName: any; }) => {
-						try {
-							const {lat, lng} = await getCoordinates(
-								service.address.city,
-								service.address.street,
-							);
-							return {...service, address: {...service.address, lat, lng}};
-						} catch (error) {
-							console.error(
-								`Failed to get coordinates for ${service.businessName}`,
-								error,
-							);
-							return {
-								...service,
-								address: {
-									...service.address,
-									lat: 32.0853,
-									lng: 34.7818,
-								},
-							};
-						}
-					}),
+				const enhancedServices = await Promise.all(
+					servicesData.map(
+						async (service: {
+							address: {city: string; street: string};
+							businessName: string;
+						}) => {
+							try {
+								const {lat, lng} = await getCoordinates(
+									service.address.city,
+									service.address.street,
+								);
+								return {
+									...service,
+									address: {...service.address, lat, lng},
+								};
+							} catch (error) {
+								console.error(
+									`Geocoding failed for ${service.businessName}`,
+									error,
+								);
+								return {
+									...service,
+									address: {
+										...service.address,
+										lat: 32.0853,
+										lng: 34.7818,
+									},
+								};
+							}
+						},
+					),
 				);
-				setServices(servicesWithCoords);
+
+				setServices(enhancedServices);
 			} catch (error) {
-				console.error("Failed to fetch services", error);
+				console.error("Service fetch failed:", error);
 			} finally {
 				setLoading(false);
 			}
 		};
 
 		fetchServices();
-	}, [category]);
-	
+	}, [category, sortBy, userLocation]);
+
 	const calculateDistance = (lat1: number, lon1: number, address: Address) => {
 		if (!address.lat || !address.lng) {
 			return Infinity;
@@ -198,7 +205,6 @@ const GlobalServicePage: FunctionComponent<GlobalServicePageProps> = ({
 		return result;
 	}, [services, searchTerm, activeSubCategory, sortBy, priceRange, userLocation]);
 
-
 	if (loading) {
 		return (
 			<div className='text-center mt-5'>
@@ -208,7 +214,7 @@ const GlobalServicePage: FunctionComponent<GlobalServicePageProps> = ({
 	}
 
 	return (
-		<main style={backgroundStyle}>
+		<main>
 			<h1 className='display-6 fw-bold text-primary text-center mb-3'>
 				{pageTitle}
 			</h1>
@@ -261,4 +267,4 @@ const GlobalServicePage: FunctionComponent<GlobalServicePageProps> = ({
 	);
 };
 
-export default GlobalServicePage;
+export default GlobalVendorsPage;

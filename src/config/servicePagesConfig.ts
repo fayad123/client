@@ -4,26 +4,25 @@ interface ServicePageConfig {
 	metaDescription: string;
 	introText: string;
 	subCategories?: string[];
-	backgroundStyle?: React.CSSProperties;
-	featuredImage?: string;
+	featuredImage?: {
+		url: string;
+		alt: string;
+	};
 }
 
 export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	hals: {
 		category: "قاعات",
-		pageTitle: "أفضل قاعات الأفراح والمناسبات - أفراحنا",
+		pageTitle: "أفضل قاعات الأفراح والمناسبات - افراحنا",
 		metaDescription:
 			"احجز أفضل قاعات الأفراح الفاخرة بمساحات متنوعة وتصاميم راقية. نوفر قاعات بتجهيزات كاملة وخدمات مميزة لجميع المناسبات.",
 		introText:
 			"اختار من بين أجمل قاعات الأفراح المناسبة لاحتياجاتك. مساحات واسعة، ديكورات فاخرة، وتجهيزات متكاملة لضمان نجاح مناسبتك.",
 		subCategories: ["قاعات داخلية", "قاعات خارجية", "قاعات حدائق"],
-		backgroundStyle: {
-			background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
-		},
 	},
 	halsDecoration: {
 		category: "تزيين قاعات",
-		pageTitle: "أفضل خدمات تزيين قاعات الأفراح - أفراحنا",
+		pageTitle: "أفضل خدمات تزيين قاعات الأفراح - افراحنا",
 		metaDescription:
 			"خدمات تزيين قاعات الأفراح بأحدث الديكورات والأفكار الإبداعية. تزيين كامل أو جزئي حسب رغبتك وبأفضل الأسعار.",
 		introText:
@@ -32,7 +31,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	carsDecoration: {
 		category: "تزيين سيارات",
-		pageTitle: "تزيين سيارات الأعراس - أفراحنا",
+		pageTitle: "تزيين سيارات الأعراس - افراحنا",
 		metaDescription:
 			"خدمات تزيين سيارات الأعراس بأجمل التصاميم والزهور الطبيعية. تزيين فاخر لموكب الزفاف يليق بمناسبتك الخاصة.",
 		introText:
@@ -41,7 +40,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	coffeeKiosks: {
 		category: "كيوسكات قهوة",
-		pageTitle: "أفضل كيوسكات القهوة للمناسبات - أفراحنا",
+		pageTitle: "أفضل كيوسكات القهوة للمناسبات - افراحنا",
 		metaDescription:
 			"تأجير كيوسكات قهوة متنقلة باحترافية عالية للمناسبات والأعراس. تقديم مشروبات ساخنة وباردة بجودة عالية.",
 		introText:
@@ -50,7 +49,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	chairs: {
 		category: "كراسي",
-		pageTitle: "خدمات تأجير كراسي للأعراس والمناسبات - أفراحنا",
+		pageTitle: "خدمات تأجير كراسي للأعراس والمناسبات - افراحنا",
 		metaDescription:
 			"تأجير كراسي وطاولات أنيقة للأعراس والمناسبات. خيارات متنوعة من الكراسي الفاخرة والمريحة بأسعار تنافسية.",
 		introText:
@@ -59,7 +58,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	cosmatics: {
 		category: "صالونات تجميل",
-		pageTitle: "أفضل صالونات التجميل للعروس والمناسبات - أفراحنا",
+		pageTitle: "أفضل صالونات التجميل للعروس والمناسبات - افراحنا",
 		metaDescription:
 			"نقدّم لكِ أفضل صالونات التجميل المختصة بالمكياج وتسريحات الشعر للعروس والمعازيم. جودة عالية وخدمة احترافية تليق بيومكِ المميز.",
 		introText:
@@ -67,7 +66,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	pastry: {
 		category: "حلويات",
-		pageTitle: "أفضل حلويات الأعراس والمناسبات - أفراحنا",
+		pageTitle: "أفضل حلويات الأعراس والمناسبات - افراحنا",
 		metaDescription:
 			"تشكيلة مميزة من حلويات الأعراس بجودة عالية وأشكال مبتكرة. حلويات شرقية وغربية تتناسب مع جميع الأذواق.",
 		introText:
@@ -76,7 +75,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	frezzer: {
 		category: "تأجير برادات",
-		pageTitle: "خدمات تأجير البرادات للمناسبات - أفراحنا",
+		pageTitle: "خدمات تأجير البرادات للمناسبات - افراحنا",
 		metaDescription:
 			"تأجير برادات مشروبات للمناسبات والأعراس. برادات بجودة عالية وبسعات مختلفة مع خدمة التوصيل والتركيب.",
 		introText:
@@ -85,7 +84,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	photography: {
 		category: "تصوير",
-		pageTitle: "خدمات تصوير الأعراس والمناسبات - أفراحنا",
+		pageTitle: "خدمات تصوير الأعراس والمناسبات - افراحنا",
 		metaDescription:
 			"أفضل مصوري الأعراس المحترفين لالتقاط أجمل اللحظات في مناسبتك. تصوير فوتوغرافي وفيديو بجودة عالية.",
 		introText:
@@ -94,7 +93,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	stereo: {
 		category: "ستيريو",
-		pageTitle: "تأجير أنظمة صوتية للمناسبات - أفراحنا",
+		pageTitle: "تأجير أنظمة صوتية للمناسبات - افراحنا",
 		metaDescription:
 			"تأجير أنظمة صوتية واحترافية للمناسبات والأعراس. أنظمة ستيريو متكاملة مع ميكروفونات وخدمة فني متخصص.",
 		introText:
@@ -103,7 +102,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	coocks: {
 		category: "طباخين",
-		pageTitle: "أفضل الطهاة للمناسبات والأعراس - أفراحنا",
+		pageTitle: "أفضل الطهاة للمناسبات والأعراس - افراحنا",
 		metaDescription:
 			"خدمات توفير طهاة محترفين لإعداد أطباق مميزة في مناسبتك. طهاة متخصصون في المأكولات العربية والعالمية.",
 		introText:
@@ -112,7 +111,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	restaurants: {
 		category: "مطاعم للأعراس",
-		pageTitle: "أفضل المطاعم لاستقبالات الأعراس - أفراحنا",
+		pageTitle: "أفضل المطاعم لاستقبالات الأعراس - افراحنا",
 		metaDescription:
 			"قائمة بأفضل المطاعم المناسبة لاستقبالات الأعراس. قاعات طعام فاخرة وقوائم طعام متنوعة تتناسب مع جميع الأذواق.",
 		introText:
@@ -121,7 +120,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	witress: {
 		category: "نادلين",
-		pageTitle: "خدمات توفير نادلين للمناسبات - أفراحنا",
+		pageTitle: "خدمات توفير نادلين للمناسبات - افراحنا",
 		metaDescription:
 			"توفير نادلين محترفين لخدمة الضيوف في المناسبات والأعراس. فريق متكامل مدرب على أعلى مستوى لضمان خدمة مميزة.",
 		introText:
@@ -130,7 +129,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	fireWorks: {
 		category: "العاب نارية",
-		pageTitle: "خدمات الألعاب النارية للمناسبات - أفراحنا",
+		pageTitle: "خدمات الألعاب النارية للمناسبات - افراحنا",
 		metaDescription:
 			"تنظيم عروض الألعاب النارية للمناسبات والأعراس. عروض مخصصة وآمنة بإشراف فرق محترفة ومرخصة.",
 		introText:
@@ -139,7 +138,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	invitationCards: {
 		category: "بطاقات دعوة",
-		pageTitle: "تصميم بطاقات دعوة مميزة - أفراحنا",
+		pageTitle: "تصميم بطاقات دعوة مميزة - افراحنا",
 		metaDescription:
 			"تصميم بطاقات دعوة مخصصة للأعراس والمناسبات. تصاميم مبتكرة وخامات فاخرة تناسب ذوقك.",
 		introText:
@@ -148,7 +147,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	nuts: {
 		category: "مكسرات",
-		pageTitle: "أفضل تشكيلات المكسرات للمناسبات - أفراحنا",
+		pageTitle: "أفضل تشكيلات المكسرات للمناسبات - افراحنا",
 		metaDescription:
 			"توفير تشكيلات مكسرات فاخرة للمناسبات والأعراس. مكسرات طازجة وعالية الجودة بتغليف مميز.",
 		introText:
@@ -157,7 +156,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	religiousband: {
 		category: "فرق دينية",
-		pageTitle: "فرق إنشاد ديني للمناسبات - أفراحنا",
+		pageTitle: "فرق إنشاد ديني للمناسبات - افراحنا",
 		metaDescription:
 			"توفير فرق إنشاد ديني محترفة للمناسبات والأعراس. أصوات جميلة وأناشيد متناسبة مع طبيعة المناسبات الدينية.",
 		introText:
@@ -166,7 +165,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	kidsEntertainment: {
 		category: "الهاء الأطفال",
-		pageTitle: "خدمات ترفيهية للأطفال في المناسبات - أفراحنا",
+		pageTitle: "خدمات ترفيهية للأطفال في المناسبات - افراحنا",
 		metaDescription:
 			"برامج ترفيهية متكاملة للأطفال في المناسبات والأعراس. أنشطة ممتعة وآمنة بإشراف متخصصين في التعامل مع الأطفال.",
 		introText:
@@ -175,7 +174,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	fruitDecoration: {
 		category: "تزيين فاكهة",
-		pageTitle: "خدمات تزيين وتنسيق الفواكه للمناسبات - أفراحنا",
+		pageTitle: "خدمات تزيين وتنسيق الفواكه للمناسبات - افراحنا",
 		metaDescription:
 			"تزيين وتنسيق فواكه فاخرة للمناسبات والأعراس. تشكيلات مبتكرة من الفواكه الطازجة والعالية الجودة.",
 		introText:
@@ -184,7 +183,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	weddinggifts: {
 		category: "تنسيق هدايا للعرسان",
-		pageTitle: "خدمات تنسيق هدايا العرسان - أفراحنا",
+		pageTitle: "خدمات تنسيق هدايا العرسان - افراحنا",
 		metaDescription:
 			"تنسيق هدايا مميزة للعرسان بمناسبة الزفاف. أفكار إبداعية وتنفيذ احترافي لهدايا تليق بمناسبتكم السعيدة.",
 		introText:
@@ -193,7 +192,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	luxuryCars: {
 		category: "تأجير سيارات فخمة",
-		pageTitle: "تأجير سيارات فخمة للأعراس - أفراحنا",
+		pageTitle: "تأجير سيارات فخمة للأعراس - افراحنا",
 		metaDescription:
 			"تأجير سيارات فخمة وعصرية لمواكب الأعراس. تشكيلة مميزة من أحدث الموديلات الفاخرة مع سائقين محترفين.",
 		introText:
@@ -202,7 +201,7 @@ export const servicePagesConfig: Record<string, ServicePageConfig> = {
 	},
 	dapkaPlatform: {
 		category: "منصات دبكة",
-		pageTitle: "أفضل منصات الدبكة للمناسبات والأعراس - أفراحنا",
+		pageTitle: "أفضل منصات الدبكة للمناسبات والأعراس - افراحنا",
 		metaDescription:
 			"نوفر لك أفضل المنصات لرقصات الدبكة الشعبية، بأحجام وتصاميم متعددة تناسب أجواء الأعراس والمناسبات الخاصة. خامات عالية الجودة وتركيب آمن.",
 		introText:

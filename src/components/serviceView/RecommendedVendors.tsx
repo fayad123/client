@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-import  {FunctionComponent, useEffect, useState} from "react";
+import {FunctionComponent, useEffect, useState} from "react";
 import {
 	Grid,
 	Typography,
@@ -85,7 +84,7 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 	useEffect(() => {
 		setLoading(true);
 		getRecommendedVendors()
-			.then(setServices)
+			.then((res) => setServices(res))
 			.catch((err) => {
 				console.error("Failed to fetch recommended vendors:", err); // Use console.error for errors
 			})
@@ -169,8 +168,8 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 			>
 				الخدمات الموصى بها
 			</Typography>
-			<VarticalDevider/>
-			<HorizontalDevider/>
+			<VarticalDevider />
+			<HorizontalDevider />
 			{services.length ? (
 				<Slider {...settings}>
 					{services.map((service, index) => (

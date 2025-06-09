@@ -73,8 +73,9 @@ const Home: FunctionComponent<HomeProps> = () => {
 				</Box>
 				<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
 					{user && user.role === "admin" && <VideoUpload />}
-					<VideoAds videos={videos} />
 				</Box>
+
+				<VideoAds videos={videos} />
 
 				<Box sx={{overflowY: "auto"}}>
 					<RecommendedServices />

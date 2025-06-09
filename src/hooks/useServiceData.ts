@@ -6,6 +6,7 @@ import {getVisibleServices} from "../subscribes/subscribtionTypes/subscription";
 import {JwtPayload} from "../interfaces/userSchema";
 import {getVendorSubscriptionPlan} from "../services/usersServices";
 import {WorkingHours} from "../components/editVendorPriofileAndServices/servicesFormik";
+import {getCoordinates} from "../atoms/OpenStreetMap";
 
 interface ServiceData {
 	service: Services;
@@ -19,6 +20,7 @@ interface ServiceData {
 	loading: boolean;
 	error: Error | null;
 	planId: string | null;
+	businessAddress: {lat: number; lng: number};
 }
 
 export const getDefaultWorkingHours = (): WorkingHours => ({
@@ -64,6 +66,7 @@ const initialServiceData = (): ServiceData => ({
 	loading: true,
 	error: null,
 	planId: null,
+	businessAddress: {lat: 0, lng: 0},
 });
 
 export const useServiceData = (vendorId: string): ServiceData => {
@@ -107,6 +110,11 @@ export const useServiceData = (vendorId: string): ServiceData => {
 					return isNaN(parsed.getTime()) ? new Date() : parsed;
 				});
 
+				const {lat, lng} = await getCoordinates(
+					businessData.address.city,
+					businessData.address.street,
+				);
+
 				setData({
 					service: businessData,
 					unavailableDates: parsedUnavailableDates,
@@ -115,6 +123,7 @@ export const useServiceData = (vendorId: string): ServiceData => {
 					loading: false,
 					error: null,
 					planId: effectivePlanId,
+					businessAddress: {lat, lng},
 				});
 			} catch (error) {
 				console.error("Error fetching service data:", error);
