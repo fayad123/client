@@ -15,6 +15,7 @@ import {getAdsVideos} from "../../services/videosForAds";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import JsonLd from "../JsonLd";
 import {generateCategoriesItemListJsonLd} from "../../utils/structuredData";
+import { theme } from "../../App";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface HomeProps {}
@@ -82,7 +83,17 @@ const Home: FunctionComponent<HomeProps> = () => {
 				</Box>
 
 				<div className='container'>
-					<Typography variant='h2' align='center' gutterBottom color='primary'>
+					<Typography
+						variant='h4'
+						align='center'
+						gutterBottom
+						sx={{
+							textAlign: "center",
+							fontWeight: "bold",
+							color: theme.palette.primary.main,
+							mt: 10,
+						}}
+					>
 						خدمـات منـصة أفراحـنـا
 					</Typography>
 					<HorizontalDevider />

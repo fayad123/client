@@ -35,14 +35,52 @@ const About: FunctionComponent<AboutProps> = () => {
 						فريقنا خلف الكواليس
 					</Typography>
 					<Grid container spacing={3} justifyContent='center'>
-						<Grid component={"div"}>
+						<Grid size={{xs: 12, md: 3}} component={"div"}>
 							<Card
 								sx={{textAlign: "center", borderRadius: 3, boxShadow: 3}}
 							>
 								<CardMedia>
 									<Face
 										sx={{
-											fontSize: 60,
+											fontSize: 150,
+											color: "#b5573f",
+											marginTop: 2,
+										}}
+									/>
+								</CardMedia>
+								<CardContent>
+									<Typography variant='h5'>فياض محاميد</Typography>
+									<Typography variant='body2'>مؤسس الشركة</Typography>
+								</CardContent>
+							</Card>
+						</Grid>
+						<Grid size={{xs: 12, md: 3}} component={"div"}>
+							<Card
+								sx={{textAlign: "center", borderRadius: 3, boxShadow: 3}}
+							>
+								<CardMedia>
+									<Face
+										sx={{
+											fontSize: 150,
+											color: "#b5573f",
+											marginTop: 2,
+										}}
+									/>
+								</CardMedia>
+								<CardContent>
+									<Typography variant='h5'>انيس محاميد</Typography>
+									<Typography variant='body2'>مؤسس الشركة</Typography>
+								</CardContent>
+							</Card>
+						</Grid>{" "}
+						<Grid size={{xs: 12, md: 3}} component={"div"}>
+							<Card
+								sx={{textAlign: "center", borderRadius: 3, boxShadow: 3}}
+							>
+								<CardMedia>
+									<Face
+										sx={{
+											fontSize: 150,
 											color: "#3f51b5",
 											marginTop: 2,
 										}}
@@ -54,33 +92,14 @@ const About: FunctionComponent<AboutProps> = () => {
 								</CardContent>
 							</Card>
 						</Grid>
-						<Grid component={"div"}>
+						<Grid size={{xs: 12, md: 3}} component={"div"}>
 							<Card
 								sx={{textAlign: "center", borderRadius: 3, boxShadow: 3}}
 							>
 								<CardMedia>
 									<Face
 										sx={{
-											fontSize: 60,
-											color: "#3f51b5",
-											marginTop: 2,
-										}}
-									/>
-								</CardMedia>
-								<CardContent>
-									<Typography variant='h5'>فياض محاميد</Typography>
-									<Typography variant='body2'>مؤسس الشركة</Typography>
-								</CardContent>
-							</Card>
-						</Grid>
-						<Grid component={"div"}>
-							<Card
-								sx={{textAlign: "center", borderRadius: 3, boxShadow: 3}}
-							>
-								<CardMedia>
-									<Face
-										sx={{
-											fontSize: 60,
+											fontSize: 150,
 											color: "#3f51b5",
 											marginTop: 2,
 										}}

@@ -91,6 +91,7 @@ const Register: FunctionComponent<RegisterProps> = () => {
 					align='center'
 					gutterBottom
 					sx={{
+						color: "#0F2D44",
 						fontWeight: "bold",
 						paddingTop: "60px",
 					}}
@@ -102,7 +103,7 @@ const Register: FunctionComponent<RegisterProps> = () => {
 					variant='h6'
 					align='center'
 					gutterBottom
-					sx={{color: "#555", fontWeight: "normal", mt: -1}}
+					sx={{color: "#555", mt: -1}}
 				>
 					انضم الان إلى موقعنا واستمتع بخدمات مخصصة لحفلات الزفاف والمناسبات
 					الخاصة
@@ -274,8 +275,46 @@ const Register: FunctionComponent<RegisterProps> = () => {
 						/>
 					</div>
 				</div>
-				<Button type='submit' variant='contained' fullWidth>
+				<Button
+					sx={{backgroundColor: "#0F2D44"}}
+					type='submit'
+					variant='contained'
+					fullWidth
+				>
 					تسجيل
+				</Button>
+			</Box>
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-around",
+					mt: 5,
+				}}
+			>
+				<Button
+					sx={{backgroundColor: "#0F2D44"}}
+					type='button'
+					variant='contained'
+					onClick={() => navigate("/login")}
+				>
+					تسجيل الدخول
+				</Button>
+				<Button
+					sx={{backgroundColor: "#0F2D44"}}
+					onClick={() => navigate("/register")}
+					type='button'
+					variant='contained'
+				>
+					مستخدم جديد
+				</Button>
+				<Button
+					sx={{backgroundColor: "#0F2D44"}}
+					onClick={() => navigate("/business-register")}
+					type='button'
+					variant='contained'
+				>
+					بائع جديد
 				</Button>
 			</Box>
 		</main>

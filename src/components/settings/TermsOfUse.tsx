@@ -68,7 +68,6 @@ const TermsOfUse: FunctionComponent = () => {
 		<Container maxWidth='md' sx={{py: 5}}>
 			<Box
 				sx={{
-					backgroundColor: "background.paper",
 					borderRadius: 4,
 					padding: {xs: 3, md: 4},
 					boxShadow: 3,

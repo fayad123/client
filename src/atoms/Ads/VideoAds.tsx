@@ -86,9 +86,6 @@ const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
 
 	return (
 		<Box sx={{maxWidth: {xs: "100%", md: "70%"}, mx: "auto"}}>
-			<Typography variant='h5' color='warning' textAlign={"left"}>
-				دعاية منصة افراحنا
-			</Typography>
 			<Box
 				sx={{
 					position: "relative",
@@ -96,6 +93,7 @@ const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
 					borderRadius: 2,
 					overflow: "hidden",
 					boxShadow: 5,
+					mt:10
 				}}
 			>
 				<video

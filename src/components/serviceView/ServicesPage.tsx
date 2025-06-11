@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {FunctionComponent, useState} from "react";
 import {customToast, errorToast, successToast} from "../../atoms/notifications/Toasts";
 import {useFormik} from "formik";
@@ -397,12 +397,12 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 
 				{service.planeId !== "basic" && service.planeId !== "free" && (
 					<>
-						<Typography color='info' variant='h6' align='center' gutterBottom>
+						<Link to={`mailto:${service.email}`} className=' text-success d-block'>
 							ايميل: {service.email}
-						</Typography>
-						<Typography color='info' variant='h6' align='center' gutterBottom>
+						</Link>
+						<Link to={`tel:+947${service.phone}`} className=' text-success'>
 							هاتف: {service.phone}
-						</Typography>
+						</Link>
 					</>
 				)}
 
@@ -439,13 +439,32 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 							/>
 						))
 					) : (
-						<Typography
-							variant='body2'
-							color='text.secondary'
-							sx={{gridColumn: "1 / -1", textAlign: "center"}}
-						>
-							لا توجد خدمات إضافية متاحة.
-						</Typography>
+						<>
+							<Typography
+								variant='body1'
+								color='error'
+								sx={{
+									fontWeight: "bold",
+									gridColumn: "1 / -1",
+									textAlign: "center",
+								}}
+							>
+								لا توجد خدمات متاحة
+							</Typography>
+							<Typography
+								variant='body1'
+								color='error'
+								sx={{
+									fontWeight: "bold",
+									gridColumn: "1 / -1",
+									textAlign: "center",
+								}}
+							>
+								{service.services.length === 0
+									? "يجب عليك اضافة خدمة واحده على الاقل لكي يتم اظهارها للمستخدمين"
+									: ""}
+							</Typography>
+						</>
 					)}
 				</Box>
 				<Box sx={{p: 1, borderRadius: 5, m: 5, boxShadow: 3}}>

@@ -24,7 +24,6 @@ import {formatCurrency} from "../../helpers/vendors";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; // Essential for basic slider styling
 import "slick-carousel/slick/slick-theme.css"; // Essential for default theme (dots, arrows)
-import VarticalDevider from "../../atoms/customDeviders/VarticalDevider";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 
 interface RecommendedServicesProps {}
@@ -40,7 +39,7 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 	const settings = {
 		infinite: true,
 		slidesToScroll: 1,
-		slidesToShow: isMobile ? 3 : isTablet ? 2 : 5,
+		slidesToShow: isMobile ? 1 : isTablet ? 2 : 5,
 		autoplay: true,
 		speed: 800,
 		dots: true,
@@ -66,7 +65,7 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 			{
 				breakpoint: theme.breakpoints.values.md,
 				settings: {
-					slidesToShow: 2,
+					slidesToShow: 1,
 					centerMode: false,
 				},
 			},
@@ -106,17 +105,27 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 	if (loading) {
 		return (
 			<Box sx={{p: 4, textAlign: "center"}}>
-				<Typography variant='h4' gutterBottom>
+				<Typography
+					variant='h4'
+					gutterBottom
+					sx={{
+						textAlign: "center",
+						fontWeight: "bold",
+						color: theme.palette.primary.main,
+						mt: 10,
+					}}
+				>
 					الخدمات الموصى بها
 				</Typography>
-				<Grid container spacing={3} justifyContent='center'>
-					{[...Array(isMobile ? 1 : isTablet ? 2 : 4)].map(
+				<HorizontalDevider />
+				<Grid container spacing={1} justifyContent='center'>
+					{[...Array(isMobile ? 1 : isTablet ? 2 : 3)].map(
 						(
 							_,
 							index, // Adjust skeleton count
 						) => (
-							<Grid size={{xs: 12, md: 6}} key={index}>
-								<Card sx={{borderRadius: 4, m: 3, height: "100%"}}>
+							<Grid size={{xs: 12, md: 4}} key={index}>
+								<Card sx={{borderRadius: 4, m: 3, height: "80%"}}>
 									<Skeleton variant='rectangular' height={180} />
 									<CardContent>
 										<Skeleton
@@ -129,7 +138,7 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 											width='60%'
 											sx={{mb: 1}}
 										/>
-										<Skeleton variant='text' width='40%' />
+										<Skeleton variant='text' width='60%' />
 									</CardContent>
 									<CardActions sx={{justifyContent: "flex-end", p: 2}}>
 										<Skeleton
@@ -148,14 +157,7 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 	}
 
 	return (
-		<Box
-			sx={{
-				p: 2,
-				my: 4,
-				width: "95%",
-				margin: "auto",
-			}}
-		>
+		<Box component={"div"} sx={{p: 4, textAlign: "center"}}>
 			<Typography
 				variant='h4'
 				gutterBottom
@@ -168,7 +170,6 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 			>
 				الخدمات الموصى بها
 			</Typography>
-			<VarticalDevider />
 			<HorizontalDevider />
 			{services.length ? (
 				<Slider {...settings}>
@@ -323,7 +324,6 @@ const RecommendedServices: FunctionComponent<RecommendedServicesProps> = () => {
 					</Typography>
 				</Box>
 			)}
-			<VarticalDevider />
 		</Box>
 	);
 };

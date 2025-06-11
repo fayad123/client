@@ -9,7 +9,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {FunctionComponent} from "react";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
-import VarticalDevider from "../../atoms/customDeviders/VarticalDevider";
+import theme from "../../assets/theme";
 
 const faqs = [
 	{
@@ -39,15 +39,19 @@ interface FAQPageProps {}
 const FAQPage: FunctionComponent<FAQPageProps> = () => {
 	return (
 		<Container maxWidth='md' sx={{py: 5}}>
-			<VarticalDevider />
 			<Typography
-				sx={{ mt: 3}}
-				variant='h3'
+				sx={{
+					textAlign: "center",
+					fontWeight: "bold",
+					color: theme.palette.primary.main,
+					mt: 10,
+				}}
+				variant='h4'
 				align='center'
 				gutterBottom
 				color='primary'
 			>
-				الاسـئـلـه الـشـائـعـه فـي مـنــصـه أفراحـنـا
+				الاسـئـلـه الـشـائـعـه
 			</Typography>
 			<HorizontalDevider />
 			<Box

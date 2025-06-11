@@ -35,9 +35,10 @@ const Profile: FunctionComponent<ProfileProps> = () => {
 
 	return (
 		<main>
+			<h1 className=' text-center'>الملف الشخصي</h1>
 			<VendorsAnalyticsDashboard />
 			<div
-				className={`container text p-5 rounded-5 ${subscriptionColor(
+				className={`container rounded-5 ${subscriptionColor(
 					user.planId as string,
 				)}`}
 			>

@@ -66,7 +66,7 @@ const Login: FunctionComponent<LoginProps> = () => {
 					align='center'
 					gutterBottom
 					sx={{
-						// color: "#1976d2",
+						color: "#0F2D44",
 						fontWeight: "bold",
 						paddingTop: "60px",
 					}}
@@ -104,10 +104,15 @@ const Login: FunctionComponent<LoginProps> = () => {
 					helperText={formik.touched.password && formik.errors.password}
 					variant='filled'
 				/>
-				<Button type='submit' variant='contained'>
+				<Button
+					sx={{backgroundColor: "#0F2D44"}}
+					type='submit'
+					variant='contained'
+				>
 					تسجيل الدخول
 				</Button>
 				<Button
+					sx={{backgroundColor: "#0F2D44"}}
 					onClick={() => navigate("/register")}
 					type='button'
 					variant='contained'
@@ -115,6 +120,7 @@ const Login: FunctionComponent<LoginProps> = () => {
 					مستخدم جديد
 				</Button>
 				<Button
+					sx={{backgroundColor: "#0F2D44"}}
 					onClick={() => navigate("/business-register")}
 					type='button'
 					variant='contained'
@@ -122,11 +128,13 @@ const Login: FunctionComponent<LoginProps> = () => {
 					بائع جديد
 				</Button>
 				<Box display='flex' justifyContent='center' gap={2}>
-					<Typography variant='body2'>
+					<Typography sx={{color: "#0F2D44"}} variant='body2'>
 						<Link to='/privacy-policy'>سياسة الخصوصية</Link>
 					</Typography>
-					<Typography variant='body2'>|</Typography>
-					<Typography variant='body2'>
+					<Typography sx={{color: "#0F2D44"}} variant='body2'>
+						|
+					</Typography>
+					<Typography sx={{color: "#0F2D44"}} variant='body2'>
 						<Link to='/terms-of-use'>شروط الاستخدام</Link>
 					</Typography>
 				</Box>

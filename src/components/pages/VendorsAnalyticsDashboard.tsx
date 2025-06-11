@@ -41,8 +41,8 @@ const VendorsAnalyticsDashboard: FunctionComponent<
 	VendorsAnalyticsDashboardProps
 > = () => {
 	return (
-		<Box p={4}>
-			<Typography variant='h4' gutterBottom color='primary'>
+		<Box my={5} textAlign={"center"}>
+			<Typography  variant='h4' gutterBottom color='primary'>
 				تحليلات متقدمة لأداء الصفحة
 			</Typography>
 
@@ -91,7 +91,7 @@ const VendorsAnalyticsDashboard: FunctionComponent<
 									<Line
 										type='monotone'
 										dataKey='visits'
-										stroke='#1976d2'
+										stroke='#d23519'
 										strokeWidth={2}
 									/>
 								</LineChart>
