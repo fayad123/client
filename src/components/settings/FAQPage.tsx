@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {FunctionComponent} from "react";
+import {useTheme} from "../../atoms/Theme";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
-import theme from "../../assets/theme";
 
 const faqs = [
 	{
@@ -43,7 +43,6 @@ const FAQPage: FunctionComponent<FAQPageProps> = () => {
 				sx={{
 					textAlign: "center",
 					fontWeight: "bold",
-					color: theme.palette.primary.main,
 					mt: 10,
 				}}
 				variant='h4'

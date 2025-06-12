@@ -43,22 +43,26 @@ const Profile: FunctionComponent<ProfileProps> = () => {
 				)}`}
 			>
 				<h2>معلومات شخصية</h2>
-				<table className=' table table-striped table-bordered'>
-					<thead>
-						<tr>
-							<th>الاسم</th>
-							<th>البريد الالكتروني</th>
-							<th>نوع الحساب</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>{currentUser}</td>
-							<td>{user.email}</td>
-							<td>{user.role === "customer" ? "مستخدم" : "مزود خدمات"}</td>
-						</tr>
-					</tbody>
-				</table>
+				<div className=' table-responsive'>
+					<table className=' table table-striped table-bordered'>
+						<thead>
+							<tr>
+								<th>الاسم</th>
+								<th>البريد الالكتروني</th>
+								<th>نوع الحساب</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{currentUser}</td>
+								<td>{user.email}</td>
+								<td>
+									{user.role === "customer" ? "مستخدم" : "مزود خدمات"}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
 				{user?._id && user.isSubscribed && (
 					<>

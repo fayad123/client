@@ -28,6 +28,7 @@ import VendorGalleryTabs from "../../atoms/VendotGalleryTabs";
 import JsonLd from "../JsonLd";
 import {generateSingleServiceJsonLd} from "../../utils/structuredData";
 import LeafletMap from "../../atoms/LeafletMap";
+import {Paper} from "@mui/material";
 
 interface SingleServicePageProps {}
 
@@ -37,7 +38,6 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 	const {user} = useUser();
 	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 	const [isDateAvailable, setIsDateAvailable] = useState<boolean>(true);
-
 	const {bookingState, handleBooking} = useBookingHandler();
 	const {
 		businessAddress,
@@ -205,51 +205,63 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 			sx={{
 				textAlign: "center",
 				mx: "auto",
-				p: {xs: 2, md: 3, fontFamily: "monospace"},
+				p: {
+					xs: 2,
+					md: 3,
+					fontFamily: "monospace",
+					backgroundColor: "background.default",
+				},
 			}}
 		>
 			<JsonLd data={generateSingleServiceJsonLd(service)} />
-			<h1 className='text-center mb-4'>{service?.businessName}</h1>
-			<Box
-				sx={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "space-around",
-				}}
-			/>
-			{/* special vendor tag */}
-			{planId === "premium" && <SpicialLogo />}
-			{/* vendor address chip */}
-			<Chip
-				variant='outlined'
-				sx={{
-					p: 2,
-					m: "auto",
-					textAlign: "center",
-					borderRadius: 1,
-					borderColor: "primary.main",
-					backgroundColor: "background.paper",
-					"&:hover": {
-						backgroundColor: "action.hover",
-					},
-				}}
-				icon={
-					<LocationOnIcon
-						fontSize='large'
-						color='primary'
-						sx={{
-							fontSize: "1.5rem",
-						}}
-					/>
-				}
-				label={
-					<Typography variant='body1' component='span'>
-						{service?.address?.city || "غير محدد"},{" "}
-						{service?.address?.street || "غير محدد"}
-					</Typography>
-				}
-			/>
+			<Typography
+				variant='h1'
+				sx={{color: "palette.text.primary", fontSize: "3rem", p: 3}}
+			>
+				{service?.businessName}
+			</Typography>
+			<Paper sx={{p: 4, boxShadow: "0 0 10px 1px inset"}}>
+				<Box
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-around",
+					}}
+				/>
 
+				{/* special vendor tag */}
+				{planId === "premium" && <SpicialLogo />}
+				{/* vendor address chip */}
+				<Chip
+					variant='outlined'
+					sx={{
+						p: 2,
+						m: "auto",
+						textAlign: "center",
+						borderRadius: 1,
+						borderColor: "primary.main",
+						backgroundColor: "background.paper",
+						"&:hover": {
+							backgroundColor: "action.hover",
+						},
+					}}
+					icon={
+						<LocationOnIcon
+							fontSize='large'
+							color='primary'
+							sx={{
+								fontSize: "1.5rem",
+							}}
+						/>
+					}
+					label={
+						<Typography variant='body1' component='span'>
+							{service?.address?.city || "غير محدد"},{" "}
+							{service?.address?.street || "غير محدد"}
+						</Typography>
+					}
+				/>
+			</Paper>
 			{/* social media links */}
 			<SocialMediaLinks
 				instagram={"https://instagram.com"}
@@ -397,7 +409,10 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 
 				{service.planeId !== "basic" && service.planeId !== "free" && (
 					<>
-						<Link to={`mailto:${service.email}`} className=' text-success d-block'>
+						<Link
+							to={`mailto:${service.email}`}
+							className=' text-success d-block'
+						>
 							ايميل: {service.email}
 						</Link>
 						<Link to={`tel:+947${service.phone}`} className=' text-success'>
@@ -504,3 +519,6 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 };
 
 export default SingleServicePage;
+function useAppTheme(): {theme: any; mode: any; toggleTheme: any} {
+	throw new Error("Function not implemented.");
+}

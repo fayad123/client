@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;700&display=swap');
 
 :root {
-  --gold-primary: #ff0000;
+  --gold-primary: #ffa600;
   --gold-secondary: #4682B4;
   --gold-dark: #1E90FF;
   --light-bg: #F0F8FF;
@@ -26,8 +26,8 @@ header {
 }
 
 body {
-  background: linear-gradient(to right bottom, var(--dark-bg), #3A3A3A);
-  color: #fff;
+  background-color: #E9EBEE;
+  /* background: linear-gradient(to right bottom, var(--dark-bg), #3A3A3A); */
   min-height: 100vh;
   font-weight: 400;
   line-height: 1.6;
@@ -41,10 +41,15 @@ body {
 main {
   min-height: 90vh;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  box-shadow: 0 0 20px rgba(64, 224, 208, 0.3);
+  box-shadow: 0 0 8px 1px #311701 inset;
   padding: 2rem;
   margin: 50px auto;
-  border-radius: 50px;
+  border-radius: 5px;
+  width: 99%;
+}
+
+h2{
+  text-align: center;
 }
 
 a {
@@ -74,7 +79,6 @@ button:hover {
 
 /* Forms */
 form {
-  background: radial-gradient(var(--light-bg), #FFF9E6);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

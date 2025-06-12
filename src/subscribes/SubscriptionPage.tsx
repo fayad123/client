@@ -1,6 +1,6 @@
 import {Box, Typography, Button, Paper, Tooltip, Chip, Divider} from "@mui/material";
 import {useFormik} from "formik";
-import {FunctionComponent, useState} from "react";
+import {FunctionComponent, useEffect, useState} from "react";
 import * as Yup from "yup";
 import {subscriptionPlans} from "./subscribtionTypes/subscription";
 import PaymentForm from "./payment/PaymentForm";
@@ -18,6 +18,11 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 	const [selectedPlanId, setSelectedPlanId] = useState<string>("");
 	const navigate = useNavigate();
 	const {user, setUser} = useUser();
+	
+	useEffect(()=>{
+			console.log(user && user.planId );
+
+	},[user])
 
 	const formik = useFormik({
 		initialValues: {
@@ -139,9 +144,7 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 									boxShadow: isSelected
 										? "0 8px 20px rgba(0,0,0,0.15)"
 										: "none",
-									backgroundColor: isRecommended
-										? "#FFF9E6"
-										: "background.paper",
+									backgroundColor: "background.paper",
 								}}
 							>
 								{isRecommended && (
@@ -172,7 +175,7 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 												sx={{
 													fontWeight: "bold",
 													color: isRecommended
-														? "#FFD700"
+														? "warning.main"
 														: "primary.main",
 												}}
 											>
@@ -196,16 +199,21 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 											</Typography>
 										</Box>
 										{hasCertification && (
-											<img
-												src='/special.png'
-												alt='وسام تميز'
-												style={{
-													width: 50,
-													height: 50,
-													backdropFilter:
-														"box-shadow:1px 1px 10px red",
-												}}
-											/>
+											<>
+												<Typography display={"block"}>
+													متميز
+												</Typography>
+												<img
+													src='/special.png'
+													alt='وسام متميز'
+													style={{
+														width: 50,
+														height: 50,
+														backdropFilter:
+															"box-shadow:1px 1px 10px red",
+													}}
+												/>
+											</>
 										)}
 									</Box>
 
@@ -278,9 +286,11 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 									sx={{
 										mt: 3,
 										backgroundColor: isSelected
-											? "primary.main"
+											? "primary.defualt"
 											: "transparent",
-										color: isSelected ? "white" : "primary.main",
+										color: isSelected
+											? "warning.main"
+											: "primary.main",
 										fontWeight: "bold",
 										py: 1.5,
 										"&:hover": {

@@ -15,16 +15,15 @@ import {getAdsVideos} from "../../services/videosForAds";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import JsonLd from "../JsonLd";
 import {generateCategoriesItemListJsonLd} from "../../utils/structuredData";
-import { theme } from "../../App";
+import useAppTheme from "../../atoms/Theme";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface HomeProps {}
 
-const api = `${import.meta.env.VITE_API_URI}/videos`;
-
 const Home: FunctionComponent<HomeProps> = () => {
 	const {user, setUser} = useUser();
 	const [videos, setVideos] = useState<string[]>([]);
+	const api = `${import.meta.env.VITE_API_URI}/videos`;
 
 	useEffect(() => {
 		const fetchVideos = async () => {
@@ -34,7 +33,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 			setVideos(urls);
 		};
 		fetchVideos();
-	}, []);
+	}, [api]);
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
@@ -52,15 +51,29 @@ const Home: FunctionComponent<HomeProps> = () => {
 	return (
 		<>
 			<title>الرئيسية | افراحنا</title>
-			<Box component={"main"}>
+			<Box
+				component={"main"}
+				// sx={{
+				// 	backgroundColor: theme.palette.background.default,
+				// 	color: theme.palette.text.primary,
+				// 	py: 4,
+				// }}
+			>
 				<Box>
 					{mainMenu.length > 0 && (
 						<JsonLd data={generateCategoriesItemListJsonLd(mainMenu)} />
 					)}
 
-					<h1 className='display-2 pt-3 fw-bold text-primary text-center mb-3'>
+					<Typography
+						variant='h1'
+						sx={{
+							color: "primary.main",
+							fontSize: "4rem",
+							textAlign: "center",
+						}}
+					>
 						منـصة أفراحـنـا
-					</h1>
+					</Typography>
 					<HorizontalDevider />
 					<Typography
 						color='white'
@@ -68,6 +81,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 						variant='h2'
 						align='center'
 						gutterBottom
+						sx={{color: "primary.main", fontSize: "2rem"}}
 					>
 						لدينا جميع الخدمات التي تحتاجها ليوم الزفاف
 					</Typography>
@@ -90,14 +104,14 @@ const Home: FunctionComponent<HomeProps> = () => {
 						sx={{
 							textAlign: "center",
 							fontWeight: "bold",
-							color: theme.palette.primary.main,
+							color: "primary.main",
 							mt: 10,
 						}}
 					>
 						خدمـات منـصة أفراحـنـا
 					</Typography>
 					<HorizontalDevider />
-					<div className='row row-cols-1 row-cols-2  row-cols-lg-6 '>
+					<Box className='row row-cols-1 row-cols-2  row-cols-lg-6 '>
 						{mainMenu.map((cat) => (
 							<div className='my-2  text-center' key={cat.label}>
 								<Card
@@ -107,6 +121,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 										boxShadow: 1,
 										height: "100%",
 										transition: "all 0.3s",
+
 										"&:hover": {
 											transform: "translateY(-8px)",
 											boxShadow: 8,
@@ -137,7 +152,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 												<Typography
 													variant='subtitle1'
 													fontWeight='bold'
-													color='text.primary'
+													sx={{color: "primary.dark"}}
 												>
 													{cat.label}
 												</Typography>
@@ -147,7 +162,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 								</Card>
 							</div>
 						))}
-					</div>
+					</Box>
 				</div>
 				{/* FAQ */}
 				<FAQPage />

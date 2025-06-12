@@ -1,7 +1,6 @@
 import {Typography} from "@mui/material";
-import {theme} from "../../App";
 
-export default function horizontalDevider() {
+const horizontalDevider = () => {
 	return (
 		<Typography
 			variant='h4'
@@ -10,11 +9,12 @@ export default function horizontalDevider() {
 					content: '""',
 					display: "block",
 					width: "100%",
-					height: 10,
-					backgroundColor: theme.palette.warning.main,
+					height: 20,
+					backgroundColor: "warning.main",
 					margin: "20px auto",
 				},
 			}}
 		/>
 	);
-}
+};
+export default horizontalDevider;

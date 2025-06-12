@@ -23,7 +23,7 @@ export const subscriptionPlans = [
 	},
 	{
 		id: "basic",
-		name: "الباقة الفضية ✨",
+		name: "الباقة الفضية",
 		price: "59 شيكل/شهر",
 		features: [
 			{text: "عرض 5 صور عالية الجودة", included: true},
@@ -43,7 +43,7 @@ export const subscriptionPlans = [
 	},
 	{
 		id: "gold",
-		name: "الباقة الذهبية 🌟",
+		name: "الباقة الذهبية",
 		price: "99 شيكل/شهر",
 		features: [
 			{text: "صفحة احترافية مخصصة مع الشعار", included: true},
@@ -67,7 +67,7 @@ export const subscriptionPlans = [
 	},
 	{
 		id: "premium",
-		name: "الباقة الماسية 👑",
+		name: "الباقة الماسية",
 		price: "189 شيكل/شهر",
 		features: [
 			{text: "صفحة احترافية مخصصة مع الشعار", included: true},

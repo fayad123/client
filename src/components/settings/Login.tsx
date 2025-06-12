@@ -59,6 +59,7 @@ const Login: FunctionComponent<LoginProps> = () => {
 					gap: 2,
 					maxWidth: "400px",
 					direction: "rtl",
+					color: "primary.main",
 				}}
 			>
 				<Typography
@@ -66,9 +67,9 @@ const Login: FunctionComponent<LoginProps> = () => {
 					align='center'
 					gutterBottom
 					sx={{
-						color: "#0F2D44",
 						fontWeight: "bold",
 						paddingTop: "60px",
+						color: "primary.main",
 					}}
 				>
 					سجل الآن واحصل على خدماتنا المميزة
@@ -77,7 +78,7 @@ const Login: FunctionComponent<LoginProps> = () => {
 					variant='h6'
 					align='center'
 					gutterBottom
-					sx={{color: "#555", fontWeight: "normal", mt: -1}}
+					sx={{color: "warning.main", fontWeight: "normal", mt: -1}}
 				>
 					انضم الان إلى موقعنا واستمتع بخدمات المخصصة لحفلات الزفاف والمناسبات
 					الخاصة
@@ -105,36 +106,34 @@ const Login: FunctionComponent<LoginProps> = () => {
 					variant='filled'
 				/>
 				<Button
-					sx={{backgroundColor: "#0F2D44"}}
+					sx={{backgroundColor: "primary.main"}}
 					type='submit'
 					variant='contained'
 				>
 					تسجيل الدخول
 				</Button>
 				<Button
-					sx={{backgroundColor: "#0F2D44"}}
+					sx={{backgroundColor: "primary.main"}}
 					onClick={() => navigate("/register")}
-					type='button'
 					variant='contained'
 				>
 					مستخدم جديد
 				</Button>
 				<Button
-					sx={{backgroundColor: "#0F2D44"}}
+					sx={{backgroundColor: "primary.main"}}
 					onClick={() => navigate("/business-register")}
-					type='button'
 					variant='contained'
 				>
 					بائع جديد
 				</Button>
 				<Box display='flex' justifyContent='center' gap={2}>
-					<Typography sx={{color: "#0F2D44"}} variant='body2'>
+					<Typography sx={{color: "warning.main"}} variant='body2'>
 						<Link to='/privacy-policy'>سياسة الخصوصية</Link>
 					</Typography>
-					<Typography sx={{color: "#0F2D44"}} variant='body2'>
+					<Typography sx={{color: "warning.main"}} variant='body2'>
 						|
 					</Typography>
-					<Typography sx={{color: "#0F2D44"}} variant='body2'>
+					<Typography sx={{color: "warning.main"}} variant='body2'>
 						<Link to='/terms-of-use'>شروط الاستخدام</Link>
 					</Typography>
 				</Box>

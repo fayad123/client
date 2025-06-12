@@ -41,37 +41,27 @@ const VendorsAnalyticsDashboard: FunctionComponent<
 	VendorsAnalyticsDashboardProps
 > = () => {
 	return (
-		<Box my={5} textAlign={"center"}>
-			<Typography  variant='h4' gutterBottom color='primary'>
-				تحليلات متقدمة لأداء الصفحة
+		<Box my={5} textAlign='center'>
+			<Typography variant='h4' gutterBottom color='primary'>
+				تحليلات شهرية متقدمة لأداء الصفحة
 			</Typography>
 
 			{/* KPIs */}
 			<Grid container spacing={3} mb={4}>
-				<Grid size={{xs: 12, md: 4}}>
-					<Card>
-						<CardContent>
-							<Typography variant='h6'>عدد الزوار</Typography>
-							<Typography variant='h4'>4,320</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid size={{xs: 12, md: 4}}>
-					<Card>
-						<CardContent>
-							<Typography variant='h6'>المدة المتوسطة (دقائق)</Typography>
-							<Typography variant='h4'>3.8</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
-				<Grid size={{xs: 12, md: 4}}>
-					<Card>
-						<CardContent>
-							<Typography variant='h6'>معدل الارتداد</Typography>
-							<Typography variant='h4'>28%</Typography>
-						</CardContent>
-					</Card>
-				</Grid>
+				{[
+					{label: "عدد الزوار", value: "4,320"},
+					{label: "المدة المتوسطة (دقائق)", value: "3.8"},
+					{label: "معدل الارتداد", value: "28%"},
+				].map((item, index) => (
+					<Grid size={{xs: 12, md: 4}} key={index}>
+						<Card>
+							<CardContent>
+								<Typography variant='h6'>{item.label}</Typography>
+								<Typography variant='h4'>{item.value}</Typography>
+							</CardContent>
+						</Card>
+					</Grid>
+				))}
 			</Grid>
 
 			{/* المخطط البياني */}
@@ -84,15 +74,15 @@ const VendorsAnalyticsDashboard: FunctionComponent<
 							</Typography>
 							<ResponsiveContainer width='100%' height={250}>
 								<LineChart data={trafficData}>
-									<CartesianGrid strokeDasharray='3 3' />
+									<CartesianGrid strokeDasharray='6 6' />
 									<XAxis dataKey='day' />
 									<YAxis />
 									<Tooltip />
 									<Line
 										type='monotone'
 										dataKey='visits'
-										stroke='#d23519'
-										strokeWidth={2}
+										stroke='#1b11a1'
+										strokeWidth={3}
 									/>
 								</LineChart>
 							</ResponsiveContainer>
