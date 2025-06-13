@@ -39,7 +39,7 @@ body {
 }
 
 main {
-  min-height: 90vh;
+  min-height: 100lvh;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   box-shadow: 0 0 8px 1px #311701 inset;
   padding: 2rem;

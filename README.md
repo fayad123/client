@@ -1,12 +1,12 @@
-# Afra7na Platform - Your Dream Wedding, Flawlessly Planned
+# Afra7na Platform - Your Dream Wedding, Flawlessly Planned 🌸
 
-![Platform Screenshot](./public/screenshot.png)
+![Wedding Platform Screenshot](./public/screenshot.png)
 
-**Afra7na** is a comprehensive, secure, and intuitive wedding planning platform specifically designed to simplify the journey for couples in the Middle East market. From discovering the perfect venue to managing your guest list, we're here to turn your wedding vision into a beautiful reality.
+Afra7na is a comprehensive wedding planning marketplace connecting couples with top-tier wedding vendors across the Middle East. Our platform simplifies wedding planning with powerful tools for both couples and vendors.
 
 ---
 
-## 🌟 Table of Contents
+## Table of Contents
 
 -   [Features](#-features)
 -   [Tech Stack](#-tech-stack)
@@ -18,20 +18,29 @@
 
 ---
 
-## ✨ Features
+### For Couples
+- **Multi-language Support** (Arabic, Hebrew, English)
+- **Vendor Marketplace** with rich media galleries
+- **Booking System** with calendar integration
+- **Wedding Checklist** & planning tools
+- **Real-time Chat** with vendors
 
-We've packed Afra7na with powerful tools to make your wedding planning experience seamless and stress-free.
+### For Vendors
+- **Advanced Analytics Dashboard** with KPIs:
+  - Visitor metrics
+  - Engagement statistics
+  - Conversion tracking
+- **Booking Management** system
+- **Portfolio Showcase** with media uploads
+- **Business Insights** reports (PDF export)
 
-### 🏷 Vendor Marketplace
+### Admin Features
+- **User & Vendor Management**
+- **Content Moderation**
+- **Platform Analytics**
 
-Discover and connect with the finest wedding professionals across the Middle East.
 
--   **Browse Verified Vendors**: Access a curated selection of trusted photographers, stunning venues, creative decorators, caterers, and more – all verified for quality and reliability.
--   **Smart Filtering**: Easily find exactly what you need by filtering vendors based on **location**, **price range**, and the **specific services** they offer.
--   **Direct Messaging**: Communicate directly with vendors through our integrated chat system, allowing for quick inquiries and personalized discussions.
--   **Ratings & Reviews**: Make informed decisions with transparent ratings and authentic reviews from other couples, ensuring you pick the best for your big day.
-
-### 📊 Planning Tools
+### Planning Tools
 
 Stay organized and in control with our suite of essential planning utilities.
 
@@ -40,7 +49,7 @@ Stay organized and in control with our suite of essential planning utilities.
 -   **Timeline Planner**: Never miss a beat. Schedule all your preparation tasks, appointments, and deadlines leading up to your wedding day with a clear, customizable timeline.
 -   **Checklist System**: We've got your back! Our comprehensive checklist provides essential to-do items from "Will you marry me?" to "I do," ensuring no detail is overlooked.
 
-### 🔒 Secure Platform
+### Secure Platform
 
 Your peace of mind is our priority. Afra7na is built with robust security measures to protect your data and transactions.
 
@@ -50,7 +59,7 @@ Your peace of mind is our priority. Afra7na is built with robust security measur
 
 ---
 
-## 💻 Tech Stack
+## Technology Stack
 
 Afra7na is powered by modern and scalable technologies to deliver a fast, reliable, and secure experience.
 
@@ -66,7 +75,7 @@ Afra7na is powered by modern and scalable technologies to deliver a fast, reliab
 
 ---
 
-## 🚀 Installation
+## Installation
 
 Ready to get Afra7na running locally? Follow these simple steps:
 
