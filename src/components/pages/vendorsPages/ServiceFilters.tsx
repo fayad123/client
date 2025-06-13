@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import {Form, InputGroup, ButtonGroup, Button, Badge, Tab, Tabs} from "react-bootstrap";
 import { FunctionComponent } from "react";
+import { formatCurrency } from "../../../helpers/vendors";
 
 interface ServiceFiltersProps {
 	searchTerm: string;
@@ -79,7 +80,7 @@ const ServiceFilters: FunctionComponent<ServiceFiltersProps> = ({
 					<span className='me-2'>نطاق السعر:</span>
 					<Form.Range
 						min={0}
-						max={10000}
+						max={100000}
 						step={500}
 						value={priceRange[1]}
 						onChange={(e) =>
@@ -87,13 +88,13 @@ const ServiceFilters: FunctionComponent<ServiceFiltersProps> = ({
 						}
 					/>
 					<Badge bg='secondary' className='ms-2'>
-						{priceRange[0]} - {priceRange[1]} ر.س
+						{formatCurrency(priceRange[0])} - {formatCurrency(priceRange[1])}
 					</Badge>
 				</div>
 			</div>
 		</div>
 
-		{subCategories?.length  && (
+		{subCategories?.length && (
 			<div className='row mt-3'>
 				<div className='col-12'>
 					<Tabs

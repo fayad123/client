@@ -18,7 +18,7 @@ import MainHalsDecoration from "../components/pages/vendorsPages/MainHalsDecorat
 import MainCarsDecoration from "../components/pages/vendorsPages/MainCarsDecoration";
 import MainFrezzer from "../components/pages/vendorsPages/MainFrezzer";
 import Pnf from "../components/settings/Pnf";
-import SingleServicePage from "../components/serviceView/ServicesPage";
+import SingleServicePage from "../components/pages/BookingPage";
 import Login from "../components/settings/Login";
 import Profile from "../components/pages/Profile";
 import EditServices from "../components/editVendorPriofileAndServices/EditServices";

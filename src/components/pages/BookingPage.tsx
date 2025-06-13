@@ -22,17 +22,21 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import SpicialLogo from "../../atoms/SpicialLogo";
 import Loader from "../../atoms/Loader";
-import WorkingHours from "./WorkingHours";
+import WorkingHours from "../serviceView/WorkingHours";
 import SocialMediaLinks from "../../atoms/socialMediaLinks/SocialMediaLinks";
 import VendorGalleryTabs from "../../atoms/VendotGalleryTabs";
 import JsonLd from "../JsonLd";
 import {generateSingleServiceJsonLd} from "../../utils/structuredData";
-import LeafletMap from "../../atoms/LeafletMap";
+import LeafletMap from "../../atoms/map/LeafletMap";
 import {Paper} from "@mui/material";
 
 interface SingleServicePageProps {}
 
 const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
+	const [galleryOpen, setGalleryOpen] = useState(false);
+	const [galleryType, setGalleryType] = useState<
+		"main" | "photos" | "videos" | "contact" | null
+	>(null);
 	const {vendorId = ""} = useParams<{vendorId: string}>();
 	const navigate = useNavigate();
 	const {user} = useUser();
@@ -268,20 +272,12 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 				facebook={"https://facebook.com"}
 				twitter={"https://x.com"}
 			/>
+
 			<HorizontalDevider />
+
 			{/* vedios, images, manage => buttons */}
 			{adminUser && (
 				<>
-					<VendorGalleryTabs vendorId={vendorId} />
-				</>
-			)}
-			<Box
-				width={"100%"}
-				display={"flex"}
-				alignItems={"center"}
-				justifyContent={"space-around"}
-			>
-				{adminUser && (
 					<Button
 						size='medium'
 						color='primary'
@@ -294,231 +290,280 @@ const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 					>
 						ادارة الصفحه
 					</Button>
-				)}
-				<Button
-					size='medium'
-					color='primary'
-					variant='contained'
-					sx={{
-						position: "relative",
-						top: 0,
-					}}
-					onClick={() => {}}
-				>
-					صور
-				</Button>
-
-				<Button
-					size='medium'
-					color='primary'
-					variant='contained'
-					sx={{
-						position: "relative",
-						top: 0,
-					}}
-					onClick={() => {}}
-				>
-					فيديوهات
-				</Button>
-			</Box>
-			{/* facing image view */}
-			<ReactSlick images={service?.images as any} />
-
-			{/* Map */}
-			<LeafletMap position={[businessAddress.lat, businessAddress.lng]} />
-
-			{/* vendor working hours */}
-			<WorkingHours service={service} />
-			{/* facing description */}
-			<Box
-				sx={{
-					fontFamily: "monospace",
-					borderRadius: 5,
-					p: 5,
-					my: 5,
-					boxShadow: 1,
-					transition: "all 0.3s ease",
-					"&:hover": {
-						boxShadow: 8,
-					},
-				}}
-			>
-				<Box
-					component='ul'
-					sx={{
-						listStyleType: "none",
-						padding: 0,
-						margin: 0,
-						counterReset: "list-counter",
-					}}
-				>
-					{descriptionPoints.map((point, index) => (
-						<Box
-							component='li'
-							key={index}
-							sx={{
-								marginBottom: "0.75em",
-								display: "flex",
-								alignItems: "flex-start",
-								"&:before": {
-									content: '"▹"',
-									// content: '""',
-									color: "primary.main",
-									mr: 1.5,
-									fontSize: "0.9em",
-									lineHeight: 1.5,
-								},
-							}}
-						>
-							<Typography
-								variant='body1'
-								sx={{
-									lineHeight: 1.6,
-									fontFamily: "monospace",
-									fontSize: {xs: "0.875rem", sm: "1rem"},
-									flex: 1,
-									textAlign: "start",
-								}}
-							>
-								{point}
-							</Typography>
-						</Box>
-					))}
-				</Box>
-			</Box>
-			{/* booking calendar */}
-			<Calendar
-				selectedDate={selectedDate}
-				handleDateChange={handleDateChange}
-				unavailableDates={unavailableDates}
+				</>
+			)}
+			<VendorGalleryTabs
+				vendorId={vendorId}
+				openGalleries={setGalleryOpen}
+				setGalleryType={setGalleryType}
 			/>
-			{/* facing services */}
-			<Box
-				component='form'
-				onSubmit={formik.handleSubmit}
-				sx={{
-					mt: 4,
-					p: 3,
-					borderRadius: "0px 0 50px 50px",
-					boxShadow: 8,
-				}}
-			>
-				<Typography color='info' variant='h5' align='center' gutterBottom>
-					اختر الخدمات المطلوبة
-				</Typography>
-
-				{service.planeId !== "basic" && service.planeId !== "free" && (
-					<>
-						<Link
-							to={`mailto:${service.email}`}
-							className=' text-success d-block'
-						>
-							ايميل: {service.email}
-						</Link>
-						<Link to={`tel:+947${service.phone}`} className=' text-success'>
-							هاتف: {service.phone}
-						</Link>
-					</>
-				)}
-
-				<Box
-					sx={{
-						display: "grid",
-						gridTemplateColumns: {xs: "1fr", sm: "1fr 1fr"},
-						gap: 2,
-						mb: 3,
-					}}
-				>
-					{visibleServices.length > 0 ? (
-						visibleServices.map((item, index) => (
-							<FormControlLabel
-								key={item.id || index}
-								control={
-									<Checkbox
-										checked={formik.values.features.some(
-											(f) => f.featureName === item.featureName,
-										)}
-										onChange={() => handleFeatureToggle(item)}
-										color='primary'
-									/>
-								}
-								label={
-									<Typography variant='body1' color='text.primary'>
-										{item.featureName} - {formatCurrency(item.price)}
-									</Typography>
-								}
-								sx={{
-									textAlign: "right",
-									mx: {xs: 0, sm: 1},
-								}}
-							/>
-						))
-					) : (
+			{galleryOpen && (
+				<Box sx={{mt: 2}}>
+					{galleryType === "main" && (
 						<>
-							<Typography
-								variant='body1'
-								color='error'
+							<Box
+								width={"100%"}
+								display={"flex"}
+								alignItems={"center"}
+								justifyContent={"space-around"}
+							>
+								{adminUser && (
+									<Button
+										size='medium'
+										color='primary'
+										variant='contained'
+										sx={{
+											position: "relative",
+											top: 0,
+										}}
+										onClick={() => navigate(`/vendors/${vendorId}`)}
+									>
+										ادارة الصفحه
+									</Button>
+								)}
+							</Box>
+							{/* facing image view */}
+							<ReactSlick images={service?.images as any} />
+							{/* Map */}
+							<LeafletMap
+								position={[businessAddress.lat, businessAddress.lng]}
+							/>
+							{/* vendor working hours */}
+							<WorkingHours service={service} />
+							{/* facing description */}
+							<Box
 								sx={{
-									fontWeight: "bold",
-									gridColumn: "1 / -1",
-									textAlign: "center",
+									fontFamily: "monospace",
+									borderRadius: 5,
+									p: 5,
+									my: 5,
+									boxShadow: 1,
+									transition: "all 0.3s ease",
+									"&:hover": {
+										boxShadow: 8,
+									},
 								}}
 							>
-								لا توجد خدمات متاحة
-							</Typography>
-							<Typography
-								variant='body1'
-								color='error'
+								<Box
+									component='ul'
+									sx={{
+										listStyleType: "none",
+										padding: 0,
+										margin: 0,
+										counterReset: "list-counter",
+									}}
+								>
+									{descriptionPoints.map((point, index) => (
+										<Box
+											component='li'
+											key={index}
+											sx={{
+												marginBottom: "0.75em",
+												display: "flex",
+												alignItems: "flex-start",
+												"&:before": {
+													content: '"▹"',
+													// content: '""',
+													color: "primary.main",
+													mr: 1.5,
+													fontSize: "0.9em",
+													lineHeight: 1.5,
+												},
+											}}
+										>
+											<Typography
+												variant='body1'
+												sx={{
+													lineHeight: 1.6,
+													fontFamily: "monospace",
+													fontSize: {
+														xs: "0.875rem",
+														sm: "1rem",
+													},
+													flex: 1,
+													textAlign: "start",
+												}}
+											>
+												{point}
+											</Typography>
+										</Box>
+									))}
+								</Box>
+							</Box>
+							{/* booking calendar */}
+							<Calendar
+								selectedDate={selectedDate}
+								handleDateChange={handleDateChange}
+								unavailableDates={unavailableDates}
+							/>
+							{/* facing services */}
+							<Box
+								component='form'
+								onSubmit={formik.handleSubmit}
 								sx={{
-									fontWeight: "bold",
-									gridColumn: "1 / -1",
-									textAlign: "center",
+									mt: 4,
+									p: 3,
+									borderRadius: "0px 0 50px 50px",
+									boxShadow: 8,
 								}}
 							>
-								{service.services.length === 0
-									? "يجب عليك اضافة خدمة واحده على الاقل لكي يتم اظهارها للمستخدمين"
-									: ""}
-							</Typography>
+								<Typography
+									color='info'
+									variant='h5'
+									align='center'
+									gutterBottom
+								>
+									اختر الخدمات المطلوبة
+								</Typography>
+
+								<Box
+									sx={{
+										display: "grid",
+										gridTemplateColumns: {xs: "1fr", sm: "1fr 1fr"},
+										gap: 2,
+										mb: 3,
+									}}
+								>
+									{visibleServices.length > 0 ? (
+										visibleServices.map((item, index) => (
+											<FormControlLabel
+												key={item.id || index}
+												control={
+													<Checkbox
+														checked={formik.values.features.some(
+															(f) =>
+																f.featureName ===
+																item.featureName,
+														)}
+														onChange={() =>
+															handleFeatureToggle(item)
+														}
+														color='primary'
+													/>
+												}
+												label={
+													<Typography
+														variant='body1'
+														color='text.primary'
+													>
+														{item.featureName} -{" "}
+														{formatCurrency(item.price)}
+													</Typography>
+												}
+												sx={{
+													textAlign: "right",
+													mx: {xs: 0, sm: 1},
+												}}
+											/>
+										))
+									) : (
+										<>
+											<Typography
+												variant='body1'
+												color='error'
+												sx={{
+													fontWeight: "bold",
+													gridColumn: "1 / -1",
+													textAlign: "center",
+												}}
+											>
+												لا توجد خدمات متاحة
+											</Typography>
+											<Typography
+												variant='body1'
+												color='error'
+												sx={{
+													fontWeight: "bold",
+													gridColumn: "1 / -1",
+													textAlign: "center",
+												}}
+											>
+												{service.services.length === 0
+													? "يجب عليك اضافة خدمة واحده على الاقل لكي يتم اظهارها للمستخدمين"
+													: ""}
+											</Typography>
+										</>
+									)}
+								</Box>
+								<Box sx={{p: 1, borderRadius: 5, m: 5, boxShadow: 3}}>
+									<Typography
+										my={5}
+										color='primary.main'
+										fontWeight={700}
+										variant='h6'
+									>
+										سعر الطلبات المحددة الشامل{" "}
+										{formatCurrency(totalPrice)}
+									</Typography>
+								</Box>
+
+								<TextField
+									fullWidth
+									name='note'
+									label='ملاحظات إضافية (اختياري)'
+									multiline
+									rows={4}
+									value={formik.values.note}
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									error={
+										formik.touched.note && Boolean(formik.errors.note)
+									}
+									helperText={formik.touched.note && formik.errors.note}
+									sx={{my: 3}}
+								/>
+								<Box sx={{textAlign: "center"}}>
+									<Button
+										disabled={
+											!(
+												formik.isValid &&
+												formik.dirty &&
+												isDateAvailable
+											)
+										}
+										type='submit'
+										variant='contained'
+										color='primary'
+										size='large'
+										sx={{px: 6}}
+									>
+										احجز الآن
+									</Button>
+								</Box>
+							</Box>
 						</>
 					)}
-				</Box>
-				<Box sx={{p: 1, borderRadius: 5, m: 5, boxShadow: 3}}>
-					<Typography my={5} color='primary' fontWeight={700} variant='h6'>
-						سعر الطلبات المحددة الشامل {formatCurrency(totalPrice)}
-					</Typography>
-				</Box>
 
-				<TextField
-					fullWidth
-					name='note'
-					label='ملاحظات إضافية (اختياري)'
-					multiline
-					rows={4}
-					value={formik.values.note}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					error={formik.touched.note && Boolean(formik.errors.note)}
-					helperText={formik.touched.note && formik.errors.note}
-					sx={{my: 3}}
-				/>
-				<Box sx={{textAlign: "center"}}>
-					<Button
-						disabled={!(formik.isValid && formik.dirty && isDateAvailable)}
-						type='submit'
-						variant='contained'
-						color='primary'
-						size='large'
-						sx={{px: 6}}
-					>
-						احجز الآن
-					</Button>
+					{/* {galleryType === "videos" && (
+						<VideoGalleryComponent videos={service?.videos || []} />
+					)} */}
+
+					{galleryType === "photos" && (
+						<ReactSlick images={(service?.images as any) || []} />
+					)}
+
+					{galleryType === "contact" &&
+						service.planeId !== "basic" &&
+						service.planeId !== "free" && (
+							<>
+								<Link
+									to={`mailto:${service.email}`}
+									className=' text-success d-block'
+								>
+									ايميل: {service.email}
+								</Link>
+								<Link
+									to={`tel:+947${service.phone}`}
+									className=' text-success'
+								>
+									هاتف: {service.phone}
+								</Link>
+							</>
+						)}
 				</Box>
-			</Box>
+			)}
 		</Box>
 	);
 };
 
 export default SingleServicePage;
-function useAppTheme(): {theme: any; mode: any; toggleTheme: any} {
-	throw new Error("Function not implemented.");
-}

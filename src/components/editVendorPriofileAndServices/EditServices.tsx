@@ -1,7 +1,4 @@
-import {
-	getVendorData,
-	updateVendorServices,
-} from "../../services/vendorServices";
+import {getVendorData, updateVendorServices} from "../../services/vendorServices";
 import {useUser} from "../../contextApi/useUserData";
 import {FunctionComponent, useState, useEffect} from "react";
 import {useFormik} from "formik";
@@ -67,25 +64,6 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 		};
 		fetchVendorData();
 	}, [user, refresh]);
-
-	// useEffect(() => {
-	// 	const fetchVendorData = async () => {
-	// 		if () {
-	// 			try {
-	// 				setLoading(true);
-	// 				setError(null);
-	// 				const data = await getVendorbyId();
-	// 				setVendor(data);
-	// 				console.log("Fetched Vendor Data:", data);
-	// 			} catch (err) {
-	// 				setError("فشل في تحميل بيانات مزود الخدمة. يرجى المحاولة مرة أخرى.");
-	// 			} finally {
-	// 				setLoading(false);
-	// 			}
-	// 		}
-	// 	};
-	// 	fetchVendorData();
-	// }, []);
 
 	const initialValues =
 		vendor.length > 0

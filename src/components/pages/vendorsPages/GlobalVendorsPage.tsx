@@ -5,10 +5,11 @@ import {Address, Services} from "../../../interfaces/services";
 import HorizontalDevider from "../../../atoms/customDeviders/HorizontalDevider";
 import JsonLd from "../../JsonLd";
 import {generateServiceJsonLd} from "../../../utils/structuredData";
-import {getCoordinates} from "../../../atoms/OpenStreetMap";
+import {getCoordinates} from "../../../atoms/map/OpenStreetMap";
 import ServiceFilters from "./ServiceFilters";
 import ServiceCard from "./ServiceCard";
 import useMetaDocument from "../../../hooks/useMetaDocunent";
+import {Typography} from "@mui/material";
 
 interface GlobalVendorsPageProps {
 	category: string;
@@ -39,7 +40,7 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 	const navigate = useNavigate();
 
 	// creating meta data
-		useMetaDocument(pageTitle, metaDescription);
+	useMetaDocument(pageTitle, metaDescription);
 
 	useEffect(() => {
 		const fetchServices = async () => {
@@ -65,8 +66,6 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 						);
 					}
 				}
-				
-				
 
 				// Fetch and enhance services
 				const servicesData = await getServiceByCategories(category);
@@ -215,9 +214,13 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 
 	return (
 		<main>
-			<h1 className='display-6 fw-bold text-primary text-center mb-3'>
+			<Typography
+				variant='h1'
+				sx={{color: "primary.main", fontSize: "3rem"}}
+				className='display-6 fw-bold text-center mb-3'
+			>
 				{pageTitle}
-			</h1>
+			</Typography>
 			<HorizontalDevider />
 			<div className='text-center mb-5 p-3'>
 				<JsonLd
@@ -229,7 +232,13 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 								: "",
 					})}
 				/>
-				<p className='lead fw-bold text-light lh-base'>{introText}</p>
+				<Typography
+					variant='h2'
+					sx={{color: "primary.main", fontSize: "2rem"}}
+					className='lead'
+				>
+					{introText}
+				</Typography>
 			</div>
 
 			<ServiceFilters

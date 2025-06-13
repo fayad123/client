@@ -86,7 +86,7 @@ const Navbar: FunctionComponent = () => {
 					borderRadius: 10,
 					fontSize: "1.2rem",
 				}}
-				position='sticky'
+				position="sticky"
 			>
 				<Toolbar>
 					<Box
@@ -198,7 +198,7 @@ const Navbar: FunctionComponent = () => {
 					role='presentation'
 					onClick={toggleDrawer(false)}
 					onKeyDown={toggleDrawer(false)}
-					width={isMobile?"100%":250}
+					width={isMobile ? "100%" : 250}
 				>
 					<List>
 						{navbarItems.map((item) =>
@@ -256,22 +256,40 @@ const Navbar: FunctionComponent = () => {
 						)}
 
 						<Divider color='error' variant='fullWidth' />
-
-						<Box sx={{position: "relative", right: 0, left: 0, bottom: 0}}>
-							<Button
-								sx={{
-									width: "100%",
-									display: "flex",
-									justifyContent: "space-around",
-								}}
-								color='error'
-								variant='outlined'
-								onClick={logout}
+						{user?._id ? (
+							<Box
+								sx={{position: "relative", right: 0, left: 0, bottom: 0}}
 							>
-								<Logout />
-								خروج
-							</Button>
-						</Box>
+								<Button
+									sx={{
+										width: "100%",
+										display: "flex",
+										justifyContent: "space-around",
+									}}
+									color='error'
+									variant='outlined'
+									onClick={logout}
+								>
+									<Logout />
+									خروج
+								</Button>
+							</Box>
+						) : (
+							<Box>
+								<Button
+									sx={{
+										width: "100%",
+										display: "flex",
+										justifyContent: "space-around",
+									}}
+									color='error'
+									variant='outlined'
+									onClick={() => navigate("/login")}
+								>
+									الدخول
+								</Button>
+							</Box>
+						)}
 					</List>
 				</Box>
 			</Drawer>

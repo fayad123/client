@@ -6,7 +6,7 @@ import {getVisibleServices} from "../subscribes/subscribtionTypes/subscription";
 import {JwtPayload} from "../interfaces/userSchema";
 import {getVendorSubscriptionPlan} from "../services/usersServices";
 import {WorkingHours} from "../components/editVendorPriofileAndServices/servicesFormik";
-import {getCoordinates} from "../atoms/OpenStreetMap";
+import {getCoordinates} from "../atoms/map/OpenStreetMap";
 
 interface ServiceData {
 	service: Services;

@@ -1,5 +1,5 @@
 import {FunctionComponent} from "react";
-import {FormControlLabel, PaletteMode, FormGroup, Box, Typography} from "@mui/material";
+import {FormControlLabel, PaletteMode, FormGroup, Box} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 

@@ -15,7 +15,6 @@ import {getAdsVideos} from "../../services/videosForAds";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import JsonLd from "../JsonLd";
 import {generateCategoriesItemListJsonLd} from "../../utils/structuredData";
-import useAppTheme from "../../atoms/Theme";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface HomeProps {}
@@ -53,11 +52,11 @@ const Home: FunctionComponent<HomeProps> = () => {
 			<title>الرئيسية | افراحنا</title>
 			<Box
 				component={"main"}
-				// sx={{
-				// 	backgroundColor: theme.palette.background.default,
-				// 	color: theme.palette.text.primary,
-				// 	py: 4,
-				// }}
+				sx={{
+					backgroundColor: "background.default",
+					color: "text.primary",
+					py: 4,
+				}}
 			>
 				<Box>
 					{mainMenu.length > 0 && (
@@ -68,7 +67,7 @@ const Home: FunctionComponent<HomeProps> = () => {
 						variant='h1'
 						sx={{
 							color: "primary.main",
-							fontSize: "4rem",
+							fontSize: "3rem",
 							textAlign: "center",
 						}}
 					>
@@ -77,11 +76,11 @@ const Home: FunctionComponent<HomeProps> = () => {
 					<HorizontalDevider />
 					<Typography
 						color='white'
-						fontSize={"2rem"}
 						variant='h2'
+						fontSize={"2rem"}
 						align='center'
 						gutterBottom
-						sx={{color: "primary.main", fontSize: "2rem"}}
+						sx={{color: "primary.main"}}
 					>
 						لدينا جميع الخدمات التي تحتاجها ليوم الزفاف
 					</Typography>
