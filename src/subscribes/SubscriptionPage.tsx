@@ -2,7 +2,6 @@ import {Box, Typography, Button, Paper, Tooltip, Chip, Divider} from "@mui/mater
 import {useFormik} from "formik";
 import {FunctionComponent, useEffect, useState} from "react";
 import * as Yup from "yup";
-import {subscriptionPlans} from "./subscribtionTypes/subscription";
 import PaymentForm from "./payment/PaymentForm";
 import {errorToast, successToast} from "../atoms/notifications/Toasts";
 import {useUser} from "../contextApi/useUserData";
@@ -10,6 +9,7 @@ import {subscriptionToPlans} from "../services/subscription";
 import {useNavigate} from "react-router-dom";
 import {JwtPayload} from "../interfaces/userSchema";
 import {CheckCircleOutline, HighlightOff, Star} from "@mui/icons-material";
+import {subscriptionPlans} from "./subscribtionTypes/subscriptionPlans";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface SubscriptionPageProps {}
@@ -18,11 +18,10 @@ const SubscriptionPage: FunctionComponent<SubscriptionPageProps> = () => {
 	const [selectedPlanId, setSelectedPlanId] = useState<string>("");
 	const navigate = useNavigate();
 	const {user, setUser} = useUser();
-	
-	useEffect(()=>{
-			console.log(user && user.planId );
 
-	},[user])
+	useEffect(() => {
+		console.log(user && user.planId);
+	}, [user]);
 
 	const formik = useFormik({
 		initialValues: {

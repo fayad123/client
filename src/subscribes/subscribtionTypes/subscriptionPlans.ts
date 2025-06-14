@@ -1,4 +1,19 @@
-export const subscriptionPlans = [
+export interface Feature {
+	text: string;
+	included: boolean;
+	tooltip?: string;
+}
+
+export interface SubscriptionPlan {
+	id: string;
+	name: string;
+	price: string;
+	description: string;
+	features: Feature[];
+	recommended?: boolean;
+}
+
+export const subscriptionPlans: SubscriptionPlan[] = [
 	{
 		id: "free",
 		name: "الباقة التجريبية",
@@ -125,43 +140,3 @@ export const subscriptionPlans = [
 		description: "حلول متكاملة للشركات الكبيرة والوكالات",
 	},
 ];
-
-
-export const subscriptionColor = (plans: string) => {
-	switch (plans) {
-		case "free":
-			return "#00000029";
-		case "basic":
-			return "silver-bg";
-		case "gold":
-			return "gold-bg";
-		case "premium":
-			return "premium-bg";
-		case "enterprise":
-			return "enterprise-bg";
-		default:
-			return "#00000029";
-	}
-};
-
-export const getVisibleServices = (
-	planId: string,
-	services: {
-		id?: string;
-		featureName: string;
-		price: number;
-	}[],
-) => {
-	switch (planId) {
-		case "basic":
-			return services.slice(0, 6);
-		case "gold":
-			return services.slice(0, 13);
-		case "premium":
-			return services;
-		case "enterprise":
-			return services;
-		default:
-			return services.slice(0, 1);
-	}
-};

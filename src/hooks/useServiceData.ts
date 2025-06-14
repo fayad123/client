@@ -2,11 +2,11 @@ import {useState, useEffect} from "react";
 import {Services} from "../interfaces/services";
 import {getVendorData} from "../services/vendorServices";
 import {getServiceByVendorId, getUnavailableDates} from "../services/vendorsServices";
-import {getVisibleServices} from "../subscribes/subscribtionTypes/subscription";
 import {JwtPayload} from "../interfaces/userSchema";
 import {getVendorSubscriptionPlan} from "../services/usersServices";
 import {WorkingHours} from "../components/editVendorPriofileAndServices/servicesFormik";
 import {getCoordinates} from "../atoms/map/OpenStreetMap";
+import { getVisibleServices } from "../subscribes/subscribtionTypes/subscriptionUtils";
 
 interface ServiceData {
 	service: Services;
@@ -21,6 +21,9 @@ interface ServiceData {
 	error: Error | null;
 	planId: string | null;
 	businessAddress: {lat: number; lng: number};
+	isSubscribed?: boolean;
+	subscriptionDate?: Date;
+	expiryDate?: Date;
 }
 
 export const getDefaultWorkingHours = (): WorkingHours => ({
@@ -67,6 +70,9 @@ const initialServiceData = (): ServiceData => ({
 	error: null,
 	planId: null,
 	businessAddress: {lat: 0, lng: 0},
+	isSubscribed: false,
+	subscriptionDate: new Date(),
+	expiryDate: new Date(),
 });
 
 export const useServiceData = (vendorId: string): ServiceData => {
@@ -96,7 +102,7 @@ export const useServiceData = (vendorId: string): ServiceData => {
 
 				const subscriptionPlanId = (subscriptionResponse as JwtPayload)?.planId;
 				const profilePlanId = vendorProfile?.planId;
-				const effectivePlanId = subscriptionPlanId || profilePlanId || "basic";
+				const effectivePlanId = subscriptionPlanId || profilePlanId || "free";
 
 				const visibleServices = getVisibleServices(
 					effectivePlanId,
