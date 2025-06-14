@@ -75,9 +75,8 @@ const Home: FunctionComponent<HomeProps> = () => {
 					</Typography>
 					<HorizontalDevider />
 					<Typography
-						color='white'
 						variant='h2'
-						fontSize={"2rem"}
+						fontSize="2rem"
 						align='center'
 						gutterBottom
 						sx={{color: "primary.main"}}

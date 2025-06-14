@@ -4,7 +4,12 @@ import rtlPlugin from "stylis-plugin-rtl";
 import {prefixer} from "stylis";
 import {CacheProvider} from "@emotion/react";
 import createCache from "@emotion/cache";
-import {createTheme, PaletteMode, ThemeProvider} from "@mui/material/styles";
+import {
+	createStyles,
+	createTheme,
+	PaletteMode,
+	ThemeProvider,
+} from "@mui/material/styles";
 import {Toaster} from "react-hot-toast";
 
 import AppRoutes from "./routes/AppRoutes";
@@ -33,11 +38,11 @@ function App() {
 					...(mode === "light"
 						? {
 								primary: {main: "#002b57"},
-								background: {default: "#f5f5f5"},
+								background: {default: "#fcf2ec"},
 						  }
 						: {
 								primary: {main: "#ffffff"},
-								background: {default: "#000000"},
+								background: {default: "#040f18"},
 						  }),
 				},
 				direction: "rtl",
