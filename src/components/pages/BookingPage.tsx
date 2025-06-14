@@ -35,8 +35,8 @@ interface SingleServicePageProps {}
 const SingleServicePage: FunctionComponent<SingleServicePageProps> = () => {
 	const [galleryOpen, setGalleryOpen] = useState(false);
 	const [galleryType, setGalleryType] = useState<
-		"main" | "photos" | "videos" | "contact" | null
-	>(null);
+		"main" | "photos" | "videos" | "contact" 
+	>("main");
 	const {vendorId = ""} = useParams<{vendorId: string}>();
 	const navigate = useNavigate();
 	const {user} = useUser();

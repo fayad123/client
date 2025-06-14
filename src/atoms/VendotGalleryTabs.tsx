@@ -17,9 +17,7 @@ import TabList from "@mui/lab/TabList";
 interface VendorGalleryTabsProps {
 	vendorId: string;
 	openGalleries: Dispatch<SetStateAction<boolean>>;
-	setGalleryType: Dispatch<
-		SetStateAction<"main" | "photos" | "videos" | "contact" | null>
-	>;
+	setGalleryType: Dispatch<SetStateAction<"main" | "photos" | "videos" | "contact">>;
 }
 
 const VendorGalleryTabs: FunctionComponent<VendorGalleryTabsProps> = ({
