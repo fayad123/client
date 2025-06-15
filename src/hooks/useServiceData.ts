@@ -2,9 +2,11 @@ import {useState, useEffect} from "react";
 import {Services} from "../interfaces/services";
 import {getVendorData} from "../services/vendorServices";
 import {getServiceByVendorId, getUnavailableDates} from "../services/vendorsServices";
-import {getVisibleServices} from "../subscribtionTypes/subscription";
 import {JwtPayload} from "../interfaces/userSchema";
 import {getVendorSubscriptionPlan} from "../services/usersServices";
+import {WorkingHours} from "../components/editVendorPriofileAndServices/servicesFormik";
+import {getCoordinates} from "../atoms/map/OpenStreetMap";
+import { getVisibleServices } from "../subscribes/subscribtionTypes/subscriptionUtils";
 
 interface ServiceData {
 	service: Services;
@@ -18,7 +20,21 @@ interface ServiceData {
 	loading: boolean;
 	error: Error | null;
 	planId: string | null;
+	businessAddress: {lat: number; lng: number};
+	isSubscribed?: boolean;
+	subscriptionDate?: Date;
+	expiryDate?: Date;
 }
+
+export const getDefaultWorkingHours = (): WorkingHours => ({
+	sunday: {from: "", to: "", closed: false},
+	monday: {from: "", to: "", closed: false},
+	tuesday: {from: "", to: "", closed: false},
+	wednesday: {from: "", to: "", closed: false},
+	thursday: {from: "", to: "", closed: false},
+	friday: {from: "", to: "", closed: false},
+	saturday: {from: "", to: "", closed: false},
+});
 
 const initialServiceData = (): ServiceData => ({
 	service: {
@@ -41,6 +57,11 @@ const initialServiceData = (): ServiceData => ({
 		services: [],
 		vendorId: "",
 		planeId: "",
+		maxBookingsPerDay: 0,
+		allowOverlappingBookings: false,
+		bookingDurationInHours: 1,
+		bookingType: "single",
+		workingHours: getDefaultWorkingHours(),
 	},
 	unavailableDates: [],
 	vendorId: "",
@@ -48,10 +69,14 @@ const initialServiceData = (): ServiceData => ({
 	loading: true,
 	error: null,
 	planId: null,
+	businessAddress: {lat: 0, lng: 0},
+	isSubscribed: false,
+	subscriptionDate: new Date(),
+	expiryDate: new Date(),
 });
 
 export const useServiceData = (vendorId: string): ServiceData => {
-	const [data, setData] = useState<ServiceData>(initialServiceData);
+	const [data, setData] = useState<ServiceData>(initialServiceData());
 
 	useEffect(() => {
 		if (!vendorId) return;
@@ -77,7 +102,7 @@ export const useServiceData = (vendorId: string): ServiceData => {
 
 				const subscriptionPlanId = (subscriptionResponse as JwtPayload)?.planId;
 				const profilePlanId = vendorProfile?.planId;
-				const effectivePlanId = subscriptionPlanId || profilePlanId || "basic";
+				const effectivePlanId = subscriptionPlanId || profilePlanId || "free";
 
 				const visibleServices = getVisibleServices(
 					effectivePlanId,
@@ -91,6 +116,11 @@ export const useServiceData = (vendorId: string): ServiceData => {
 					return isNaN(parsed.getTime()) ? new Date() : parsed;
 				});
 
+				const {lat, lng} = await getCoordinates(
+					businessData.address.city,
+					businessData.address.street,
+				);
+
 				setData({
 					service: businessData,
 					unavailableDates: parsedUnavailableDates,
@@ -99,6 +129,7 @@ export const useServiceData = (vendorId: string): ServiceData => {
 					loading: false,
 					error: null,
 					planId: effectivePlanId,
+					businessAddress: {lat, lng},
 				});
 			} catch (error) {
 				console.error("Error fetching service data:", error);

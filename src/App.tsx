@@ -1,29 +1,22 @@
-import Navbar from "./components/Navbar";
+import Navbar from "./components/settings/Navbar";
 import {BrowserRouter as Router} from "react-router-dom";
 import rtlPlugin from "stylis-plugin-rtl";
 import {prefixer} from "stylis";
 import {CacheProvider} from "@emotion/react";
 import createCache from "@emotion/cache";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {
+	createStyles,
+	createTheme,
+	PaletteMode,
+	ThemeProvider,
+} from "@mui/material/styles";
 import {Toaster} from "react-hot-toast";
 
 import AppRoutes from "./routes/AppRoutes";
-import Footer from "./components/Footer";
-
-export const theme = createTheme({
-	direction: "rtl",
-	palette: {
-		primary: {
-			main: "#1976d2", // blue
-		},
-		background: {
-			default: "#121212", // dark background
-		},
-		text: {
-			primary: "#1976d2", // white blue
-		},
-	},
-});
+import Footer from "./components/settings/Footer";
+import {CssBaseline} from "@mui/material";
+import {useMemo, useState} from "react";
+import Theme from "./atoms/Theme";
 
 const cacheRtl = createCache({
 	key: "muirtl",
@@ -31,16 +24,43 @@ const cacheRtl = createCache({
 });
 
 function App() {
+	const getInitialMode = (): PaletteMode => {
+		const stored = localStorage.getItem("theme");
+		return stored === "light" ? "light" : "dark";
+	};
+	const [mode, setMode] = useState<PaletteMode>(getInitialMode());
+
+	const theme = useMemo(
+		() =>
+			createTheme({
+				palette: {
+					mode,
+					...(mode === "light"
+						? {
+								primary: {main: "#002b57"},
+								background: {default: "#fcf2ec"},
+						  }
+						: {
+								primary: {main: "#ffffff"},
+								background: {default: "#040f18"},
+						  }),
+				},
+				direction: "rtl",
+			}),
+		[mode],
+	);
 	return (
 		<Router>
 			<Navbar />
-			<Toaster position='top-center' reverseOrder={false} />
-			<CacheProvider value={cacheRtl}>
-				<ThemeProvider theme={theme}>
+			<ThemeProvider theme={theme}>
+				<Theme mode={mode} setMode={setMode} />
+				<CssBaseline />
+				<Toaster position='top-center' reverseOrder={false} />
+				<CacheProvider value={cacheRtl}>
 					<AppRoutes />
-				</ThemeProvider>
-			</CacheProvider>
-			<Footer />
+				</CacheProvider>
+				<Footer />
+			</ThemeProvider>
 		</Router>
 	);
 }

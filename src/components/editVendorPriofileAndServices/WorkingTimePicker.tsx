@@ -1,10 +1,10 @@
-import * as React from "react";
 import dayjs, {Dayjs} from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {TimeClock} from "@mui/x-date-pickers/TimeClock";
-import {TextField, Box, Typography} from "@mui/material";
+import {TextField, Box, Typography, Button} from "@mui/material";
 import "dayjs/locale/ar"; // Import Arabic locale
+import {useEffect, useState} from "react";
 
 interface TimeClockPickerProps {
 	label: string;
@@ -19,6 +19,8 @@ export const TimeClockPicker = ({
 	onChange,
 	disabled = false,
 }: TimeClockPickerProps) => {
+	const [clockKey, setClockKey] = useState<number>(0);
+
 	// Convert string time to Dayjs object
 	const parseTimeString = (timeStr: string): Dayjs | null => {
 		if (!timeStr) return null;
@@ -30,25 +32,30 @@ export const TimeClockPicker = ({
 		if (!date) return "";
 		return date.format("HH:mm");
 	};
+	const [timeValue, setTimeValue] = useState<Dayjs | null>(parseTimeString(value));
 
-	const [timeValue, setTimeValue] = React.useState<Dayjs | null>(
-		parseTimeString(value),
-	);
-
-	React.useEffect(() => {
+	useEffect(() => {
 		setTimeValue(parseTimeString(value));
 	}, [value]);
+
+	// for reset clock
+	const handleResetClock = () => {
+		setTimeValue(null);
+		onChange("09:00");
+		setClockKey((prevKey) => prevKey + 1);
+	};
 
 	return (
 		<LocalizationProvider
 			dateAdapter={AdapterDayjs}
-			adapterLocale='ar' // Set Arabic locale
+			adapterLocale='he'
 		>
 			<Box sx={{direction: "rtl"}}>
 				<Typography variant='subtitle1' gutterBottom>
 					{label}
 				</Typography>
 				<TimeClock
+					key={clockKey}
 					value={timeValue}
 					onChange={(newValue) => {
 						setTimeValue(newValue);
@@ -78,6 +85,13 @@ export const TimeClockPicker = ({
 						},
 					}}
 				/>
+				<Button
+					variant='outlined'
+					onClick={handleResetClock}
+					sx={{mt: 2, width: "100%"}}
+				>
+					إعادة تعيين الوقت
+				</Button>
 			</Box>
 		</LocalizationProvider>
 	);

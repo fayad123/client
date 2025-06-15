@@ -9,6 +9,7 @@ import {JwtPayload} from "../../interfaces/userSchema";
 import {Link, useNavigate} from "react-router-dom";
 import {handleDeletBook} from "../../helpers/vendors";
 import {handleDeletCustomerBook} from "../../helpers/customers";
+import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 
 interface MyBookingsProps {}
 
@@ -86,12 +87,13 @@ const MyBookings: FunctionComponent<MyBookingsProps> = () => {
 	};
 
 	return (
-		<main>
+
 			<div className='container'>
-				<hr />
-				<p className='text-dark fw-bold h2'>الحجوزات الخاصة بك</p>
-				<hr />
-				<div className='my-5' dir='rtl'>
+				<p className='fw-bold h3 pt-5'>الحجوزات الخاصة بك</p>
+
+				<HorizontalDevider />
+
+				<div className='my-5'>
 					{books.length ? (
 						<>
 							{/* Desktop Table */}
@@ -356,7 +358,6 @@ const MyBookings: FunctionComponent<MyBookingsProps> = () => {
 					</div>
 				</div>
 			</div>
-		</main>
 	);
 };
 

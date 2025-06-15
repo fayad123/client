@@ -75,7 +75,7 @@ type DaySchedule = {
 	closed: boolean;
 };
 
-type WorkingHours = {
+export type WorkingHours = {
 	sunday: DaySchedule;
 	monday: DaySchedule;
 	tuesday: DaySchedule;

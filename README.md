@@ -1,150 +1,165 @@
-# Afra7na Platform - Your Dream Wedding, Flawlessly Planned
+# 🌺 Afra7na - Wedding Planning Platform
 
-![Platform Screenshot](./public/screenshot.png)
+## Demo
 
-**Afra7na** is a comprehensive, secure, and intuitive wedding planning platform specifically designed to simplify the journey for couples in the Middle East market. From discovering the perfect venue to managing your guest list, we're here to turn your wedding vision into a beautiful reality.
+-   this may take 50 seconds or more to wake up the server because it is inactivity.
 
----
+[visit Afrahna](https://client-afrahna.vercel.app/)
 
-## 🌟 Table of Contents
+<div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin:100px">
+<img src="./public/localhost_5173_.png" style="max-width: 400px;"/>
+</div>
+<!-- ![Platform Showcase](/public/localhost_5173_.png) -->
 
--   [Features](#-features)
--   [Tech Stack](#-tech-stack)
--   [Installation](#-installation)
--   [Policy Documents](#-policy-documents)
--   [Roadmap](#-roadmap)
--   [Contact](#-contact)
--   [License](#-license)
+A comprehensive wedding planning ecosystem connecting couples with premium vendors across the Middle East. Afra7na simplifies wedding planning while empowering vendors with powerful business tools.
 
----
+## Key Features
 
-## ✨ Features
+### For Couples
 
-We've packed Afra7na with powerful tools to make your wedding planning experience seamless and stress-free.
+-   **Multi-language Support** (Arabic, Hebrew, English) - comming soon
+-   **Intuitive Vendor Discovery** with rich media galleries
+-   **Seamless Booking System** with calendar integration
+-   **Wedding Planning Tools** (checklists, budget tracker)
+-   **Secure Messaging** with vendors - comming soon
 
-### 🏷 Vendor Marketplace
+### For Vendors
 
-Discover and connect with the finest wedding professionals across the Middle East.
+-   **Advanced Analytics Dashboard**
+    -   Real-time visitor metrics
+    -   Engagement analytics
+    -   Conversion tracking
+-   **Business Management Tools**
+    -   Booking calendar
+    -   Portfolio management
+    -   Client communication hub
+-   **Professional Reports** (PDF export)
 
--   **Browse Verified Vendors**: Access a curated selection of trusted photographers, stunning venues, creative decorators, caterers, and more – all verified for quality and reliability.
--   **Smart Filtering**: Easily find exactly what you need by filtering vendors based on **location**, **price range**, and the **specific services** they offer.
--   **Direct Messaging**: Communicate directly with vendors through our integrated chat system, allowing for quick inquiries and personalized discussions.
--   **Ratings & Reviews**: Make informed decisions with transparent ratings and authentic reviews from other couples, ensuring you pick the best for your big day.
+### Admin Console
 
-### 📊 Planning Tools
+-   Comprehensive user management
+-   Content moderation tools
+-   Platform health monitoring
 
-Stay organized and in control with our suite of essential planning utilities.
+## 🛠️ Technology Stack
 
--   **Budget Tracker**: Take charge of your finances! Set your overall wedding budget, allocate funds to different categories, and monitor all your expenses in real-time to avoid any surprises.
--   **Guest Manager**: Effortlessly organize your invitation list, track RSVPs, manage dietary restrictions, and even assign seating arrangements for a smooth guest experience.
--   **Timeline Planner**: Never miss a beat. Schedule all your preparation tasks, appointments, and deadlines leading up to your wedding day with a clear, customizable timeline.
--   **Checklist System**: We've got your back! Our comprehensive checklist provides essential to-do items from "Will you marry me?" to "I do," ensuring no detail is overlooked.
+### Frontend
 
-### 🔒 Secure Platform
+| Component     | Technology                  |
+| ------------- | --------------------------- |
+| Framework     | React 19 + TypeScript       |
+| Build Tool    | Vite                        |
+| UI Libraries  | Material UI v7, Bootstrap 5 |
+| Visualization | Recharts                    |
+| Forms         | Formik + Yup                |
+| i18n          | i18next                     |
 
-Your peace of mind is our priority. Afra7na is built with robust security measures to protect your data and transactions.
+### Backend
 
--   **PCI-Compliant Payments**: All payment processing is handled through secure, industry-standard protocols, ensuring your financial information is safe.
--   **Encrypted Data Storage**: Your personal details and planning data are stored using advanced encryption, safeguarding your privacy.
--   **Transparent Policies**: We believe in clarity. Our policies are straightforward and accessible, so you always know how your data is used and protected.
+| Component      | Technology                |
+| -------------- | ------------------------- |
+| Runtime        | Node.js                   |
+| Framework      | Express                   |
+| Database       | MongoDB (Mongoose)- atlas |
+| Authentication | JWT                       |
+| PDF Generation | jsPDF                     |
 
----
+## Getting Started
 
-## 💻 Tech Stack
+### Prerequisites
 
-Afra7na is powered by modern and scalable technologies to deliver a fast, reliable, and secure experience.
+-   Node.js v18+
+-   npm v9+
+-   MongoDB (local or Atlas)
 
-| Component      | Technologies Used                    | Why We Chose It                                                                                           |
-| :------------- | :----------------------------------- | :-------------------------------------------------------------------------------------------------------- |
-| Frontend       | React, Material-UI, Swiper.js        | For a dynamic, responsive, and visually appealing user interface with smooth navigation.                  |
-| Backend        | Node.js, Express                     | To build a robust, high-performance API that handles complex requests efficiently.                        |
-| Database       | MongoDB (Atlas)                      | A flexible, cloud-based NoSQL database for scalable and efficient data storage and retrieval.             |
-| Authentication | JWT, OAuth 2.0                       | For secure and industry-standard user authentication and authorization.                                   |
-| Payments       | Stripe, PayPal                       | Leading payment gateways offering secure and diverse transaction options for users and vendors.           |
-| Deployment     | Vercel (Frontend), AWS EC2 (Backend) | Vercel provides seamless frontend deployment, while AWS EC2 offers flexible and scalable backend hosting. |
-| CI/CD          | GitHub Actions                       | Automates our development workflow, ensuring rapid and consistent deployments.                            |
+### Installation Guide
 
----
+1. **Clone the repository**
 
-## 🚀 Installation
+```bash
+git clone https://github.com/fayad123/client.git
+```
 
-Ready to get Afra7na running locally? Follow these simple steps:
+2. **Set up environment variables**
 
-1.  **Clone the client repository**:
+````bash
+# For development environment
+cp client/.env client/.env
 
-    ```bash
-    git clone https://github.com/fayad123/client.git
-    ```
+# For production environment (if you have specific production configs)
+cp client/.env.production client/.env.production
 
-2.  **Clone the server repository**:
 
-    ```bash
-    git clone https://github.com/fayad123/server.git
-    ```
+3. **Install dependencies**
+```bash
+# Install client dependencies
+npm install
 
-3.  **Install dependencies** (run `npm install` in both the `client` and `server` directories):
+````
 
-    ```bash
-    # In the client directory
-    npm install
+4. **Run the development environment**
 
-    # In the server directory
-    npm install
-    ```
+```bash
+npm run dev
+```
 
-4.  **Run the application**:
-    ```bash
-    # From the client directory (assuming it's configured to proxy to the server)
-    npm run dev
-    ```
-    _(Note: You might need to configure environment variables for database connections and API keys. Check for `.env.example` files in both client and server repositories for guidance.)_
+5. **Run the production environment**
 
----
+```bash
+npm run start
+```
 
-## 📄 Policy Documents
+## 📊 Vendor Analytics Dashboard Preview
 
-We are committed to transparency and compliance. Detailed policy documents will be made available here, covering:
+<div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+  <img src="./public/localhost_5173_Analytics_profile.png" alt="Analytics Dashboard" style="max-width: 400px;"/>
+  <img src="./public/localhost_5173_Analytics_profile2.png" alt="Analytics Dashboard" style="max-width: 400px;"/>
+</div>
 
--   **Privacy Policy**: How we collect, use, and protect your personal information.
--   **Terms of Service**: The rules and guidelines for using the Afra7na platform.
--   **Vendor Agreement**: Specific terms and conditions for vendors listing their services.
--   **Refund Policy**: Information regarding cancellations and refunds for services booked through the platform.
+**Key Components:**
 
----
+-   Real-time KPI monitoring
+-   Interactive data visualizations
+-   Custom report generation
+-   Performance benchmarking
 
-## 🗺️ Roadmap
+## 🗺️ Development Roadmap
 
-We're constantly working to enhance Afra7na and add more value to your wedding planning journey. Here's a glimpse of what's coming next:
+### Current Development
 
--   **Phase 2 - Enhanced Vendor Features**:
-    -   Advanced analytics for vendors to track inquiries and bookings.
-    -   Introduction of premium vendor profiles with expanded showcasing options.
-    -   Integration of virtual tour capabilities for venues.
--   **Phase 3 - Mobile Applications**:
-    -   Development of native iOS and Android apps for on-the-go planning.
-    -   Push notifications for task reminders and vendor communications.
--   **Phase 4 - AI-Powered Personalization**:
-    -   Smart recommendations for vendors based on your budget, style, and preferences.
-    -   Automated timeline adjustments and checklist suggestions.
--   **Community Features**:
-    -   Interactive forums for couples to share tips and experiences.
-    -   Q&A sections with wedding experts.
+-   Multi-language support
+-   Core analytics dashboard
+-   Booking management system
 
----
+### Upcoming Features
 
-## 📧 Contact
+-   Integrated payment gateways (Stripe/PayPal)
+-   Calendar synchronization
+-   Mobile push notifications
+-   Advanced SEO optimization
+-   Vendor verification system
 
-Have questions, feedback, or just want to say hello? We'd love to hear from you!
+## Authors
 
--   **General Inquiries**: `info@afra7na.com`
--   **Support**: `support@afra7na.com`
--   **Vendor Partnerships**: `vendors@afra7na.com`
--   **Website**: [www.afra7na.com](http://www.afra7na.com) (Coming Soon!)
+-   [@Fayad mhamid](https://github.com/fayad123)
+-   [@Anis mhamid](https://github.com/Anismhamid)
 
----
+## 🤝 Contributing
 
-## ⚖️ License
+We welcome contributions! Please follow these guidelines:
 
-This project is licensed under the [MIT License](LICENSE). See the `LICENSE` file in the repository for more details.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
 
----
+## 📬 Contact Us
+
+Have questions or suggestions? We'd love to hear from you!
+
+-   Email: support@afra7na.com
+-   Business Inquiries: partners@afra7na.com
+-   Twitter: @Afra7naApp (example)
+
+<div align="center"> Made with ❤️ for couples and vendors across the Middle East </div>

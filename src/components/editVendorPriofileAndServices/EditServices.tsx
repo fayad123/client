@@ -25,11 +25,11 @@ import AddNewPicture from "../../atoms/AddNewPicture";
 import ReactSlick from "../../atoms/reactSlick/ReactSlick";
 import ServicesSettings from "./ServicesSettings";
 import {JwtPayload} from "../../interfaces/userSchema";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import CustomTextFiled from "./CustomTextFiled";
 import {days, vendorsvalidationSchema} from "./servicesFormik";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
-import { TimeClockPicker } from "./WorkingTimePicker";
+import {TimeClockPicker} from "./WorkingTimePicker";
 
 interface EditServicesProps {}
 
@@ -40,6 +40,8 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 	const [error, setError] = useState<string | null>(null);
 	const [openAddImage, setOpenAddImage] = useState<boolean>(false);
 	const {user} = useUser();
+	const {vendorId} = useParams<{vendorId: string}>();
+
 	const navigate = useNavigate();
 
 	const handleClickOpenAddImage = () => setOpenAddImage(!openAddImage);
@@ -47,11 +49,11 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 
 	useEffect(() => {
 		const fetchVendorData = async () => {
-			if (user?._id) {
+			if ((user && user._id === vendorId) || (user && user.role === "admin")) {
 				try {
 					setLoading(true);
 					setError(null);
-					const data = await getVendorData(user._id);
+					const data = await getVendorData(vendorId as string);
 					setVendor(data);
 				} catch (err) {
 					setError("فشل في تحميل بيانات مزود الخدمة. يرجى المحاولة مرة أخرى.");
@@ -65,22 +67,23 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 
 	const initialValues =
 		vendor.length > 0
-			? vendor[0]
-			: {
-					...vendorsServicesInitionalData,
-					workingHours: {
-						sunday: {from: "", to: "", closed: false},
-						monday: {from: "", to: "", closed: false},
-						tuesday: {from: "", to: "", closed: false},
-						wednesday: {from: "", to: "", closed: false},
-						thursday: {from: "", to: "", closed: false},
-						friday: {from: "", to: "", closed: false},
-						saturday: {from: "", to: "", closed: false},
+			? {
+					...vendorsServicesInitionalData, // Defaults first
+					...vendor[0], // Then API data
+					// Deep merge for nested objects
+					price: {
+						...vendorsServicesInitionalData.price,
+						...(vendor[0].price || {}), // Fallback to empty if missing
 					},
-			  };
+					address: {
+						...vendorsServicesInitionalData.address,
+						...(vendor[0].address || {}),
+					},
+			  }
+			: vendorsServicesInitionalData;
 
 	const formik = useFormik({
-		initialValues,
+		initialValues: initialValues,
 		enableReinitialize: true,
 		validationSchema: vendorsvalidationSchema,
 		onSubmit: async (values) => {
@@ -151,7 +154,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 					size='small'
 					variant='contained'
 					sx={{mb: 2, position: "sticky", top: 80, left: 20, zIndex: 2}}
-					onClick={() => navigate(`/service/${user?._id}`)}
+					onClick={() => navigate(`/service/${vendorId}`)}
 				>
 					صفحتي
 				</Button>

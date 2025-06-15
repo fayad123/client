@@ -1,5 +1,22 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.rtl.min.css';
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;700&display=swap');
+
+:root {
+  --gold-primary: #ffa600;
+  --gold-secondary: #4682B4;
+  --gold-dark: #1E90FF;
+  --light-bg: #F0F8FF;
+  --dark-bg: #0F2D44;
+
+}
+
+header {
+  background-color: var(--dark-bg) !important;
+
+  & nav {
+    background-color: #0F2D44;
+  }
+}
 
 * {
   margin: 0;
@@ -8,65 +25,102 @@
   font-family: "Noto Kufi Arabic", sans-serif;
 }
 
-main {
-  min-height: 90vh;
-}
-
-.MuiCardActionArea-root {
-  background: #FEF8F1;
-  border: 1px solid #ffffff !important;
-}
-
 body {
-  background-image: linear-gradient(to right bottom, #FEF8F1, #ffffff);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-
+  background-color: #E9EBEE;
+  /* background: linear-gradient(to right bottom, var(--dark-bg), #3A3A3A); */
+  min-height: 100vh;
+  font-weight: 400;
+  line-height: 1.6;
   & a {
-    text-decoration: none;
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+}
+
+main {
+  min-height: 100lvh;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 0 8px 1px #311701 inset;
+  padding: 2rem;
+  margin: 50px auto;
+  border-radius: 5px;
+  width: 99%;
+}
+
+h2{
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover,
+button:hover {
+  color: var(--gold-primary);
+}
+
+/* Cards Styles */
+.MuiCardActionArea-root {
+  border: 1px solid var(--primary-color) !important;
+  background: linear-gradient(to right, var(--light-bg), #E6F7FF);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.MuiCardActionArea-root:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+}
+
+/* Forms */
+form {
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes subtlePulse {
+
+  0%,
+  100% {
+    opacity: 1;
   }
 
-}
-
-form {
-  background: radial-gradient(#FEF8F1, #FEF8F1);
+  50% {
+    opacity: 0.9;
+  }
 }
 
 .blink {
-  animation: blink-animation 1s steps(2, start) infinite;
-  color: red;
-}
-
-@keyframes blink-animation {
-  to {
-    color: #41ca1f;
-  }
+  animation: subtlePulse 2s infinite;
+  color: var(--gold-primary);
 }
 
 .settings-icon {
-  animation: icon-doration 5s linear infinite;
-  font-size: 28px !important;
-  color: #5ec444 !important;
+  animation: iconRotation 5s linear infinite;
+  font-size: 28px;
+  color: #5ec444;
 }
 
-@keyframes icon-doration {
+@keyframes iconRotation {
   to {
     transform: rotate(360deg);
-    /* color: #41ca1f; */
   }
 }
 
-
+/* Premium Elements */
 .diamond {
   position: relative;
-  color: #E0EDEE;
-  font-weight: bold;
-  background: linear-gradient(45deg, #e0efff, #ffffff, #a6c7ff);
-  -webkit-background-clip: text;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--gold-primary), #fff, var(--gold-dark));
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  overflow: hidden;
 }
 
 .diamond::before {
@@ -76,71 +130,92 @@ form {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.9) 50%, transparent 70%);
+  background: linear-gradient(120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.7) 50%,
+      transparent 70%);
   transform: rotate(25deg);
   animation: shine 3s infinite;
-  pointer-events: none;
 }
 
-@keyframes shine {
-  0% {
-    transform: rotate(25deg) translateX(-100%);
-  }
-
-  100% {
-    transform: rotate(25deg) translateX(100%);
-  }
+/* Background Styles */
+.silver-bg,
+.gold-bg,
+.premium-bg,
+.enterprise-bg {
+  padding: 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin: 1rem 0;
 }
 
 .silver-bg {
   background: linear-gradient(135deg, #d7d7d7, #f0f0f0, #c0c0c0);
-  box-shadow:
-    0 0 10px #e0e0e0,
-    inset 0 0 20px #ffffff;
   color: #555;
-  font-weight: bold;
-  padding: 20px;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
 }
 
 .gold-bg {
-  background: linear-gradient(135deg, #b78e1298, #ffd90018, #e6c400a6);
-  box-shadow:
-    0 0 15px #ffed611c,
-    inset 0 0 25px #fff8a1;
+  background: linear-gradient(135deg,
+      rgba(183, 142, 18, 0.6),
+      rgba(255, 217, 0, 0.1),
+      rgba(230, 196, 0, 0.65));
   color: #5a3e00;
-  font-weight: bold;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
 }
 
-.premium-bg {
-  background: linear-gradient(135deg, #e6f0f8, #ffffff, #b0c9f7);
-  box-shadow:
-    0 0 15px #d0e5ff,
-    inset 0 0 20px #f0f8ff;
-  color: #3a4a6f;
-  font-weight: bold;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
+/* Hover Effects */
+.hover-zoom {
+  transition: transform 0.3s ease;
 }
 
-.enterprise-bg {
-  background: linear-gradient(135deg, #e5e4e2, #f5f5f7, #d8d8d8);
-  box-shadow:
-    0 0 15px #cfcfcf,
-    inset 0 0 25px #ffffff;
-  color: #555555;
-  font-weight: bold;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
+.hover-zoom{
+  transition: "transform 0.3s ease"
 }
 
 .hover-zoom:hover {
   transform: scale(1.03);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
+
+  .MuiCardActionArea-root {
+    margin: 0.5rem 0;
+  }
+}
+
+
+
+.slick-arrow {
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+  background: #246290 !important;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgb(0, 0, 0);
+  transition: all 0.3s ease;
+&::before {
+    color: #fd7f19 !important;
+    background-color: #ffffff !important;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgb(0, 0, 0);
+    transition: all 0.3s ease;
+  }
+}
+
+
+
+
+.slick-dots li button:before {
+  font-size: 10px;
+  color: #246290;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #ED6C03;
 }

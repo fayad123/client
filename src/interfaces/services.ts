@@ -1,3 +1,10 @@
+export interface Address {
+	city: string;
+	street: string;
+	lat?: number; // إحداثيات خط العرض (اختيارية)
+	lng?: number; // إحداثيات خط الطول (اختيارية)
+}
+
 export interface Services {
 	businessName: string;
 	email: string;
@@ -7,7 +14,7 @@ export interface Services {
 	description: string;
 	priceType: string;
 	price: {min: number; max: number};
-	address: {city: string; street: string};
+	address: Address;
 	availableDates: Date[];
 	services: {
 		id?: string;
@@ -55,13 +62,13 @@ export const vendorsServicesInitionalData = {
 	bookingDurationInHours: 1,
 	bookingType: "daily",
 	workingHours: {
-		sunday: {from: "09:00", to: "17:00", closed: false},
-		monday: {from: "09:00", to: "17:00", closed: false},
-		tuesday: {from: "09:00", to: "17:00", closed: false},
-		wednesday: {from: "09:00", to: "17:00", closed: false},
-		thursday: {from: "09:00", to: "17:00", closed: false},
-		friday: {closed: true},
-		saturday: {closed: true},
+		sunday: {from: "", to: "", closed: false},
+		monday: {from: "", to: "", closed: false},
+		tuesday: {from: "", to: "", closed: false},
+		wednesday: {from: "", to: "", closed: false},
+		thursday: {from: "", to: "", closed: false},
+		friday: {from: "", to: "", closed: false},
+		saturday: {from: "", to: "", closed: false},
 	},
 	planeId: "",
 };
