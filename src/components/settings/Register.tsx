@@ -4,19 +4,38 @@ import {UserSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 
-import {Button, Box, Typography, LinearProgress} from "@mui/material";
+import {
+	Button,
+	Box,
+	Typography,
+	LinearProgress,
+	FormControl,
+	InputLabel,
+	OutlinedInput,
+	InputAdornment,
+	IconButton,
+	FormHelperText,
+} from "@mui/material";
 import {registerNewUser} from "../../services/usersServices";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {successToast} from "../../atoms/notifications/Toasts";
 import {getStrengthColor, getPasswordStrengthLabel} from "../../helpers/passwordChecker";
 import zxcvbn from "zxcvbn";
+import {useTranslation} from "react-i18next";
+import changeDirection from "../../../locales/directions";
+import {LoadingButton} from "@mui/lab";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 interface RegisterProps {}
 
 const Register: FunctionComponent<RegisterProps> = () => {
 	const navigate = useNavigate();
+	const {t} = useTranslation();
+	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [passwordScore, setPasswordScore] = useState(0);
 	const [passwordFeedback, setPasswordFeedback] = useState<string[]>([]);
+
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
 	const formik = useFormik<UserSchema>({
 		initialValues: {
@@ -34,21 +53,21 @@ const Register: FunctionComponent<RegisterProps> = () => {
 		},
 		validationSchema: Yup.object({
 			name: Yup.object({
-				first: Yup.string().required("الرجاء إدخال الاسم الأول"),
-				last: Yup.string().required("الرجاء إدخال الاسم الأخير"),
+				first: Yup.string().required(t("registerPage.firstNameValidation")),
+				last: Yup.string().required(t("registerPage.lastNameValidation")),
 			}),
 			email: Yup.string()
-				.email("البريد الإلكتروني غير صالح")
-				.required("الرجاء إدخال البريد الإلكتروني"),
+				.email(t("registerPage.validEmailValidation"))
+				.required(t("registerPage.emailValidation")),
 			password: Yup.string()
-				.min(8, "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل")
+				.min(8, t("registerPage.validPasswordValidation"))
 				.max(30)
-				.required("الرجاء إدخال كلمة المرور")
+				.required(t("registerPage.passwordValidation"))
 				.matches(
 					/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
-					"كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز خاص",
+					t("registerPage.matchPasswordValidation"),
 				),
-			phone: Yup.string().required("الرجاء إدخال رقم الهاتف"),
+			phone: Yup.string().required(t("registerPage.phoneValidation")),
 			address: Yup.object({
 				city: Yup.string().required("الرجاء إدخال المدينة"),
 				street: Yup.string().required("الرجاء إدخال الشارع"),
@@ -60,13 +79,16 @@ const Register: FunctionComponent<RegisterProps> = () => {
 			registerNewUser(values).then((userData) => {
 				localStorage.setItem("token", userData);
 				navigate("/");
-				successToast("مرحبا بك في منصه افراحنا");
+				successToast(t("login.wellcomeMessage"));
 			});
 		},
 	});
 
+	const dir = changeDirection();
+
 	return (
 		<main
+			dir={dir}
 			style={{
 				display: "flex",
 				justifyContent: "center",
@@ -78,40 +100,71 @@ const Register: FunctionComponent<RegisterProps> = () => {
 				component='form'
 				onSubmit={formik.handleSubmit}
 				sx={{
-					padding: 3,
 					borderRadius: 2,
 					display: "flex",
 					flexDirection: "column",
 					gap: 2,
 					maxWidth: "600px",
+					border: 1,
 				}}
 			>
+				<Box display={"flex"} justifyContent={"space-around"}>
+					<Button
+						variant='contained'
+						sx={{fontSize: "18"}}
+						onClick={() => navigate(-1)}
+					>
+						{t("registerPage.back")}
+					</Button>
+					<Box display={"flex"} alignContent={"center"} alignItems={"center"}>
+						<Typography
+							variant='h5'
+							sx={{
+								color: "#804e16",
+								fontWeight: "bold",
+								pr: 1,
+							}}
+						>
+							{t("registerPage.registerType.title")} |
+						</Typography>
+
+						<Typography
+							variant='body1'
+							sx={{
+								mx: 1,
+								color: "main.primary",
+								fontWeight: "bold",
+							}}
+						>
+							{t("registerPage.newUser")}
+						</Typography>
+					</Box>
+				</Box>
+
 				<Typography
 					variant='h4'
 					align='center'
 					gutterBottom
 					sx={{
-						color: "#0F2D44",
+						color: "primary.main",
 						fontWeight: "bold",
-						paddingTop: "60px",
+						paddingTop: "20px",
 					}}
 				>
-					سجل الآن واحصل على خدماتنا المميزة
+					{t("login.joinToAfrahnaUser")}
 				</Typography>
-
 				<Typography
 					variant='h6'
 					align='center'
 					gutterBottom
-					sx={{color: "#555", mt: -1}}
+					sx={{color: "warning.main", fontWeight: "normal", mt: -1}}
 				>
-					انضم الان إلى موقعنا واستمتع بخدمات مخصصة لحفلات الزفاف والمناسبات
-					الخاصة
+					{t("login.subtitle")}
 				</Typography>
-				<div className='row row-cols-md-2 py-2'>
-					<div className=' mb-3'>
+				<Box className='row row-cols-md-2 py-2'>
+					<Box className=' mb-3'>
 						<TextField
-							label='الاسم الأول'
+							label={t("registerPage.fName")}
 							name='name.first'
 							value={formik.values.name.first}
 							onChange={formik.handleChange}
@@ -126,10 +179,10 @@ const Register: FunctionComponent<RegisterProps> = () => {
 							variant='filled'
 							fullWidth
 						/>
-					</div>
-					<div>
+					</Box>
+					<Box>
 						<TextField
-							label='الاسم الأخير'
+							label={t("registerPage.lName")}
 							name='name.last'
 							value={formik.values.name.last}
 							onChange={formik.handleChange}
@@ -144,10 +197,10 @@ const Register: FunctionComponent<RegisterProps> = () => {
 							variant='filled'
 							fullWidth
 						/>
-					</div>
-					<div className=' mb-3'>
+					</Box>
+					<Box className=' mb-3'>
 						<TextField
-							label='البريد الإلكتروني'
+							label={t("registerPage.email")}
 							name='email'
 							type='email'
 							value={formik.values.email}
@@ -158,12 +211,16 @@ const Register: FunctionComponent<RegisterProps> = () => {
 							variant='filled'
 							fullWidth
 						/>
-					</div>
-					<div>
-						<TextField
-							label='كلمة المرور'
+					</Box>
+					<FormControl variant='outlined'>
+						<InputLabel htmlFor='password'>
+							{t("registerPage.password")}
+						</InputLabel>
+						<OutlinedInput
+							dir={dir}
 							name='password'
-							type='password'
+							id='password'
+							type={showPassword ? "text" : "password"}
 							value={formik.values.password}
 							onChange={(e) => {
 								formik.handleChange(e);
@@ -172,13 +229,37 @@ const Register: FunctionComponent<RegisterProps> = () => {
 								setPasswordFeedback(result.feedback.suggestions || []);
 							}}
 							onBlur={formik.handleBlur}
+							endAdornment={
+								<InputAdornment position='start'>
+									<IconButton
+										aria-label={
+											showPassword
+												? "hide password"
+												: "show password"
+										}
+										onClick={handleClickShowPassword}
+										edge='end'
+									>
+										{showPassword ? (
+											<VisibilityOff />
+										) : (
+											<Visibility />
+										)}
+									</IconButton>
+								</InputAdornment>
+							}
 							error={
 								formik.touched.password && Boolean(formik.errors.password)
 							}
-							helperText={formik.touched.password && formik.errors.password}
-							variant='filled'
-							fullWidth
+							label={t("registerPage.password")}
 						/>
+						{formik.touched.password && formik.errors.password && (
+							<FormHelperText sx={{color: "red"}}>
+								{formik.errors.password}
+							</FormHelperText>
+						)}
+
+						{/* قوة كلمة المرور */}
 						{passwordFeedback.length > 0 && (
 							<ul
 								style={{
@@ -194,38 +275,35 @@ const Register: FunctionComponent<RegisterProps> = () => {
 								))}
 							</ul>
 						)}
+
 						{formik.values.password && (
-							<>
-								<Box sx={{mt: 1}}>
-									<LinearProgress
-										variant='determinate'
-										value={(passwordScore + 1) * 20}
-										sx={{
-											height: 8,
-											borderRadius: 2,
-											backgroundColor: "#eee",
-											"& .MuiLinearProgress-bar": {
-												backgroundColor:
-													getStrengthColor(passwordScore),
-											},
-										}}
-									/>
-									<Typography
-										variant='body2'
-										sx={{
-											color: getStrengthColor(passwordScore),
-											mt: 0.5,
-										}}
-									>
-										{getPasswordStrengthLabel(passwordScore)}
-									</Typography>
-								</Box>
-							</>
+							<Box sx={{mt: 1}}>
+								<LinearProgress
+									variant='determinate'
+									value={(passwordScore + 1) * 20}
+									sx={{
+										height: 8,
+										borderRadius: 2,
+										backgroundColor: "#eee",
+										"& .MuiLinearProgress-bar": {
+											backgroundColor:
+												getStrengthColor(passwordScore),
+										},
+									}}
+								/>
+								<Typography
+									variant='body2'
+									sx={{color: getStrengthColor(passwordScore), mt: 0.5}}
+								>
+									{getPasswordStrengthLabel(passwordScore)}
+								</Typography>
+							</Box>
 						)}
-					</div>
-					<div className=' mb-3'>
+					</FormControl>
+
+					<Box className=' mb-3'>
 						<TextField
-							label='رقم الهاتف'
+							label={t("registerPage.phoneNum")}
 							name='phone'
 							value={formik.values.phone}
 							onChange={formik.handleChange}
@@ -235,10 +313,10 @@ const Register: FunctionComponent<RegisterProps> = () => {
 							variant='filled'
 							fullWidth
 						/>
-					</div>
-					<div>
+					</Box>
+					<Box>
 						<TextField
-							label='المدينة'
+							label={t("registerPage.city")}
 							name='address.city'
 							value={formik.values.address.city}
 							onChange={formik.handleChange}
@@ -254,10 +332,10 @@ const Register: FunctionComponent<RegisterProps> = () => {
 							variant='filled'
 							fullWidth
 						/>
-					</div>
-					<div className=' mb-3'>
+					</Box>
+					<Box className=' mb-3'>
 						<TextField
-							label='الشارع'
+							label={t("registerPage.street")}
 							name='address.street'
 							value={formik.values.address.street}
 							onChange={formik.handleChange}
@@ -273,49 +351,51 @@ const Register: FunctionComponent<RegisterProps> = () => {
 							variant='filled'
 							fullWidth
 						/>
-					</div>
-				</div>
-				<Button
-					sx={{backgroundColor: "#0F2D44"}}
+					</Box>
+				</Box>
+				<LoadingButton
+					loading={formik.isSubmitting}
+					sx={{backgroundColor: "success.main"}}
 					type='submit'
 					variant='contained'
 					fullWidth
 				>
-					تسجيل
-				</Button>
-			</Box>
-			<Box
-				sx={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "space-around",
-					mt: 5,
-				}}
-			>
+					{t("registerPage.create")}
+				</LoadingButton>
 				<Button
-					sx={{backgroundColor: "#0F2D44"}}
+					sx={{backgroundColor: "primary.main"}}
 					type='button'
 					variant='contained'
 					onClick={() => navigate("/login")}
 				>
-					تسجيل الدخول
+					{t("login.login")}
 				</Button>
 				<Button
-					sx={{backgroundColor: "#0F2D44"}}
+					sx={{backgroundColor: "primary.main"}}
 					onClick={() => navigate("/register")}
 					type='button'
 					variant='contained'
 				>
-					مستخدم جديد
+					{t("registerPage.newUser")}
 				</Button>
 				<Button
-					sx={{backgroundColor: "#0F2D44"}}
+					sx={{backgroundColor: "primary.main"}}
 					onClick={() => navigate("/business-register")}
-					type='button'
 					variant='contained'
 				>
-					بائع جديد
+					{t("registerPage.newVendor")}
 				</Button>
+				<Box display='flex' justifyContent='center' gap={2}>
+					<Typography sx={{color: "warning.main"}} variant='body2'>
+						<Link to='/privacy-policy'>{t("privacyPolicy")}</Link>
+					</Typography>
+					<Typography sx={{color: "warning.main"}} variant='body2'>
+						|
+					</Typography>
+					<Typography sx={{color: "warning.main"}} variant='body2'>
+						<Link to='/terms-of-use'>{t("termsOfUse")}</Link>
+					</Typography>
+				</Box>
 			</Box>
 		</main>
 	);

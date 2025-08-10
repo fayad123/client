@@ -10,13 +10,6 @@
 
 }
 
-header {
-  background-color: var(--dark-bg) !important;
-
-  & nav {
-    background-color: #0F2D44;
-  }
-}
 
 * {
   margin: 0;
@@ -25,30 +18,47 @@ header {
   font-family: "Noto Kufi Arabic", sans-serif;
 }
 
+header {
+  /* background-color: var(--dark-bg) !important; */
+  background-image: url("/public/Pink Floral Congratulations Card");
+
+  & nav {
+    background-color: #296fa509;
+    border: 5px double #0000000c;
+  }
+}
+
+#address-Paper {
+  border-radius: 50px;
+  background: linear-gradient(145deg, #0000004b, #f0f0f038);
+  box-shadow: 6px 6px 6px #0c0c0c,
+}
+
 body {
   background-color: #E9EBEE;
   /* background: linear-gradient(to right bottom, var(--dark-bg), #3A3A3A); */
   min-height: 100vh;
   font-weight: 400;
   line-height: 1.6;
+
   & a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.3s ease;
-    }
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+  }
 }
 
 main {
   min-height: 100lvh;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  box-shadow: 0 0 8px 1px #311701 inset;
-  padding: 2rem;
-  margin: 50px auto;
-  border-radius: 5px;
+  padding: 0.5rem;
+  border: 1px solid #E55101;
+  margin:10px auto;
+  border-radius: 3px;
   width: 99%;
 }
 
-h2{
+h2 {
   text-align: center;
 }
 
@@ -170,7 +180,7 @@ form {
   transition: transform 0.3s ease;
 }
 
-.hover-zoom{
+.hover-zoom {
   transition: "transform 0.3s ease"
 }
 
@@ -199,7 +209,8 @@ form {
   border-radius: 50%;
   box-shadow: 0 2px 10px rgb(0, 0, 0);
   transition: all 0.3s ease;
-&::before {
+
+  &::before {
     color: #fd7f19 !important;
     background-color: #ffffff !important;
     border-radius: 50%;

@@ -1,8 +1,8 @@
 export interface Address {
 	city: string;
 	street: string;
-	lat?: number; // إحداثيات خط العرض (اختيارية)
-	lng?: number; // إحداثيات خط الطول (اختيارية)
+	lat?: number;
+	lng?: number;
 }
 
 export interface Services {
@@ -11,6 +11,13 @@ export interface Services {
 	phone: string;
 	category: string;
 	images?: {url: string; alt: string; _id?: string}[];
+	socialMediaLinks: {
+		facebook: string;
+		instagram: string;
+		tikTok: string;
+		x: string;
+		youtube: string;
+	};
 	description: string;
 	priceType: string;
 	price: {min: number; max: number};
@@ -38,12 +45,20 @@ export interface Services {
 		saturday: {from?: string; to?: string; closed: boolean};
 	};
 }
+
 export const vendorsServicesInitionalData = {
 	businessName: "",
 	email: "",
 	phone: "",
 	category: "",
 	images: [],
+		socialMediaLinks: {
+		facebook: "",
+		instagram: "",
+		tikTok: "",
+		x: "",
+		youtube: "",
+	},
 	description: "",
 	priceType: "",
 	price: {

@@ -1,4 +1,12 @@
-import {FunctionComponent, JSX, useEffect, useMemo, useState} from "react";
+import {
+	Dispatch,
+	FunctionComponent,
+	JSX,
+	SetStateAction,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import {
 	AppBar,
 	Box,
@@ -15,24 +23,37 @@ import {
 	Typography,
 	useMediaQuery,
 	useTheme,
+	Grid,
+	PaletteMode,
 } from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useUser} from "../../contextApi/useUserData";
 import {Logout, Person} from "@mui/icons-material";
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SubscripbeButton from "../../subscribes/subscribeButton/SubscripbeButton";
-import {navbarItems} from "../../config/mainMenu";
+import {mainMenu, navbarItems} from "../../config/mainMenu";
 import {CloseButton} from "react-bootstrap";
+import {useTranslation} from "react-i18next";
+import TranslateButtons from "../../atoms/TranslateButtons";
+import changeDirection from "../../../locales/directions";
+import Theme from "../../atoms/Theme";
 
-const Navbar: FunctionComponent = () => {
+interface NavbarProps {
+	mode: PaletteMode;
+	setMode: Dispatch<SetStateAction<PaletteMode>>;
+}
+
+const Navbar: FunctionComponent<NavbarProps> = ({mode, setMode}) => {
 	const [open, setOpen] = useState(false);
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 	const navigate = useNavigate();
 	const location = useLocation();
 	const {user, setUser} = useUser();
+	const {t} = useTranslation();
 
 	const toggleDrawer = (open: boolean) => () => {
 		setOpen(open);
@@ -55,38 +76,45 @@ const Navbar: FunctionComponent = () => {
 	}, [user]);
 
 	const navLinkItem = (path: string, icon: JSX.Element, text: string) => (
-		<ListItem disablePadding>
+		<ListItem disablePadding key={path}>
 			<NavLink
 				to={path}
 				style={{width: "100%", textDecoration: "none", color: "inherit"}}
 			>
 				<ListItemButton>
 					<ListItemIcon>{icon}</ListItemIcon>
-					<ListItemText primary={text} />
+					<ListItemText primary={t(text)} />
 				</ListItemButton>
 			</NavLink>
 		</ListItem>
 	);
 
+	const dir = changeDirection();
+
 	return (
 		<Box
+			dir={dir}
 			sx={{
 				flexGrow: 1,
-				position: "sticky",
+				position: "static",
 				top: 0,
 				zIndex: 1001,
-				p: 1,
+
 				margin: "auto",
 			}}
 			width={isMobile ? "100%" : "90%"}
 		>
+			<Theme mode={mode} setMode={setMode} />
+
+			{/* Translate buttons */}
+			<TranslateButtons />
 			<AppBar
 				sx={{
 					zIndex: 2,
-					borderRadius: 10,
+					borderRadius: 6,
 					fontSize: "1.2rem",
 				}}
-				position="sticky"
+				position='sticky'
 			>
 				<Toolbar>
 					<Box
@@ -95,11 +123,8 @@ const Navbar: FunctionComponent = () => {
 							display: "flex",
 							alignItems: "center",
 							justifyContent: "space-between",
-							px: 2,
-							py: 2,
-							color: "white",
+							p: 2,
 							width: "100%",
-							borderRadius: 8,
 							boxShadow: "0 0 10px 2px inset black ",
 						}}
 					>
@@ -112,26 +137,37 @@ const Navbar: FunctionComponent = () => {
 						>
 							<MenuIcon />
 						</IconButton>
-
-						<NavLink
-							to='/'
-							style={{
-								cursor: "pointer",
-								fontWeight: "bold",
-								color: "white",
+						<Box
+							sx={{
+								border: 1,
+								borderRadius: 3,
+								px: 2,
+								"& a:hover": {
+									fontSize: "17px",
+								},
 							}}
 						>
-							افراحـنـا
-						</NavLink>
+							<NavLink
+								to='/'
+								style={{
+									cursor: "pointer",
+									fontWeight: "bold",
+									color: "white",
+								}}
+							>
+								{t("afrahna.title")}
+							</NavLink>
+						</Box>
 
 						{!user?._id ? (
 							<Box>
 								<Button
+									sx={{fontSize: "11px"}}
 									variant='contained'
 									onClick={() => navigate("/login")}
 									color='warning'
 								>
-									الدخول
+									{t("navbar.login")}
 								</Button>
 							</Box>
 						) : (
@@ -142,7 +178,7 @@ const Navbar: FunctionComponent = () => {
 									size='small'
 									onClick={logout}
 								>
-									خروج
+									{t("login.logout")}
 								</Button>
 							</Box>
 						)}
@@ -150,13 +186,17 @@ const Navbar: FunctionComponent = () => {
 				</Toolbar>
 			</AppBar>
 
+			{/* side drawer */}
 			<Drawer
-				variant='temporary'
-				anchor={isMobile ? "top" : "right"}
+				variant='persistent'
+				anchor={isMobile ? "top" : dir === "rtl" ? "right" : "left"}
 				open={open}
 				onClose={toggleDrawer(false)}
 			>
-				<CloseButton style={{width: "50%"}} onClick={toggleDrawer(false)} />
+				<CloseButton
+					style={{width: "100%", marginTop: 10}}
+					onClick={toggleDrawer(false)}
+				/>
 
 				{user && (
 					<Box
@@ -204,7 +244,6 @@ const Navbar: FunctionComponent = () => {
 						{navbarItems.map((item) =>
 							navLinkItem(item.path, item.icon, item.text),
 						)}
-
 						{user && (
 							<>
 								<Typography
@@ -216,14 +255,14 @@ const Navbar: FunctionComponent = () => {
 										textAlign: "center",
 									}}
 								>
-									ادارة
+									{t("navbar.management")}
 								</Typography>
 
-								{navLinkItem("/profile", <Person />, "الملف الشخصي")}
+								{navLinkItem("/profile", <Person />, t("navbar.profile"))}
 								{navLinkItem(
 									"/my-bookings",
 									<ChecklistRtlIcon />,
-									"حجوزات",
+									t("navbar.bookingsManagement"),
 								)}
 							</>
 						)}
@@ -231,30 +270,28 @@ const Navbar: FunctionComponent = () => {
 							navLinkItem(
 								`/vendors/${user._id}`,
 								<SettingsIcon color='info' />,
-								"اداره الخدمات",
+								t("navbar.servicesManagement"),
 							)}
-
 						{user?.role === "admin" && (
 							<>
 								{navLinkItem(
 									"/manage/users",
 									<SettingsIcon color='info' />,
-									"ادارة المستخدمين",
+									t("navbar.userManagement"),
 								)}
 								{navLinkItem(
 									"/manage/vendors",
 									<SettingsIcon color='primary' />,
-									"ادارة مزودي الخدمات",
+									t("navbar.vendorsManagement"),
 								)}
 							</>
 						)}
-
-						{user?.role === "isVendor" && !user.isSubscribed && (
-							<Box sx={{width: "100%", m: "auto"}}>
-								<SubscripbeButton />
-							</Box>
-						)}
-
+						{user?.role === "isVendor" &&
+							!user?.subscriptionData?.isSubscribed && (
+								<Box sx={{width: "100%", m: "auto"}}>
+									<SubscripbeButton />
+								</Box>
+							)}
 						<Divider color='error' variant='fullWidth' />
 						{user?._id ? (
 							<Box
@@ -271,7 +308,7 @@ const Navbar: FunctionComponent = () => {
 									onClick={logout}
 								>
 									<Logout />
-									خروج
+									{t("login.logout")}
 								</Button>
 							</Box>
 						) : (
@@ -280,13 +317,14 @@ const Navbar: FunctionComponent = () => {
 									sx={{
 										width: "100%",
 										display: "flex",
+										marginBlock:"10px",
 										justifyContent: "space-around",
 									}}
 									color='error'
 									variant='outlined'
 									onClick={() => navigate("/login")}
 								>
-									الدخول
+									{t("login.login")}
 								</Button>
 							</Box>
 						)}

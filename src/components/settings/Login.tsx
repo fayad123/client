@@ -1,17 +1,36 @@
 import {useFormik} from "formik";
-import {FunctionComponent} from "react";
+import {FunctionComponent, useState} from "react";
 import {LoginSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
-import {Button, Box, Typography} from "@mui/material";
+import {
+	Box,
+	Typography,
+	IconButton,
+	OutlinedInput,
+	InputLabel,
+	FormControl,
+	InputAdornment,
+	FormHelperText,
+} from "@mui/material";
+import Button from "@mui/material/Button";
 import {Link, useNavigate} from "react-router-dom";
 import {userLogin} from "../../services/usersServices";
 import {errorToast, successToast} from "../../atoms/notifications/Toasts";
+import {useTranslation} from "react-i18next";
+import changeDirection from "../../../locales/directions";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {LoadingButton} from "@mui/lab";
 
 interface LoginProps {}
 
 const Login: FunctionComponent<LoginProps> = () => {
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+
 	const navigate = useNavigate();
+	const {t} = useTranslation();
+
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
 	const formik = useFormik<LoginSchema>({
 		initialValues: {
@@ -19,18 +38,17 @@ const Login: FunctionComponent<LoginProps> = () => {
 			password: "",
 		},
 		validationSchema: Yup.object({
-			email: Yup.string().required("الرجاء إدخال البريد الإلكتروني"),
-			password: Yup.string().required("الرجاء إدخال كلمة المرور"),
+			email: Yup.string().required(t("registerPage.emailValidation")),
+			password: Yup.string().required(t("registerPage.passwordValidation")),
 		}),
 		onSubmit: async (values, {setSubmitting}) => {
 			try {
 				const token = await userLogin(values);
 				localStorage.setItem("token", token);
-				successToast("مرحبا بك في منصة أفراحنا");
+				successToast(t("login.wellcomeMessage"));
 				navigate("/");
 			} catch (error: any) {
-				const message =
-					error?.response?.data?.message || "حدث خطأ اثناء تسجيل الدخول";
+				const message = error?.response?.data?.message || t("login.error");
 				errorToast(message);
 			} finally {
 				setSubmitting(false);
@@ -38,13 +56,17 @@ const Login: FunctionComponent<LoginProps> = () => {
 		},
 	});
 
+	const dir = changeDirection();
+
 	return (
 		<main
+			dir={dir}
 			style={{
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center",
 				flexDirection: "column",
+				paddingTop: 0,
 			}}
 		>
 			<Box
@@ -52,14 +74,15 @@ const Login: FunctionComponent<LoginProps> = () => {
 				component='form'
 				onSubmit={formik.handleSubmit}
 				sx={{
-					padding: 3,
 					borderRadius: 2,
 					display: "flex",
 					flexDirection: "column",
 					gap: 2,
 					maxWidth: "400px",
-					direction: "rtl",
+					direction: dir,
 					color: "primary.main",
+					border: 1,
+					boxShadow: 8,
 				}}
 			>
 				<Typography
@@ -68,11 +91,10 @@ const Login: FunctionComponent<LoginProps> = () => {
 					gutterBottom
 					sx={{
 						fontWeight: "bold",
-						paddingTop: "60px",
 						color: "primary.main",
 					}}
 				>
-					سجل الآن واحصل على خدماتنا المميزة
+					{t("login.title")}
 				</Typography>
 				<Typography
 					variant='h6'
@@ -80,11 +102,10 @@ const Login: FunctionComponent<LoginProps> = () => {
 					gutterBottom
 					sx={{color: "warning.main", fontWeight: "normal", mt: -1}}
 				>
-					انضم الان إلى موقعنا واستمتع بخدمات المخصصة لحفلات الزفاف والمناسبات
-					الخاصة
+					{t("login.subtitle")}
 				</Typography>
 				<TextField
-					label='البريد الإلكتروني'
+					label={t("registerPage.email")}
 					name='email'
 					type='email'
 					value={formik.values.email}
@@ -92,49 +113,74 @@ const Login: FunctionComponent<LoginProps> = () => {
 					onBlur={formik.handleBlur}
 					error={formik.touched.email && Boolean(formik.errors.email)}
 					helperText={formik.touched.email && formik.errors.email}
-					variant='filled'
+					variant='outlined'
 				/>
-				<TextField
-					label='كلمة المرور'
-					name='password'
-					type='password'
-					value={formik.values.password}
-					onChange={formik.handleChange}
-					onBlur={formik.handleBlur}
-					error={formik.touched.password && Boolean(formik.errors.password)}
-					helperText={formik.touched.password && formik.errors.password}
-					variant='filled'
-				/>
-				<Button
+				<FormControl fullWidth variant='outlined'>
+					<InputLabel htmlFor='password'>
+						{t("registerPage.password")}
+					</InputLabel>
+					<OutlinedInput
+						dir={dir}
+						name='password'
+						id='password'
+						type={showPassword ? "text" : "password"}
+						endAdornment={
+							<InputAdornment position='start'>
+								<IconButton
+									aria-label={
+										showPassword
+											? "hide the password"
+											: "display the password"
+									}
+									onClick={handleClickShowPassword}
+									edge='end'
+								>
+									{showPassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						error={formik.touched.password && Boolean(formik.errors.password)}
+						label={t("registerPage.password")}
+					/>
+					{formik.touched.password && formik.errors.password && (
+						<FormHelperText sx={{color: "red"}}>
+							{formik.errors.password}
+						</FormHelperText>
+					)}
+				</FormControl>
+				<LoadingButton
+					loading={formik.isSubmitting}
 					sx={{backgroundColor: "primary.main"}}
 					type='submit'
 					variant='contained'
 				>
-					تسجيل الدخول
-				</Button>
+					{t("login.login")}
+				</LoadingButton>
 				<Button
 					sx={{backgroundColor: "primary.main"}}
 					onClick={() => navigate("/register")}
 					variant='contained'
 				>
-					مستخدم جديد
+					{t("registerPage.newUser")}
 				</Button>
 				<Button
 					sx={{backgroundColor: "primary.main"}}
 					onClick={() => navigate("/business-register")}
 					variant='contained'
 				>
-					بائع جديد
+					{t("registerPage.newVendor")}
 				</Button>
 				<Box display='flex' justifyContent='center' gap={2}>
 					<Typography sx={{color: "warning.main"}} variant='body2'>
-						<Link to='/privacy-policy'>سياسة الخصوصية</Link>
+						<Link to='/privacy-policy'>{t("privacyPolicy")}</Link>
 					</Typography>
 					<Typography sx={{color: "warning.main"}} variant='body2'>
 						|
 					</Typography>
 					<Typography sx={{color: "warning.main"}} variant='body2'>
-						<Link to='/terms-of-use'>شروط الاستخدام</Link>
+						<Link to='/terms-of-use'>{t("termsOfUse")}</Link>
 					</Typography>
 				</Box>
 			</Box>

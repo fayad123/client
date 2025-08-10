@@ -1,5 +1,10 @@
 import axios from "axios";
-import {BusinessUserSchema, LoginSchema, UserSchema} from "../interfaces/userSchema";
+import {
+	BusinessUserSchema,
+	LoginSchema,
+	SubscriptionData,
+	UserSchema,
+} from "../interfaces/userSchema";
 
 const api = `${import.meta.env.VITE_API_URI}`;
 
@@ -18,14 +23,20 @@ export const registerNewUser = async (userData: UserSchema) => {
 };
 
 // Register business users
-export const newBusinessRegisterUser = async (userData: BusinessUserSchema) => {
+export const newBusinessRegisterUser = async (
+	userData: BusinessUserSchema,
+): Promise<string> => {
 	try {
 		const response = await axios.post(`${api}/business`, userData, {
 			headers: {"Content-Type": "application/json"},
 		});
 		return response.data;
 	} catch (error) {
-		console.log(error);
+		if (axios.isAxiosError(error)) {
+			throw error;
+		} else {
+			throw new Error("An unexpected error occurred");
+		}
 	}
 };
 
@@ -39,18 +50,43 @@ export const userLogin = async (userData: LoginSchema) => {
 
 // getUserById
 export const getUserById = async (userId: string) => {
-	const {data} = await axios.get(`${api}/users/for-vendors/${userId}`, {
+	const data = await axios.get(`${api}/users/for-vendors/${userId}`, {
 		headers: {Authorization: localStorage.getItem("token")},
 	});
-	return data;
+	return data.data;
 };
 
-export const getVendorSubscriptionPlan = async (vendorId: string) => {
+export const getVendorSubscriptionPlan = async (
+	vendorId: string,
+): Promise<SubscriptionData> => {
 	try {
-		const userPlan = await axios.get(`${api}/business/${vendorId}`);
-		return userPlan.data;
+		const response = await axios.get(
+			`${api}/business/vendorSubscriptionData/${vendorId}`,
+			{headers: {Authorization: localStorage.getItem("token")}},
+		);
+		const subscriptionData = {
+			planId: response.data.subscriptionData?.planId || "free",
+			isSubscribed: response.data.subscriptionData?.isSubscribed || false,
+			subscriptionDate: response.data.subscriptionData?.subscriptionDate || null,
+			expiryDate: response.data.subscriptionData?.expiryDate || null,
+			recommendedServices:
+				response.data.subscriptionData?.recommendedServices || false,
+		};
+		console.log(subscriptionData);
+
+		return subscriptionData;
 	} catch (error) {
-		console.log(error);
+		if (axios.isAxiosError(error) && error.response?.status === 404) {
+			return {
+				planId: "free",
+				isSubscribed: false,
+				subscriptionDate: null,
+				expiryDate: null,
+				recommendedServices: false,
+			};
+		}
+		console.error("Error fetching vendor subscription:", error);
+		throw error;
 	}
 };
 

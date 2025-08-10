@@ -1,5 +1,6 @@
 import {Box, Typography, CircularProgress} from "@mui/material";
 import {FunctionComponent, useEffect, useRef, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 interface VideoAdsCarouselProps {
 	title?: string;
@@ -8,17 +9,16 @@ interface VideoAdsCarouselProps {
 }
 
 const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
-	title = "دعاية منصة افراحنا",
 	videos,
 	durationSeconds = 60,
 }) => {
+	const {t} = useTranslation();
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
-
 	// Handle video cycling and visibility
 	useEffect(() => {
 		if (videos.length <= 1) return;
@@ -68,16 +68,17 @@ const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
 	const handleError = (e: React.SyntheticEvent<HTMLVideoElement>) => {
 		const error = e.currentTarget.error;
 		const errorMessages: Record<number, string> = {
-			1: "تم إيقاف الفيديو",
-			2: "خطأ في الشبكة",
-			3: "خطأ في فك التشفير",
-			4: "تنسيق غير مدعوم",
+			1: t("ads.videoAds.videoHasBeenPaused"),
+			2: t("ads.videoAds.networkError"),
+			3: t("ads.videoAds.decodingError"),
+			4: t("ads.videoAds.unsupportedFormat"),
 		};
-
+		// ${error.code}
 		setError(
 			error
-				? errorMessages[error.code] || `خطأ في التشغيل (كود ${error.code})`
-				: "فشل تشغيل الفيديو",
+				? errorMessages[error.code] ||
+						t(`ads.videoAds.operationalError ${error.code}`)
+				: t("ads.videoAds.playbackFailed"),
 		);
 		setIsLoading(false);
 
@@ -92,13 +93,10 @@ const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
 	if (videos.length === 0) {
 		return (
 			<Box sx={{maxWidth: 700, mx: "auto"}} ref={containerRef}>
-				<Typography variant='h6' textAlign='right' gutterBottom>
-					{title}
-				</Typography>
 				<Box
 					sx={{
 						position: "relative",
-						paddingTop: "56.25%", 
+						paddingTop: "56.25%",
 						borderRadius: 2,
 						overflow: "hidden",
 						bgcolor: "background.paper",
@@ -114,7 +112,7 @@ const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
 							transform: "translate(-50%, -50%)",
 						}}
 					>
-						لا تتوفر فيديوهات حالياً
+						{t("ads.noVideo")}
 					</Typography>
 				</Box>
 			</Box>
@@ -123,10 +121,6 @@ const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
 
 	return (
 		<Box sx={{maxWidth: {xs: "100%", md: "70%"}, mx: "auto"}} ref={containerRef}>
-			<Typography variant='h6' textAlign='right' gutterBottom>
-				{title}
-			</Typography>
-
 			<Box
 				sx={{
 					position: "relative",
@@ -140,13 +134,13 @@ const VideoAdsCarousel: FunctionComponent<VideoAdsCarouselProps> = ({
 				<video
 					crossOrigin='anonymous'
 					ref={videoRef}
-					key={videos[currentIndex]}
-					src={videos[currentIndex]}
+					key={videos.reverse()[currentIndex]}
+					src={videos.reverse()[currentIndex]}
 					muted
 					autoPlay
 					playsInline
 					controls={true}
-					aria-label='فيديو دعائي'
+					aria-label={t("ads.videoAds.promotionalVideo")}
 					preload='auto'
 					style={{
 						position: "absolute",

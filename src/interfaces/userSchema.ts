@@ -1,19 +1,40 @@
+// Base interfaces for reusability
+interface Name {
+	first: string;
+	last: string;
+}
+
+interface Address {
+	city: string;
+	street: string;
+	_id?: string;
+}
+
+interface ProfileImage {
+	url: string;
+	public_id?: string;
+}
+
+export interface SubscriptionData {
+	isSubscribed: boolean;
+	planId: string;
+	subscriptionDate: Date | null;
+	expiryDate: Date | null;
+	recommendedServices: boolean;
+}
+
+// Main interfaces
 export interface JwtPayload {
 	_id: string;
-	name: {
-		first: string;
-		last: string;
-	};
+	name: Name;
 	phone: string;
 	email: string;
 	role: string;
+	profileImage: ProfileImage;
 	businessName: string;
 	category: string;
 	vendorId?: string;
-	isSubscribed?: boolean;
-	planId?: string;
-	subscriptionDate?: Date;
-	expiryDate?: Date;
+	subscriptionData: SubscriptionData;
 }
 
 export interface LoginSchema {
@@ -22,32 +43,19 @@ export interface LoginSchema {
 }
 
 export interface UserSchema {
-	name: {
-		first: string;
-		last: string;
-	};
+	name: Name;
 	email: string;
 	password: string;
 	phone: string;
-	address: {
-		city: string;
-		street: string;
-	};
+	address: Address;
 }
 
-export interface BusinessUserSchema {
+export interface BusinessUserSchema extends Omit<UserSchema, "name"> {
 	businessName: string;
-	phone: string;
-	email: string;
-	password: string;
-	address: {
-		city: string;
-		street: string;
-	};
 	category: string;
 }
 
-export interface usersMessages {
+export interface UserMessage {
 	name: string;
 	email: string;
 	subject: string;
@@ -55,24 +63,40 @@ export interface usersMessages {
 }
 
 export interface VendorDataResponse {
-	_id: {$oid: string};
+	_id: string;
 	businessName: string;
 	phone: string;
 	email: string;
 	role: string;
-	pictures: {url: string; alt: string}[];
-	address: {
-		city: string;
-		street: string;
-		_id: {$oid: string};
-	};
+	pictures?: {
+		url: string;
+		alt: string;
+	}[];
+	address: Address;
+	profileImage: ProfileImage;
+	vendorId?: string;
 	category: string;
-	planId?: string;
-	expiryDate: Date | null;
-	isSubscribed: boolean;
-	subscriptionDate: Date | null;
-	createdAt: {$date: string};
-	updatedAt: {$date: string};
-	recommendedServices: boolean;
-	__v: number;
+	createdAt: Date;
+	updatedAt: Date;
+	subscribtionData: SubscriptionData;
+}
+
+// Additional utility types
+export type UserRole = "admin" | "isVendor" | "customer";
+
+export interface PaginatedVendorResponse {
+	data: VendorDataResponse[];
+	total: number;
+	page: number;
+	limit: number;
+}
+
+// For form validation
+export interface LoginFormValues extends LoginSchema {
+	rememberMe?: boolean;
+}
+
+export interface BusinessRegistrationFormValues extends BusinessUserSchema {
+	confirmPassword: string;
+	termsAccepted: boolean;
 }

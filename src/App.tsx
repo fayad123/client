@@ -4,13 +4,9 @@ import rtlPlugin from "stylis-plugin-rtl";
 import {prefixer} from "stylis";
 import {CacheProvider} from "@emotion/react";
 import createCache from "@emotion/cache";
-import {
-	createStyles,
-	createTheme,
-	PaletteMode,
-	ThemeProvider,
-} from "@mui/material/styles";
+import {createTheme, PaletteMode, ThemeProvider} from "@mui/material/styles";
 import {Toaster} from "react-hot-toast";
+import "../locales/i18n";
 
 import AppRoutes from "./routes/AppRoutes";
 import Footer from "./components/settings/Footer";
@@ -28,6 +24,7 @@ function App() {
 		const stored = localStorage.getItem("theme");
 		return stored === "light" ? "light" : "dark";
 	};
+
 	const [mode, setMode] = useState<PaletteMode>(getInitialMode());
 
 	const theme = useMemo(
@@ -45,22 +42,20 @@ function App() {
 								background: {default: "#040f18"},
 						  }),
 				},
-				direction: "rtl",
 			}),
 		[mode],
 	);
 	return (
 		<Router>
-			<Navbar />
-			<ThemeProvider theme={theme}>
-				<Theme mode={mode} setMode={setMode} />
-				<CssBaseline />
-				<Toaster position='top-center' reverseOrder={false} />
-				<CacheProvider value={cacheRtl}>
+			<Navbar mode={mode} setMode={setMode} />
+			<CacheProvider value={cacheRtl}>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					<Toaster position='top-center' reverseOrder={false} />
 					<AppRoutes />
-				</CacheProvider>
-				<Footer />
-			</ThemeProvider>
+					<Footer />
+				</ThemeProvider>
+			</CacheProvider>
 		</Router>
 	);
 }

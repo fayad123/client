@@ -10,6 +10,8 @@ import ServiceFilters from "./ServiceFilters";
 import ServiceCard from "./ServiceCard";
 import useMetaDocument from "../../../hooks/useMetaDocunent";
 import {Typography} from "@mui/material";
+import {useTranslation} from "react-i18next";
+import changeDirection from "../../../../locales/directions";
 
 interface GlobalVendorsPageProps {
 	category: string;
@@ -23,13 +25,11 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 	category,
 	pageTitle,
 	metaDescription,
-	introText,
-	subCategories = [],
 }) => {
+	const {t} = useTranslation();
 	const [services, setServices] = useState<Services[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [searchTerm, setSearchTerm] = useState<string>("");
-	const [activeSubCategory, setActiveSubCategory] = useState<string>("الكل");
 	const [sortBy, setSortBy] = useState<"rating" | "price" | "location" | "none">(
 		"none",
 	);
@@ -69,6 +69,7 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 
 				// Fetch and enhance services
 				const servicesData = await getServiceByCategories(category);
+
 				const enhancedServices = await Promise.all(
 					servicesData.map(
 						async (service: {
@@ -133,7 +134,7 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 	const filteredServices = useMemo(() => {
 		let result = [...services];
 
-		// التصفية حسب البحث
+		// Filter by search
 		if (searchTerm) {
 			result = result.filter(
 				(service) =>
@@ -147,14 +148,7 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 			);
 		}
 
-		// التصفية حسب التصنيف الفرعي
-		if (activeSubCategory !== "الكل") {
-			result = result.filter((service) =>
-				service.services?.some((s) => s.featureName.includes(activeSubCategory)),
-			);
-		}
-
-		// التصفية حسب السعر (بناءً على الخدمات الفرعية)
+		// Filter by price (based on sub-services)
 		result = result.filter((service) => {
 			if (!service.services || service.services.length === 0) return false;
 
@@ -164,7 +158,7 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 			return minServicePrice >= priceRange[0] && maxServicePrice <= priceRange[1];
 		});
 
-		// الترتيب
+		// Sort
 		switch (sortBy) {
 			// case "rating":
 			// 	result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
@@ -202,7 +196,7 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 		}
 
 		return result;
-	}, [services, searchTerm, activeSubCategory, sortBy, priceRange, userLocation]);
+	}, [services, searchTerm, sortBy, priceRange, userLocation]);
 
 	if (loading) {
 		return (
@@ -212,67 +206,149 @@ const GlobalVendorsPage: FunctionComponent<GlobalVendorsPageProps> = ({
 		);
 	}
 
+	const dir = changeDirection();
+
+	let cate = category;
+	switch (cate) {
+		case "قاعات":
+			cate = "hals";
+			break;
+		case "تزيين قاعات":
+			cate = "halsDecoration";
+			break;
+		case "صالونات تجميل":
+			cate = "cosmatics";
+			break;
+		case "تزيين سيارات":
+			cate = "carsDecoration";
+			break;
+		case "كراسي":
+			cate = "chairs";
+			break;
+		case "حلويات":
+			cate = "pastry";
+			break;
+		case "تأجير برادات":
+			cate = "frezzer";
+			break;
+		case "تصوير":
+			cate = "photography";
+			break;
+		case "ستيريو":
+			cate = "stereo";
+			break;
+		case "طباخين":
+			cate = "coocks";
+			break;
+		case "مطاعم للأعراس":
+			cate = "restaurants";
+			break;
+		case "نادلين":
+			cate = "witress";
+			break;
+		case "العاب نارية":
+			cate = "fireWorks";
+			break;
+		case "بطاقات دعوة":
+			cate = "invitationCards";
+			break;
+		case "مكسرات":
+			cate = "nuts";
+			break;
+		case "فرق دينية":
+			cate = "religiousband";
+			break;
+		case "الهاء الأطفال":
+			cate = "kidsEntertainment";
+			break;
+		case "تزيين فاكهة":
+			cate = "fruitDecoration";
+			break;
+		case "تنسيق هدايا للعرسان":
+			cate = "weddinggifts";
+			break;
+		case "تأجير سيارات فخمة":
+			cate = "luxuryCars";
+			break;
+		case "منصات دبكة":
+			cate = "dapkaPlatform";
+			break;
+
+		default:
+			cate = category;
+			break;
+	}
+
 	return (
-		<main>
-			<Typography
-				variant='h1'
-				sx={{color: "primary.main", fontSize: "3rem"}}
-				className='display-6 fw-bold text-center mb-3'
-			>
-				{pageTitle}
-			</Typography>
-			<HorizontalDevider />
-			<div className='text-center mb-5 p-3'>
-				<JsonLd
-					data={generateServiceJsonLd({
-						serviceType: category,
-						serviceUrl:
-							services.length > 0
-								? `https://client-afrahna.vercel.app/${services[0].vendorId}`
-								: "",
-					})}
-				/>
-				<Typography
-					variant='h2'
-					sx={{color: "primary.main", fontSize: "2rem"}}
-					className='lead'
-				>
-					{introText}
-				</Typography>
-			</div>
-
-			<ServiceFilters
-				searchTerm={searchTerm}
-				setSearchTerm={setSearchTerm}
-				sortBy={sortBy}
-				setSortBy={setSortBy}
-				priceRange={priceRange}
-				setPriceRange={setPriceRange}
-				subCategories={subCategories}
-				activeSubCategory={activeSubCategory}
-				setActiveSubCategory={setActiveSubCategory}
+		<>
+			<title>{t(`services.${cate}.category`)}</title>
+			<meta property='og:title' content={t(`services.${cate}.pageTitle`)} />
+			<meta
+				property='og:description'
+				content={t(`services.${cate}.metaDescription`)}
 			/>
+			<meta
+				property='og:url'
+				content={`https://client-afrahna.vercel.app/services/${cate}`}
+			/>
+			<main dir={dir} aria-label={t(`services.${cate}.pageTitle`)}>
+				<Typography
+					variant='h1'
+					sx={{color: "primary.main", fontSize: "3rem"}}
+					className='display-6 fw-bold text-center mb-3'
+				>
+					{t(`services.${cate}.pageTitle`)}
+				</Typography>
+				<HorizontalDevider />
+				<div className='text-center mb-5 '>
+					<JsonLd
+						data={generateServiceJsonLd({
+							serviceType: category,
+							serviceUrl:
+								services.length > 0
+									? `https://client-afrahna.vercel.app/${services[0].vendorId}`
+									: "",
+						})}
+					/>
+					<Typography
+						variant='h2'
+						sx={{color: "primary.main", fontSize: "2rem"}}
+						className='lead'
+					>
+						{t(`services.${cate}.introText`)}
+					</Typography>
+				</div>
 
-			<div className='container'>
-				{filteredServices.length === 0 ? (
-					<div className='text-center py-5'>
-						<h4>لا توجد خدمات متاحة حسب معايير البحث المحددة</h4>
-					</div>
-				) : (
-					<div className='row m-auto row-cols-1 row-cols-md-2 row-cols-xl-4 g-5'>
-						{filteredServices.map((service) => (
-							<ServiceCard
-								key={service.vendorId}
-								service={service}
-								onNavigate={() =>
-									navigate(`/service/${service.vendorId}`)
-								}
-							/>
-						))}
-					</div>
-				)}
-			</div>
-		</main>
+				<ServiceFilters
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+					sortBy={sortBy}
+					setSortBy={setSortBy}
+					priceRange={priceRange}
+					setPriceRange={setPriceRange}
+				/>
+
+				<div className='container'>
+					{filteredServices.length === 0 ? (
+						<div className='text-center py-5'>
+							<h4>{t("globalVendorsPage.noServices")}</h4>
+						</div>
+					) : (
+						<div className='row m-auto row-cols-1 row-cols-md-2 row-cols-xl-4 g-5'>
+							{filteredServices.map((service) => (
+								<ServiceCard
+									key={service.vendorId}
+									service={service}
+									onNavigate={() =>
+										navigate(`/service/${service.vendorId}`)
+									}
+								/>
+							))}
+						</div>
+					)}
+				</div>
+			</main>
+		</>
 	);
 };
 

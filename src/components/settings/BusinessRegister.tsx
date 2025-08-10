@@ -1,6 +1,6 @@
 import {useFormik} from "formik";
 import {FunctionComponent, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {BusinessUserSchema} from "../../interfaces/userSchema";
 import * as Yup from "yup";
 import {
@@ -15,17 +15,22 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import {LoadingButton} from "@mui/lab";
+
 import {mainMenu} from "../../config/mainMenu";
 import {newBusinessRegisterUser} from "../../services/usersServices";
 import {successToast} from "../../atoms/notifications/Toasts";
 import zxcvbn from "zxcvbn";
 import LinearProgress from "@mui/material/LinearProgress";
 import {getStrengthColor, getPasswordStrengthLabel} from "../../helpers/passwordChecker";
+import {useTranslation} from "react-i18next";
+import changeDirection from "../../../locales/directions";
 
 const BusinessRegister: FunctionComponent = () => {
 	const navigate = useNavigate();
 	const [passwordScore, setPasswordScore] = useState(0);
 	const [passwordFeedback, setPasswordFeedback] = useState<string[]>([]);
+	const {t} = useTranslation();
 
 	const formik = useFormik<BusinessUserSchema>({
 		initialValues: {
@@ -40,37 +45,50 @@ const BusinessRegister: FunctionComponent = () => {
 			category: "",
 		},
 		validationSchema: Yup.object({
-			businessName: Yup.string().required("الرجاء إدخال الاسم"),
-			phone: Yup.string().required("الرجاء إدخال رقم الهاتف"),
+			businessName: Yup.string().required(t("registerPage.firstNameValidation")),
+			phone: Yup.string().required(t("registerPage.phoneValidation")),
 			email: Yup.string()
-				.email("البريد الإلكتروني غير صالح")
-				.required("الرجاء إدخال البريد الإلكتروني"),
+				.email(t("registerPage.validEmailValidation"))
+				.required(t("registerPage.emailValidation")),
 			password: Yup.string()
-				.min(8, "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل")
+				.min(8, t("registerPage.validPasswordValidation"))
 				.max(30)
-				.required("الرجاء إدخال كلمة المرور")
+				.required(t("registerPage.passwordValidation"))
 				.matches(
 					/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])/,
-					"كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز خاص",
+					t("registerPage.matchPasswordValidation"),
 				),
 			address: Yup.object({
-				city: Yup.string().required("الرجاء إدخال المدينة"),
-				street: Yup.string().required("الرجاء إدخال الشارع"),
+				city: Yup.string().required(t("registerPage.cityValidation")),
+				street: Yup.string().required(t("registerPage.streetValidation")),
 			}),
-			category: Yup.string().required("الرجاء ادخال الفئة"),
+			category: Yup.string().required(t("registerPage.categoryValidation")),
 		}),
 
-		onSubmit: (values) => {
-			newBusinessRegisterUser(values).then((userData) => {
-				localStorage.setItem("token", userData);
-				navigate("/subscription");
-				successToast("مرحبا بك في منصه افراحنا");
-			});
+		onSubmit: async (values, {setSubmitting, setErrors}) => {
+			try {
+				const userData = await newBusinessRegisterUser(values);
+				localStorage.setItem("token", userData);if (userData) {
+						navigate("/");
+						successToast(t("login.wellcomeMessage"))
+					}
+			} catch (error:any) {
+				if (error.response?.status === 400) {
+						setErrors({email: error.response.data});
+					} else {
+						alert(t("errors.unexpectedError"));
+					}
+			}finally{() => setSubmitting(false)}
+				
+				
 		},
 	});
 
+	const dir = changeDirection();
+
 	return (
 		<main
+			dir={dir}
 			style={{
 				display: "flex",
 				justifyContent: "center",
@@ -82,14 +100,45 @@ const BusinessRegister: FunctionComponent = () => {
 				component='form'
 				onSubmit={formik.handleSubmit}
 				sx={{
-					padding: 3,
-					borderRadius: 2,
 					display: "flex",
 					flexDirection: "column",
 					gap: 2,
 					maxWidth: "600px",
 				}}
 			>
+				<Box display={"flex"} justifyContent={"space-around"}>
+					<Button
+						variant='contained'
+						sx={{fontSize: "18"}}
+						onClick={() => navigate(-1)}
+					>
+						{t("registerPage.back")}
+					</Button>
+					<Box display={"flex"} alignContent={"center"} alignItems={"center"}>
+						<Typography
+							variant='h5'
+							sx={{
+								color: "#804e16",
+								fontWeight: "bold",
+								pr: 1,
+							}}
+						>
+							{t("registerPage.registerType.title")} |
+						</Typography>
+
+						<Typography
+							variant='body1'
+							sx={{
+								mx: 1,
+								color: "main.primary",
+								fontWeight: "bold",
+							}}
+						>
+							{t("registerPage.registerType.newVendor")}
+						</Typography>
+					</Box>
+				</Box>
+
 				<Typography
 					variant='h4'
 					align='center'
@@ -99,22 +148,21 @@ const BusinessRegister: FunctionComponent = () => {
 						paddingTop: "60px",
 					}}
 				>
-					سجل الآن واحصل على خدماتنا المميزة
+					{t("login.joinToAfrahnaVendor")}
 				</Typography>
 
 				<Typography
 					variant='h6'
 					align='center'
 					gutterBottom
-					sx={{color: "#555", fontWeight: "normal", mt: -1}}
+					sx={{color: "warning.main", fontWeight: "normal", mt: -1}}
 				>
-					انضم الان إلى موقعنا واستمتع بخدمات مخصصة لحفلات الزفاف والمناسبات
-					الخاصة
+					{t("login.subtitle")}
 				</Typography>
 				<div className='row row-cols-md-2 py-2'>
 					<div className=' mb-3'>
 						<TextField
-							label='الاسم المتجر / الشركة'
+							label={t("registerPage.businessName")}
 							name='businessName'
 							value={formik.values.businessName}
 							onChange={formik.handleChange}
@@ -132,7 +180,7 @@ const BusinessRegister: FunctionComponent = () => {
 					</div>
 					<div className=' mb-3'>
 						<TextField
-							label='البريد الإلكتروني'
+							label={t("registerPage.email")}
 							name='email'
 							type='email'
 							value={formik.values.email}
@@ -146,7 +194,7 @@ const BusinessRegister: FunctionComponent = () => {
 					</div>
 					<div>
 						<TextField
-							label='كلمة المرور'
+							label={t("registerPage.password")}
 							name='password'
 							type='password'
 							value={formik.values.password}
@@ -210,7 +258,7 @@ const BusinessRegister: FunctionComponent = () => {
 					</div>
 					<div className=' mb-3'>
 						<TextField
-							label='رقم الهاتف'
+							label={t("registerPage.phoneNum")}
 							name='phone'
 							value={formik.values.phone}
 							onChange={formik.handleChange}
@@ -223,7 +271,7 @@ const BusinessRegister: FunctionComponent = () => {
 					</div>
 					<div>
 						<TextField
-							label='المدينة'
+							label={t("registerPage.city")}
 							name='address.city'
 							value={formik.values.address.city}
 							onChange={formik.handleChange}
@@ -242,7 +290,7 @@ const BusinessRegister: FunctionComponent = () => {
 					</div>
 					<div className=' mb-3'>
 						<TextField
-							label='الشارع'
+							label={t("registerPage.street")}
 							name='address.street'
 							value={formik.values.address.street}
 							onChange={formik.handleChange}
@@ -269,9 +317,9 @@ const BusinessRegister: FunctionComponent = () => {
 								formik.touched.category && Boolean(formik.errors.category)
 							}
 						>
-							<InputLabel>الفئة</InputLabel>
+							<InputLabel>{t("registerPage.category")}</InputLabel>
 							<Select
-								label='الفئة'
+								label={t("registerPage.category")}
 								name='category'
 								value={formik.values.category}
 								onChange={formik.handleChange}
@@ -279,9 +327,9 @@ const BusinessRegister: FunctionComponent = () => {
 								variant='filled'
 							>
 								{mainMenu.map((category, index) => (
-									<MenuItem key={index} value={category.label}>
+									<MenuItem key={index} value={category.category}>
 										<ListItemIcon>{category.icon}</ListItemIcon>
-										<ListItemText primary={category.label} />
+										<ListItemText primary={t(category.label)} />
 									</MenuItem>
 								))}
 							</Select>
@@ -293,9 +341,48 @@ const BusinessRegister: FunctionComponent = () => {
 						</FormControl>
 					</div>
 				</div>
-				<Button type='submit' variant='contained' fullWidth>
-					تسجيل
+				<LoadingButton
+					loading={formik.isSubmitting}
+					sx={{backgroundColor: "success.main"}}
+					type='submit'
+					variant='contained'
+				>
+					{t("registerPage.create")}
+				</LoadingButton>
+				<Button
+					sx={{backgroundColor: "primary.main"}}
+					type='button'
+					variant='contained'
+					onClick={() => navigate("/login")}
+				>
+					{t("login.login")}
 				</Button>
+				<Button
+					sx={{backgroundColor: "primary.main"}}
+					onClick={() => navigate("/register")}
+					type='button'
+					variant='contained'
+				>
+					{t("registerPage.newUser")}
+				</Button>
+				<Button
+					sx={{backgroundColor: "primary.main"}}
+					onClick={() => navigate("/business-register")}
+					variant='contained'
+				>
+					{t("registerPage.newVendor")}
+				</Button>
+			</Box>
+			<Box display='flex' justifyContent='center' gap={2}>
+				<Typography sx={{color: "warning.main"}} variant='body2'>
+					<Link to='/privacy-policy'>{t("privacyPolicy")}</Link>
+				</Typography>
+				<Typography sx={{color: "warning.main"}} variant='body2'>
+					|
+				</Typography>
+				<Typography sx={{color: "warning.main"}} variant='body2'>
+					<Link to='/terms-of-use'>{t("termsOfUse")}</Link>
+				</Typography>
 			</Box>
 		</main>
 	);

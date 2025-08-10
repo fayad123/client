@@ -1,32 +1,28 @@
 import {useState, useEffect} from "react";
-import {Services} from "../interfaces/services";
+import {getCoordinates} from "../atoms/map/OpenStreetMap";
+import {getVisibleServices} from "../subscribes/subscribtionTypes/subscriptionUtils";
+import {VendorDataResponse, SubscriptionData} from "../interfaces/userSchema";
+import {getVendorSubscriptionPlan} from "../services/usersServices";
 import {getVendorData} from "../services/vendorServices";
 import {getServiceByVendorId, getUnavailableDates} from "../services/vendorsServices";
-import {JwtPayload} from "../interfaces/userSchema";
-import {getVendorSubscriptionPlan} from "../services/usersServices";
-import {WorkingHours} from "../components/editVendorPriofileAndServices/servicesFormik";
-import {getCoordinates} from "../atoms/map/OpenStreetMap";
-import { getVisibleServices } from "../subscribes/subscribtionTypes/subscriptionUtils";
 
-interface ServiceData {
-	service: Services;
-	unavailableDates: Date[];
-	vendorId: string;
-	visibleServices: {
-		id?: string;
-		featureName: string;
-		price: number;
-	}[];
-	loading: boolean;
-	error: Error | null;
-	planId: string | null;
-	businessAddress: {lat: number; lng: number};
-	isSubscribed?: boolean;
-	subscriptionDate?: Date;
-	expiryDate?: Date;
+interface Service {
+	id?: string;
+	featureName: string;
+	price: number;
 }
 
-export const getDefaultWorkingHours = (): WorkingHours => ({
+interface WorkingHoursType {
+	sunday: {from: string; to: string; closed: false};
+	monday: {from: string; to: string; closed: false};
+	tuesday: {from: string; to: string; closed: false};
+	wednesday: {from: string; to: string; closed: false};
+	thursday: {from: string; to: string; closed: false};
+	friday: {from: string; to: string; closed: false};
+	saturday: {from: string; to: string; closed: false};
+}
+
+const defaultWorkingHours: WorkingHoursType = {
 	sunday: {from: "", to: "", closed: false},
 	monday: {from: "", to: "", closed: false},
 	tuesday: {from: "", to: "", closed: false},
@@ -34,110 +30,196 @@ export const getDefaultWorkingHours = (): WorkingHours => ({
 	thursday: {from: "", to: "", closed: false},
 	friday: {from: "", to: "", closed: false},
 	saturday: {from: "", to: "", closed: false},
-});
+};
 
-const initialServiceData = (): ServiceData => ({
+export interface VendorService {
+	businessName: string;
+	email: string;
+	phone: string;
+	category: string;
+	images: {url: string; alt: string}[];
+	socialMediaLinks: {
+		facebook: string;
+		instagram: string;
+		tikTok: string;
+		x: string;
+		youtube: string;
+	};
+	description: string;
+	priceType: string;
+	price: {min: number; max: number};
+	address: {city: string; street: string};
+	availableDates: Date[];
+	services: Service[];
+	vendorId: string;
+	planId?: string;
+	maxBookingsPerDay: number;
+	allowOverlappingBookings: boolean;
+	bookingDurationInHours: number;
+	bookingType: "single" | "multiple";
+	workingHours: WorkingHoursType;
+	//  Record<string, {from: string; to: string; closed: boolean}>;
+}
+
+interface ServiceData {
+	service: VendorService;
+	unavailableDates: Date[];
+	vendorId: string;
+	visibleServices: Service[];
+	loading: boolean;
+	error: Error | null;
+	businessAddress: {lat: number; lng: number};
+	SubscriptionData: SubscriptionData;
+	vendorProfile: VendorDataResponse | null;
+}
+
+const initialServiceData: ServiceData = {
 	service: {
 		businessName: "",
 		email: "",
 		phone: "",
 		category: "",
 		images: [],
+		socialMediaLinks: {
+			facebook: "",
+			instagram: "",
+			tikTok: "",
+			x: "",
+			youtube: "",
+		},
 		description: "",
 		priceType: "",
-		price: {
-			min: 0,
-			max: 0,
-		},
-		address: {
-			city: "",
-			street: "",
-		},
+		price: {min: 0, max: 0},
+		address: {city: "", street: ""},
 		availableDates: [],
 		services: [],
 		vendorId: "",
-		planeId: "",
 		maxBookingsPerDay: 0,
 		allowOverlappingBookings: false,
 		bookingDurationInHours: 1,
 		bookingType: "single",
-		workingHours: getDefaultWorkingHours(),
+		workingHours: defaultWorkingHours,
 	},
 	unavailableDates: [],
 	vendorId: "",
 	visibleServices: [],
 	loading: true,
 	error: null,
-	planId: null,
 	businessAddress: {lat: 0, lng: 0},
-	isSubscribed: false,
-	subscriptionDate: new Date(),
-	expiryDate: new Date(),
-});
+	SubscriptionData: {
+		isSubscribed: false,
+		planId: "free",
+		subscriptionDate: null,
+		expiryDate: null,
+		recommendedServices: false,
+	},
+	vendorProfile: null,
+};
 
 export const useServiceData = (vendorId: string): ServiceData => {
-	const [data, setData] = useState<ServiceData>(initialServiceData());
+	const [data, setData] = useState<ServiceData>(initialServiceData);
 
 	useEffect(() => {
-		if (!vendorId) return;
+		if (!vendorId) {
+			setData((prev) => ({
+				...prev,
+				loading: false,
+				error: new Error("Vendor ID is required"),
+			}));
+			return;
+		}
+
 		const loadData = async () => {
 			try {
+				setData((prev) => ({...prev, loading: true, error: null}));
+
 				const [
-					businessData,
+					rawBusinessData,
 					unavailableData,
-					vendorProfileDataResult,
+					vendorProfileData,
 					subscriptionResponse,
 				] = await Promise.all([
-					getServiceByVendorId(vendorId),
-					getUnavailableDates(vendorId),
-					getVendorData(vendorId),
+					getServiceByVendorId(vendorId).catch(() => null),
+					getUnavailableDates(vendorId).catch(() => ({unavailableDates: []})),
+					getVendorData(vendorId).catch(() => null),
 					getVendorSubscriptionPlan(vendorId),
 				]);
 
-				const vendorProfile: JwtPayload | null = Array.isArray(
-					vendorProfileDataResult,
-				)
-					? vendorProfileDataResult[0]
-					: vendorProfileDataResult;
+				// Normalize in case response is array
+				const businessData =
+					Array.isArray(rawBusinessData) && rawBusinessData.length > 0
+						? rawBusinessData[0]
+						: rawBusinessData;
 
-				const subscriptionPlanId = (subscriptionResponse as JwtPayload)?.planId;
-				const profilePlanId = vendorProfile?.planId;
-				const effectivePlanId = subscriptionPlanId || profilePlanId || "free";
+				if (
+					!businessData ||
+					typeof businessData !== "object" ||
+					!businessData.vendorId
+				) {
+					throw new Error("No service data found for this vendor");
+				}
 
+				// Normalize address data
+				const businessAddress = {
+					city: businessData.address?.city || "",
+					street: businessData.address?.street || "",
+				};
+
+				// Handle vendor profile data
+				const vendorProfile = Array.isArray(vendorProfileData)
+					? vendorProfileData[0]
+					: vendorProfileData;
+
+				if (!vendorProfile) {
+					throw new Error("Vendor profile not found");
+				}
+
+				// subscription data
+				const subscriptionData = subscriptionResponse;
+
+				// Get coordinates with fallback
+				const coordinates = await getCoordinates(
+					businessAddress.city,
+					businessAddress.street,
+				).catch(() => ({lat: 0, lng: 0}));
+
+				// Handle visible services
 				const visibleServices = getVisibleServices(
-					effectivePlanId,
-					businessData.services,
+					subscriptionData.planId,
+					Array.isArray(businessData.services) ? businessData.services : [],
 				);
 
+				// Parse unavailable dates safely
 				const parsedUnavailableDates = (
 					unavailableData?.unavailableDates || []
-				).map((d: string) => {
-					const parsed = new Date(d);
-					return isNaN(parsed.getTime()) ? new Date() : parsed;
+				).map((date: string | Date) => {
+					const parsedDate = new Date(date);
+					return isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
 				});
 
-				const {lat, lng} = await getCoordinates(
-					businessData.address.city,
-					businessData.address.street,
-				);
-
 				setData({
-					service: businessData,
+					service: {
+						...initialServiceData.service,
+						...businessData,
+						address: businessAddress,
+					},
 					unavailableDates: parsedUnavailableDates,
-					vendorId: vendorId,
+					vendorId,
 					visibleServices,
 					loading: false,
 					error: null,
-					planId: effectivePlanId,
-					businessAddress: {lat, lng},
+					businessAddress: coordinates,
+					SubscriptionData: subscriptionData,
+					vendorProfile,
 				});
-			} catch (error) {
+			} catch (error: any) {
 				console.error("Error fetching service data:", error);
-				setData((prev) => ({
-					...prev,
+				setData({
+					...initialServiceData,
 					loading: false,
-					error: error instanceof Error ? error : new Error("خطأ غير معروف"),
-				}));
+					error: error instanceof Error ? error : new Error("Unknown error"),
+					vendorId,
+				});
 			}
 		};
 

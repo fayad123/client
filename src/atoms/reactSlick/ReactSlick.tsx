@@ -3,6 +3,7 @@ import {FunctionComponent} from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import {useTranslation} from "react-i18next";
 
 interface ReactSlickProps {
 	images: {
@@ -13,29 +14,29 @@ interface ReactSlickProps {
 }
 
 const ReactSlick: FunctionComponent<ReactSlickProps> = ({images}) => {
+	const {t} = useTranslation();
 	const sliderSettings = {
-		dots: true,
+		dots: false,
 		infinite: true,
-		speed: 500,
+		speed: 1200,
 		slidesToShow: 1,
 		slidesToScroll: 1,
 		autoplay: true,
 		autoplaySpeed: 3000,
-		fade: false,
 		arrows: true,
 		responsive: [
 			{
 				breakpoint: 1200,
 				settings: {
-					arrows: true,
-					dots: true,
+					arrows: false,
+					dots: false,
 				},
 			},
 			{
 				breakpoint: 768,
 				settings: {
 					arrows: false,
-					dots: true,
+					dots: false,
 				},
 			},
 		],
@@ -81,7 +82,7 @@ const ReactSlick: FunctionComponent<ReactSlickProps> = ({images}) => {
 					color='textSecondary'
 					sx={{mt: 3}}
 				>
-					لا توجد صور متاحة حالياً لهذه الخدمة.
+					{t("booking.gallery.noImages")}
 				</Typography>
 			)}
 		</Container>

@@ -1,0 +1,900 @@
+{
+	"home": {
+		"tab": "Home | Afrahna",
+		"title": "Afrahna Platform",
+		"subTitle": "We have all the services you need for your wedding day"
+	},
+	"waze": "Navigate",
+	"afrahna": {
+		"main": "Main",
+		"vedios": "Vedios",
+		"images": "Images",
+		"contactInfo": "Contact information",
+		"title": "Afrahna",
+		"services": "Afrahna Platform Services",
+		"user": {
+			"name": "User name",
+			"image": "User image",
+			"info": "Personal information",
+			"userRole": "Role",
+			"subscriptionPlan": "Subscription plan",
+
+			"subscriptionPlans": [
+				{
+					"id": "free",
+					"name": "Trial Plan",
+					"price": "Free Forever",
+					"description": "The perfect solution to start showcasing your service basically",
+					"features": [
+						{"text": "Introductory page", "included": true},
+						{"text": "Display one image", "included": true},
+						{"text": "Display one sub-service", "included": true},
+						{"text": "Listing in service directory", "included": true},
+						{
+							"text": "Statistics or analytics",
+							"included": false,
+							"tooltip": "Available only in paid plans"
+						},
+						{
+							"text": "Live technical support",
+							"included": false,
+							"tooltip": "Available only in paid plans"
+						}
+					]
+				},
+				{
+					"id": "basic",
+					"name": "Silver Plan",
+					"price": "59 ILS/month",
+					"description": "For small businesses looking to develop their digital presence",
+					"features": [
+						{"text": "Display 5 high-quality images", "included": true},
+						{"text": "Display 6 detailed sub-services", "included": true},
+						{
+							"text": "Enhanced appearance in search results",
+							"included": true
+						},
+						{
+							"text": "Customer inquiries via phone and email",
+							"included": true
+						},
+						{"text": "Basic view statistics", "included": true},
+						{"text": "Email support during working days", "included": true},
+						{
+							"text": "Appointment booking system",
+							"included": false,
+							"tooltip": "Available in Gold Plan and above"
+						}
+					]
+				},
+				{
+					"id": "gold",
+					"name": "Gold Plan",
+					"price": "99 ILS/month",
+					"description": "Comprehensive solution for professional presentations and market distinction",
+					"features": [
+						{"text": "Custom professional page with logo", "included": true},
+						{"text": "Unlimited images", "included": true},
+						{"text": "Add up to 40 videos", "included": true},
+						{"text": "Unlimited sub-services", "included": true},
+						{"text": "'Recommended' badge", "included": true},
+						{"text": "Multiple communication channels", "included": true},
+						{"text": "Advanced page performance analytics", "included": true},
+						{
+							"text": "Integrated appointment management system",
+							"included": true
+						},
+						{"text": "Fast support via phone and email", "included": true},
+						{"text": "Embed Instagram and TikTok clips", "included": true},
+						{
+							"text": "Automatic ads",
+							"included": false,
+							"tooltip": "Available in Premium Plan"
+						}
+					],
+					"recommended": true
+				},
+				{
+					"id": "premium",
+					"name": "Premium Plan",
+					"price": "189 ILS/month",
+					"description": "For leading businesses seeking excellence and constant visibility",
+					"features": [
+						{"text": "Custom professional page with logo", "included": true},
+						{"text": "Unlimited images", "included": true},
+						{"text": "Add up to 60 videos", "included": true},
+						{"text": "Unlimited sub-services", "included": true},
+						{"text": "'Recommended' badge", "included": true},
+						{"text": "Multiple communication channels", "included": true},
+						{"text": "Advanced page performance analytics", "included": true},
+						{
+							"text": "Integrated appointment management system",
+							"included": true
+						},
+						{"text": "Fast support via phone and email", "included": true},
+						{"text": "Embed Instagram and TikTok clips", "included": true},
+						{"text": "Automatic ads on homepage", "included": true},
+						{"text": "Permanent appearance on homepage", "included": true},
+						{"text": "Custom monthly performance reports", "included": true},
+						{
+							"text": "Priority immediate technical support",
+							"included": true
+						},
+						{
+							"text": "'Trusted Provider' certificate and excellence badge",
+							"included": true
+						},
+						{
+							"text": "Multiple account management",
+							"included": false,
+							"tooltip": "Available in Enterprise Plan"
+						}
+					]
+				},
+				{
+					"id": "enterprise",
+					"name": "Enterprise & Agency Plan 🌐",
+					"price": "Contact Us",
+					"description": "Comprehensive solutions for large companies and agencies",
+					"features": [
+						{"text": "Custom professional page with logo", "included": true},
+						{"text": "Unlimited images", "included": true},
+						{"text": "Add up to 20 videos", "included": true},
+						{"text": "Unlimited sub-services", "included": true},
+						{"text": "'Recommended' badge", "included": true},
+						{"text": "Multiple communication channels", "included": true},
+						{"text": "Advanced page performance analytics", "included": true},
+						{
+							"text": "Integrated appointment management system",
+							"included": true
+						},
+						{"text": "Fast support via phone and email", "included": true},
+						{"text": "Embed Instagram and TikTok clips", "included": true},
+						{"text": "Automatic ads on homepage", "included": true},
+						{"text": "Permanent appearance on homepage", "included": true},
+						{"text": "Custom monthly performance reports", "included": true},
+						{
+							"text": "Priority immediate technical support",
+							"included": true
+						},
+						{
+							"text": "'Trusted Provider' certificate and excellence badge",
+							"included": true
+						},
+						{
+							"text": "Multiple account and site management",
+							"included": true
+						},
+						{
+							"text": "Custom integration with external systems",
+							"included": true
+						},
+						{"text": "Dedicated account manager", "included": true},
+						{"text": "24/7 live technical support", "included": true},
+						{"text": "Team training and workshops", "included": true},
+						{"text": "Custom marketing strategies", "included": true}
+					]
+				}
+			],
+			"boogings": "Bookings"
+		}
+	},
+
+	"ads": {
+		"noVideo": "No ad videos available",
+		"videoAds": {
+			"videoHasBeenPaused": "The video has been paused",
+			"networkError": "Network error",
+			"decodingError": "Decoding error",
+			"unsupportedFormat": "Unsupported format",
+			"playbackFailed": "Video playback failed",
+			"operationalError": "Operational error (code)",
+			"promotionalVideo": "Promotional Video"
+		},
+		"videoUpload": {
+			"title": "Upload Video",
+			"selectButton": "Select Video",
+			"uploadButton": "Upload Video",
+			"uploading": "Uploading...",
+			"cancelButton": "Cancel",
+			"selectedFile": "Selected file:",
+			"size": "Size:",
+			"uploaded": "{{progress}}% uploaded",
+			"errors": {
+				"fileTooLarge": "File is too large (max 100MB)",
+				"unsupportedType": "Only {{types}} files are allowed",
+				"uploadFailed": "Upload failed",
+				"uploadSuccess": "Upload successful! File ID: {{fileId}}"
+			},
+			"info": {
+				"fileReady": "File selected and ready for upload"
+			}
+		}
+	},
+
+	"footer": {
+		"copyRight": "All rights reserved - Afrahna Website"
+	},
+
+	"menu": {
+		"hals": "Halls",
+		"hallsDecoration": "Hall Decorations",
+		"carDecoration": "Car Decorations",
+		"coffeeKiosks": "Coffee Kiosks",
+		"beautySalons": "Beauty Salons",
+		"chairs": "Chair Rentals",
+		"pastry": "Pastries",
+		"frezzer": "Freezer Rentals",
+		"dabkePlatforms": "Dabke Platforms",
+		"photography": "Photography",
+		"sterio": "Stereo",
+		"cooks": "Cooks",
+		"restaurants": "Wedding Restaurants",
+		"waiters": "Waiters",
+		"fireworks": "Fireworks",
+		"invitationCards": "Invitation Cards",
+		"nuts": "Nuts",
+		"religiousBands": "Religious Bands",
+		"kidsEntertainment": "Kids Entertainment",
+		"fruitDecoration": "Fruit Decoration",
+		"weddingGifts": "Wedding Gift Arrangements",
+		"luxuryCars": "Luxury Car Rentals"
+	},
+
+	"services": {
+		"hals": {
+			"category": "Halls",
+			"pageTitle": "Best Wedding and Event Halls - Afrahna",
+			"metaDescription": "Book the finest luxury wedding halls in various sizes and elegant designs. We provide halls with complete facilities and excellent services for all occasions.",
+			"introText": "Choose from the most beautiful wedding halls suitable for your needs. Spacious areas, luxurious decorations, and full equipment to ensure your event’s success.",
+			"subCategories": ["Indoor Halls", "Outdoor Halls", "Garden Halls"]
+		},
+		"halsDecoration": {
+			"category": "Halls Decoration",
+			"pageTitle": "Top Wedding Hall Decoration Services - Afrahna",
+			"metaDescription": "Wedding hall decoration services with the latest designs and creative ideas. Full or partial decoration as you wish at the best prices.",
+			"introText": "Turn your wedding hall into a masterpiece with our comprehensive decoration services. Innovative designs, coordinated colors, and luxurious arrangements suitable for all tastes.",
+			"subCategories": [
+				"Full Decoration",
+				"Partial Decoration",
+				"Flower Decorations"
+			]
+		},
+		"carsDecoration": {
+			"category": "Cars Decoration",
+			"pageTitle": "Wedding Car Decoration - Afrahna",
+			"metaDescription": "Wedding car decoration services with the finest designs and natural flowers. Luxurious decoration for your wedding convoy worthy of your special occasion.",
+			"introText": "Make your wedding convoy unforgettable with our luxurious car decoration services. Innovative designs and coordinated colors to suit all tastes.",
+			"subCategories": [
+				"Classic Decoration",
+				"Modern Decoration",
+				"Flower Decoration"
+			]
+		},
+		"coffeeKiosks": {
+			"category": "Coffee Kiosks",
+			"pageTitle": "Best Coffee Kiosks for Events - Afrahna",
+			"metaDescription": "Professional mobile coffee kiosk rentals for events and weddings. Serving hot and cold drinks with high quality.",
+			"introText": "Add a special touch to your event with our mobile coffee kiosks. Elegant designs and professional service to provide the best drinks to your guests.",
+			"subCategories": ["Regular Kiosk", "Luxury Kiosk", "Full Service"]
+		},
+		"chairs": {
+			"category": "Chairs",
+			"pageTitle": "Chair Rental Services for Weddings and Events - Afrahna",
+			"metaDescription": "Elegant chair and table rentals for weddings and events. Various options of luxurious and comfortable chairs at competitive prices.",
+			"introText": "We provide a wide range of chairs and tables suitable for all types of events. Luxurious, comfortable, and high-quality chairs matching your taste.",
+			"subCategories": ["Plastic Chairs", "Fabric Chairs", "VIP Chairs"]
+		},
+		"cosmatics": {
+			"category": "Beauty Salons",
+			"pageTitle": "Best Beauty Salons for Brides and Events - Afrahna",
+			"metaDescription": "We offer the best beauty salons specializing in makeup and hair styling for brides and guests. High quality and professional service worthy of your special day.",
+			"introText": "We offer the best beauty salons specializing in makeup and hair styling for brides and guests. High quality and professional service worthy of your special day."
+		},
+		"pastry": {
+			"category": "Pastry",
+			"pageTitle": "Best Wedding and Event Pastries - Afrahna",
+			"metaDescription": "A distinctive selection of wedding pastries with high quality and innovative designs. Eastern and Western pastries to suit all tastes.",
+			"introText": "Choose from our wide range of expert-made pastries. We offer traditional and modern pastries in various shapes and sizes."
+		},
+		"frezzer": {
+			"category": "Freezer Rentals",
+			"pageTitle": "Freezer Rental Services for Events - Afrahna",
+			"metaDescription": "Beverage freezer rentals for events and weddings. High-quality freezers in different capacities with delivery and installation services.",
+			"introText": "We provide high-quality beverage freezers for large and small events. Daily or weekly rental with delivery and installation services."
+		},
+		"photography": {
+			"category": "Photography",
+			"pageTitle": "Wedding and Event Photography Services - Afrahna",
+			"metaDescription": "Professional wedding photographers to capture the best moments of your event. High-quality photography and video services.",
+			"introText": "Preserve your event memories beautifully with our experienced photographers. We offer comprehensive photography services tailored to all needs and budgets."
+		},
+		"stereo": {
+			"category": "Stereo Systems",
+			"pageTitle": "Professional Audio System Rentals for Events - Afrahna",
+			"metaDescription": "Rental of professional audio and stereo systems for events and weddings. Complete stereo systems with microphones and expert technician service.",
+			"introText": "Make your event livelier with our professional audio systems. We provide full audio setups with high quality for excellent sound experience."
+		},
+		"coocks": {
+			"category": "Cooks",
+			"pageTitle": "Top Cooks for Events and Weddings - Afrahna",
+			"metaDescription": "Professional cooks services to prepare special dishes at your event. Cooks specialized in Arabic and international cuisines.",
+			"introText": "Enjoy special dishes prepared by professional cooks at your event. We offer a wide range of cooks specializing in various types of cuisine."
+		},
+		"restaurants": {
+			"category": "Wedding Restaurants",
+			"pageTitle": "Best Restaurants for Wedding Receptions - Afrahna",
+			"metaDescription": "List of the best restaurants suitable for wedding receptions. Luxurious dining halls and diverse menus that suit all tastes.",
+			"introText": "Choose from the best restaurants suitable for wedding receptions. Diverse menus and excellent service worthy of your special occasion."
+		},
+		"witress": {
+			"category": "Waiters",
+			"pageTitle": "Professional Waiter Services for Events - Afrahna",
+			"metaDescription": "Providing professional waiters to serve guests at events and weddings. A trained and complete team to ensure excellent service.",
+			"introText": "We provide a professional team of waiters to serve your guests with the highest professionalism. High training and wide experience in event service."
+		},
+		"fireWorks": {
+			"category": "Fireworks",
+			"pageTitle": "Fireworks Services for Events - Afrahna",
+			"metaDescription": "Organizing fireworks shows for events and weddings. Customized and safe shows supervised by licensed and professional teams.",
+			"introText": "Add a magical touch to your event with our special fireworks shows. We offer safe and innovative shows supervised by professional and licensed teams."
+		},
+		"invitationCards": {
+			"category": "Invitation Cards",
+			"pageTitle": "Unique Invitation Card Designs - Afrahna",
+			"metaDescription": "Custom invitation card designs for weddings and events. Innovative designs and luxurious materials matching your taste.",
+			"introText": "Design unique invitation cards worthy of your event. We offer a wide variety of designs and luxurious materials reflecting your personality."
+		},
+		"nuts": {
+			"category": "Nuts",
+			"pageTitle": "Best Nut Selections for Events - Afrahna",
+			"metaDescription": "Providing luxurious and fresh nuts for events and weddings. Premium quality nuts with elegant packaging.",
+			"introText": "Choose from our wide selection of luxurious nuts for events. High quality and elegant packaging suitable for your guests."
+		},
+		"religiousband": {
+			"category": "Religious Bands",
+			"pageTitle": "Religious Singing Bands for Events - Afrahna",
+			"metaDescription": "Providing professional religious singing bands for events and weddings. Beautiful voices and songs suitable for religious occasions.",
+			"introText": "Add a special spiritual atmosphere to your event with our professional religious singing bands. We offer a selection of distinguished bands with beautiful voices."
+		},
+		"kidsEntertainment": {
+			"category": "Kids Entertainment",
+			"pageTitle": "Kids Entertainment Services for Events - Afrahna",
+			"metaDescription": "Comprehensive entertainment programs for kids at events and weddings. Fun and safe activities supervised by specialists in child care.",
+			"introText": "Provide your young guests with fun and safe time with our special entertainment programs. Interactive activities and fun competitions supervised by specialists."
+		},
+		"fruitDecoration": {
+			"category": "Fruit Decoration",
+			"pageTitle": "Fruit Decoration and Arrangement Services for Events - Afrahna",
+			"metaDescription": "Luxurious fruit decoration and arrangement for events and weddings. Innovative designs with fresh and high-quality fruits.",
+			"introText": "Add a touch of elegance and distinct taste with our luxurious fruit arrangements. We offer innovative designs made from fresh and high-quality fruits."
+		},
+		"weddinggifts": {
+			"category": "Wedding Gifts Arrangement",
+			"pageTitle": "Wedding Gift Arrangement Services - Afrahna",
+			"metaDescription": "Special gift arrangements for newlyweds on their wedding. Creative ideas and professional execution for gifts worthy of your happy occasion.",
+			"introText": "Give special gifts to newlyweds expressing your feelings on their wedding day. We offer creative ideas and professional execution for customized gifts."
+		},
+		"luxuryCars": {
+			"category": "Luxury Car Rentals",
+			"pageTitle": "Luxury Car Rentals for Weddings - Afrahna",
+			"metaDescription": "Rental of modern luxury cars for wedding convoys. A unique selection of the latest luxury models with professional drivers.",
+			"introText": "Make your wedding convoy more special with our luxury cars. We offer a unique selection of the latest models with professional drivers."
+		},
+		"dapkaPlatform": {
+			"category": "Dabka Platforms",
+			"pageTitle": "Best Dabka Platforms for Events and Weddings - Afrahna",
+			"metaDescription": "We provide the best platforms for traditional Dabka dance, in various sizes and designs suitable for weddings and special events. High-quality materials and safe installation.",
+			"introText": "Add excitement and joy to your party with our sturdy and custom-made Dabka dance platforms. We provide platforms in various sizes and designs suitable for all types of events."
+		}
+	},
+
+	"globalVendorsPage": {
+		"noServices": "There are no services available according to the specified search criteria",
+		"searchService": "Search for services...",
+		"allServices": "All",
+		"PriceRange": "Price range",
+		"closest": "closest",
+		"cheapest": "cheapest",
+		"topRated": "Top Rated",
+		"AvailableServices": "Available services",
+		"moreServices": "more services",
+		"noImage": "No image to review",
+		"bookNow": "Book now",
+		"location": {
+			"basedOnCity": "Approximate location (based on city only)"
+		}
+	},
+
+	"navbar": {
+		"home": "Home",
+		"about": "About Us",
+		"contact": "Contact Us",
+		"login": "Login",
+		"logout": "Logout",
+		"management": "Management",
+		"profile": "Profile",
+		"bookingsManagement": "Bookings management",
+		"servicesManagement": "Services management",
+		"userManagement": "Users management",
+		"vendorsManagement": "Vendors management"
+	},
+
+	"login": {
+		"login": "Login",
+		"logout": "Logout",
+		"title": "Login now and get our premium services",
+		"subtitle": "Join our platform now and enjoy services tailored for weddings and special occasions",
+		"joinToAfrahnaVendor": "Join Afrahna now and enjoy the best services for your business",
+		"joinToAfrahnaUser": "Join Afrahna now and enjoy the best services for your wedding",
+		"wellcomeMessage": "Welcome afrahna platform",
+		"loginToSeeYours": "You must log in to view the profile."
+	},
+
+	"registerPage": {
+		"newUser": "New User",
+		"newVendor": "New Vendor",
+		"businessName": "Business / Company Name",
+		"email": "Email",
+		"emailValidation": "Please enter an email",
+		"validEmailValidation": "Please enter a valid email",
+		"password": "Password",
+		"passwordValidation": "Please enter a password",
+		"validPasswordValidation": "Password must contain at least 6 characters",
+		"matchPasswordValidation": "The password must contain an uppercase and lowercase letter, a number, and a special character",
+		"fName": "First Name",
+		"firstNameValidation": "Please enter your first name",
+		"lName": "Last Name",
+		"lastNameValidation": "Please enter your last name",
+		"phoneNum": "Phone Number",
+		"phoneValidation": "Please enter your phone number",
+		"city": "City",
+		"cityValidation": "Please enter your city",
+		"street": "Street",
+		"streetValidation": "Please enter your street",
+		"categoryValidation": "Please enter the category.",
+
+		"registerType": {
+			"title": "register Type",
+			"newUser": "New User",
+			"newVendor": "New service provider"
+		},
+
+		"serviceProvider": "Service provider",
+		"category": "Category",
+		"create": "Create",
+		"back": "Back"
+	},
+
+	"usersManagement": {
+		"usersTable": "Users Table",
+		"vendorsTable": "Vendors Table",
+		"edit": "Edit",
+		"delete": "Delete",
+		"noUsers": "No users to display",
+		"noVendors": "No vendors to display",
+		"phone": "Phone",
+		"vendorsProviderManagement": "Vendors management",
+		"usersProviderManagement": "User management"
+	},
+
+	"booking": {
+		"loginToBook": "You must log in to benefit from all our distinguished services",
+		"bookingError": "At least one feature must be specified",
+		"sendingSuccess": "Your request has been sent for {{date}} with the following services:\n{{features}}",
+		"tryAnotherDate": "Booking is not available on the selected date. Please choose another date.",
+		"serviceLoadingError": "Failed to load service data.",
+		"reload": "Reload",
+		"requistHasBeenSent": "Your request has been sent successfully!",
+		"weWellContactYou": "We will contact you soon to confirm the request.",
+		"backToHome": "Back to Home Page",
+		"yourBooks": "View your requests",
+		"pageManage": "Manage Page",
+		"chooseService": "Choose the required services",
+		"noServiceToChoose": "No available services to choose from.",
+		"haveToAddOneFuture": "You must add at least one service to make it visible to users.",
+		"AddFuture": "Add your premium services",
+		"AllYorFuturesPrice": "Total price for selected services",
+		"note": "Additional notes (optional)",
+		"cancelingError": "An error occurred while canceling the reservation.",
+		"BusinessName": "Business Name",
+		"BookingDate": "Date",
+		"status": "Status",
+		"requiredServices": "Required services",
+		"procedure": "Procedure",
+		"vendorReservation": "Someone has made a reservation with you",
+		"serviceApplicant": "Service applicant",
+		"cancel": "Cancel",
+		"noHaveBooks": "You have not booked yet",
+		"Important": "Important",
+		"gallery": {
+			"noImages": "No images available for this service at the moment."
+		},
+		"workingHoursTitle": "Working hours",
+		"workingHours": "No working hours data available"
+	},
+
+	"days": {
+		"sunday": "Sunday",
+		"monday": "Monday",
+		"tuesday": "Tuesday",
+		"wednesday": "Wednesday",
+		"thursday": "Thursday",
+		"friday": "Friday",
+		"saturday": "Saturday"
+	},
+
+	"closed": "Closed",
+	"calendar": {
+		"directions": "If the date field is marked in red, it means the date is unavailable",
+		"chooseBookDate": "Choose a booking date"
+	},
+	"privacyPolicy": "Privacy Policy",
+
+	"privacy": {
+		"title": "Afra7na Platform Privacy Policy",
+		"intro": "At Afra7na, we consider your privacy very important. This policy defines how we collect, use, share, and protect your personal information. By using our platform, you agree to the collection and use of information in accordance with this policy.",
+		"sections": [
+			{
+				"title": "Information We Collect",
+				"items": [
+					"Account information (name, email, phone number, optional profile picture)",
+					"Usage data (types of services used, browsing duration, preferences)",
+					"Payment information (via secure gateways like PayFort or Apple Pay; we do not store card data)",
+					"Technical data (IP address, browser type, language settings)"
+				]
+			},
+			{
+				"title": "How We Use Data",
+				"items": [
+					"Improve and personalize user experience",
+					"Provide better technical support and troubleshoot issues",
+					"Send important updates or special offers (with your consent)",
+					"Analyze platform performance and make improvements",
+					"Comply with legal obligations"
+				]
+			},
+			{
+				"title": "Information Protection",
+				"items": [
+					"Encrypt data during transmission using TLS/SSL protocols",
+					"Secure storage according to PCI DSS standards for payment data",
+					"Restricted access for authorized personnel only",
+					"Regular security audits of the system"
+				]
+			},
+			{
+				"title": "Your Rights",
+				"items": [
+					"Request a copy of your personal data",
+					"Request correction of inaccurate information",
+					"Request deletion of your personal data (subject to legal restrictions)",
+					"Unsubscribe from promotional messages",
+					"Withdraw consent for data processing"
+				]
+			},
+			{
+				"title": "Data Sharing with Third Parties",
+				"items": [
+					"Only approved payment service providers",
+					"Service partners necessary for platform operation",
+					"Government entities when legally required",
+					"We do not sell your data to external marketing parties"
+				]
+			}
+		],
+		"contact": {
+			"title": "Contact Us",
+			"description": "For any inquiries about our privacy policy or data practices, please contact us via:",
+			"email": "Email: privacy@afra7na.com",
+			"phone": "Phone: 0500000000 (from 8 AM to 8 PM)",
+			"address": "Address: Umm al-Fahm, Israel"
+		},
+		"lastUpdate": "This policy was last updated on 27.5.2025. We reserve the right to amend this policy and will post any changes on this page with an updated review date."
+	},
+
+	"analytics": {
+		"title": "Advanced monthly page performance analytics",
+		"Chart": "Page visits during the week",
+		"PieChart": "Sources of visits",
+		"button": "Sources of visits",
+		"numberOfVisitors": "Number of visitors",
+		"averageDuration": "Average duration (minutes)",
+		"bounceRate": "Bounce rate"
+	},
+	"pnf": {
+		"title": "Page Not Found",
+		"description": "Sorry, the page you are looking for does not exist or might have been moved.",
+		"backHome": "Back to Homepage"
+	},
+	"contactUs": {
+		"title": "Contact Us",
+		"subtitle": "We’re happy to answer your questions and suggestions",
+		"fields": {
+			"name": "Full Name",
+			"email": "Email",
+			"subject": "Subject",
+			"message": "Your Message"
+		},
+		"submit": "Send",
+		"successMessage": "Your message has been sent successfully!",
+		"validation": {
+			"nameRequired": "Full name is required",
+			"emailRequired": "Email is required",
+			"invalidEmail": "Invalid email",
+			"subjectRequired": "Subject is required",
+			"messageRequired": "Message is required",
+			"messageMax": "Message must be less than 500 characters"
+		}
+	},
+
+	"payment": {
+		"paymentForm": {
+			"title": "Payment Information",
+			"cardNumber": "Card Number",
+			"expiryDate": "Expiry Date",
+			"cvv": "CVV",
+			"cardHolderName": "Cardholder Name",
+			"saveCard": "Save card info for next time",
+			"submit": "Confirm Payment",
+			"termsLink": "Payment Terms & Conditions"
+		},
+		"paymentTerms": {
+			"title": "Afrahna Platform Payment Terms and Conditions",
+			"lastUpdated": "Last updated: {{date}}",
+			"note": "Note: These terms are subject to change. Please check this page periodically for updates.",
+			"moreInfo": "For more information, please refer to our",
+			"privacyPolicy": "Privacy Policy",
+			"items": [
+				{
+					"title": "Accepted Payment Methods",
+					"content": "We accept the following payment methods: Credit cards (Visa, MasterCard, Mada), digital wallets (Apple Pay, STC Pay), and bank transfer upon request."
+				},
+				{
+					"title": "Subscriptions",
+					"content": "Subscriptions are automatically renewed at the end of each period unless canceled at least 24 hours before the renewal date. You can cancel anytime via your account page."
+				},
+				{
+					"title": "Refund Policy",
+					"content": "No refunds will be issued after the subscription period begins. Please contact us within 7 days in case of a payment error. Refunds are processed within 14 business days."
+				},
+				{
+					"title": "Payment Information Security",
+					"content": "We use advanced encryption technologies (PCI DSS) to ensure the security of your payment information. Credit card data is not stored on our servers, and we use certified payment gateways."
+				},
+				{
+					"title": "Taxes and Modifications",
+					"content": "Value Added Tax (15%) is added according to the Kingdom’s regulations. We reserve the right to adjust prices with prior notice of 30 days before implementation."
+				},
+				{
+					"title": "Technical Support",
+					"content": "For inquiries, contact us at support@yourdomain.com or call 920000000 from 8:00 AM to 8:00 PM (israel time)."
+				}
+			]
+		}
+	},
+
+	"addNewService": {
+		"dialogTitle": "New Service",
+		"description": "What new service would you like to add?",
+		"labels": {
+			"featureName": "New Service",
+			"price": "Service Price"
+		},
+		"buttons": {
+			"close": "Close",
+			"add": "Add",
+			"adding": "Adding..."
+		},
+		"validation": {
+			"featureNameRequired": "Service name is required",
+			"priceRequired": "Service price is required",
+			"pricePositive": "Price must be a positive number"
+		},
+		"toasts": {
+			"success": "Service \"{{featureName}}\" added successfully",
+			"error": "An error occurred while adding the service"
+		}
+	},
+	"addNewPicture": {
+		"dialogTitle": "New Service",
+		"description": "Enter the image title",
+		"labels": {
+			"imageUrl": "Image URL",
+			"imageAlt": "Image title"
+		},
+		"buttons": {
+			"close": "Close",
+			"add": "Add",
+			"adding": "Adding..."
+		},
+		"validation": {
+			"urlRequired": "Please enter a URL",
+			"urlInvalid": "Please enter a valid URL",
+			"altRequired": "Please enter the image title"
+		},
+		"toasts": {
+			"success": "Image added successfully!",
+			"error": "An error occurred while adding the image"
+		}
+	},
+	"servicesSettings": {
+		"availableServices": "Available Services",
+		"addNewService": "Add New Service",
+		"noServicesAvailable": "No services available",
+		"priceRange": "Price Range",
+		"fixed": "Fixed",
+		"from": "From",
+		"to": "To",
+		"services": "Services",
+		"noServices": "No services",
+		"businessName": "Business Name",
+		"unnamedService": "Unnamed Service"
+	},
+	"servicesFormik": {},
+	"editServices": {
+		"invalidUrl": "The provided URL is not valid",
+		"socialLinksUpdateError": "Failed to update social media links",
+		"title": "Edit Service Provider Details",
+		"myservicesPage": "My Services Page",
+		"tryAgain": "Try Again",
+		"businessName": "Business Name",
+		"priceType": "Price Type",
+		"priceFixed": "Fixed Price",
+		"priceRange": "Flexible Price",
+		"maxPrice": "Max Price",
+		"minPrice": "Min Price",
+		"maxBookingsPerDay": "Max Bookings Per Day",
+		"bookingDurationInHours": "Booking Duration (hours)",
+		"bookingType": "Booking Type",
+		"daily": "Daily",
+		"hourly": "Hourly",
+		"multiBooking": "MultiBooking",
+		"startTime": "Start time",
+		"endTime": "End time",
+		"bookingTypeSection": "Customize Booking Type",
+		"workingHoursSection": "Customize Working Hours",
+		"saveChanges": "Save Changes",
+		"addImageButton": "Add New Image",
+		"allowOverlapping": "Allow Overlapping Bookings",
+		"closed": "Closed",
+		"descriptionLabel": "Description",
+		"instructions": {
+			"title": "Instructions:",
+			"tip1": "To add a new line, use a dash (-) at the beginning of the line",
+			"tip2": "-This is a new line with a dash"
+		}
+	},
+	"spicialLogo": {},
+	"videoUpload": {},
+
+	"termsOfUse": "Terms of Use",
+
+	"terms": {
+		"title": "Afrahna Platform Terms of Use",
+		"intro": "These terms govern your use of the Afrahna platform and define users' rights and obligations. Please read them carefully before using the platform.",
+		"sections": [
+			{
+				"title": "Acceptance of Terms",
+				"items": [
+					"By using Afrahna, you agree to be bound by these terms.",
+					"If you do not agree to any part, you must stop using the platform."
+				]
+			},
+			{
+				"title": "Platform Usage",
+				"items": [
+					"Use the platform only for legal and legitimate personal or professional purposes.",
+					"Do not post or share offensive, misleading, illegal, or rights-violating content.",
+					"Fraudulent or harmful activities are prohibited."
+				]
+			},
+			{
+				"title": "Account Creation",
+				"items": [
+					"Provide accurate and complete information when creating an account.",
+					"You are responsible for maintaining the confidentiality of your login credentials.",
+					"Report any unauthorized use of your account immediately."
+				]
+			},
+			{
+				"title": "Intellectual Property",
+				"items": [
+					"All intellectual property rights belong to Afrahna or its licensors.",
+					"Do not copy, republish, or reuse any part of the platform without written permission."
+				]
+			},
+			{
+				"title": "Modifications to Terms",
+				"items": [
+					"We may update these terms at any time at our discretion.",
+					"Updates will be posted on this page with the modification date.",
+					"Continued use of the platform after changes means acceptance of the updated terms."
+				]
+			}
+		],
+		"contactUsTitle": "Contact Us",
+		"contactUsDescription": "For inquiries or feedback regarding the Terms of Use, please contact us via:",
+		"contactEmail": "Email: {{email}}",
+		"contactPhone": "Phone: {{phone}} (from 8 AM to 8 PM)",
+		"contactAddress": "Address: {{address}}",
+		"lastUpdate": "The Terms of Use were last updated on {{date}}. We reserve the right to modify these terms at any time and will post updates on this page."
+	},
+
+	"about": {
+		"title": "About Afrahna Platform",
+		"subtitle": "The leading platform for wedding and event planning in the Middle East",
+		"vision": {
+			"title": "Our Vision",
+			"content": "Afrahna Platform was created to simplify and streamline wedding and event planning for couples and businesses. We aim to connect quality service providers with customers looking for professional solutions for unforgettable events."
+		},
+		"offerings": {
+			"title": "What We Offer?",
+			"content": "Afrahna is a comprehensive digital marketplace that brings together a wide range of wedding and event services, including:",
+			"categories": [
+				"Venues and accommodation (indoor, outdoor, garden venues)",
+				"Design and makeup (hall decorations, car decorations, makeup and grooming)",
+				"Catering (catering, sweets, inflatables, coffee bars)",
+				"Entertainment (dabke bands, fireworks, photographers, sound systems)",
+				"Additional services (invitations, gifts, luxury car rentals, kids' corners)"
+			],
+			"advantages": [
+				"Wide variety - dozens of service categories in one place",
+				"Centralized information - vendor pages with descriptions, photos, prices and reviews",
+				"Availability and transparency - price comparison, online scheduling and direct communication",
+				"Reliability - verified vendors with customer ratings",
+				"Adapted to local culture - services specially tailored for Arab, Druze and Muslim weddings"
+			]
+		},
+		"audience": {
+			"title": "Who Is It For?",
+			"items": [
+				"Engaged couples - Find all the vendors you need for your dream event",
+				"Service providers - Expand your customer base through a professional platform",
+				"Event organizers - Easily manage different vendors in one place"
+			]
+		},
+		"process": {
+			"title": "How It Works?",
+			"steps": [
+				"Browse and select - Search for services by category or location",
+				"Compare - Read reviews, check prices and ratings",
+				"Coordinate and pay - Contact directly or book online",
+				"Smooth experience - Get support until the end of the event"
+			]
+		},
+		"cta": {
+			"title": "Ready to get started?",
+			"content": "For questions or more information, contact us through the 'Contact Us' page on the website or via email",
+			"button": "Contact Us"
+		},
+		"footer": "🌐 Afrahna - The leading platform for wedding and event planning in the Middle East!"
+	},
+	"recommendedVendors": {
+		"title": "Recommended Vendors",
+		"noServices": "No recommended services available currently",
+		"ratingCount": "({{count}})"
+	},
+	"faq": {
+		"title": "Frequently Asked Questions",
+		"q1": "How can I book a service from the platform?",
+		"a1": "Browse the categories, choose the right service, then click 'Book Now' and follow the instructions to complete the booking",
+		"q2": "Do I need to create an account to book?",
+		"a2": "Yes, you must be registered so we can link bookings to you and offer proper support",
+		"q3": "Can I cancel a booking after payment?",
+		"a3": "Yes, but depending on the provider’s policy. Some services allow full or partial refunds within a specific period",
+		"q4": "What payment methods are available?",
+		"a4": "We accept credit cards, Apple Pay, STC Pay, and bank transfer for certain plans",
+		"q5": "How can I contact the service provider?",
+		"a5": "After booking, a 'Contact Provider' button will appear on your booking page. You can also contact us directly"
+	},
+	"testimonials": {
+		"title": "Customer Reviews"
+	},
+	"plans": {
+		"subscriptionPlans": "Subscription Plans",
+		"subscriptionButtons": "Subscription Plans",
+		"choosePlan": "Choose the plan that suits you",
+		"subscription": {}
+	}
+}

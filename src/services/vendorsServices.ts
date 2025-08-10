@@ -4,7 +4,7 @@ const api = `${import.meta.env.VITE_API_URI}`;
 
 export const getAllService = async () => {
 	try {
-		const allService = await axios.get(api);
+		const allService = await axios.get(`${api}/services`);
 		return allService.data;
 	} catch (error) {
 		console.log(error);
@@ -13,29 +13,26 @@ export const getAllService = async () => {
 
 export const getServiceByVendorId = async (vendorId: string) => {
 	try {
-		const vendor = await axios.get(`${api}/services/vendor/${vendorId}`);
-		return vendor.data[0];
+		const res = await axios.get(`${api}/services/vendor/${vendorId}`);
+
+		// הגנה: אם מחזיר מערך ריק, מחזיר null
+		if (Array.isArray(res.data) && res.data.length === 0) {
+			return null;
+		}
+
+		return res.data;
 	} catch (error) {
-		console.log(error);
+		console.error("Error in getServiceByVendorId:", error);
+		return null;
 	}
 };
 
 export const getServiceByCategories = async (category: string) => {
 	try {
-		const allHalls = await axios.get(`${api}/services/by-category/${category}`);
-		return allHalls.data;
-	} catch (error) {
-		console.log(error);
-	}
-};
+		console.log(category);
 
-// get Spicific Halls decoration for vendors
-export const getHalsDecorationForSpicificUser = async (userId: string) => {
-	try {
-		const spicificHals = await axios.get(`${api}/services/${userId}`, {
-			headers: {Authorization: localStorage.getItem("token")},
-		});
-		return spicificHals.data;
+		const services = await axios.get(`${api}/services/by-category/${category}`);
+		return services.data;
 	} catch (error) {
 		console.log(error);
 	}
@@ -63,20 +60,14 @@ export const addVendorPicture = async (
 	image: {url: string; alt: string},
 ) => {
 	try {
-		const res = await axios.post(
-			`${api}/services/picture/${vendorId}`,
-			image,
-			{
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: localStorage.getItem("token"),
-				},
+		const res = await axios.post(`${api}/services/picture/${vendorId}`, image, {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: localStorage.getItem("token"),
 			},
-		);
+		});
 		return res.data;
 	} catch (error) {
 		console.log(error);
 	}
 };
-
-

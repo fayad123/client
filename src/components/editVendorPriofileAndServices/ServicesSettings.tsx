@@ -1,4 +1,4 @@
-import {FunctionComponent, useState} from "react";
+import {FunctionComponent, useCallback, useEffect, useState} from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
@@ -26,38 +26,47 @@ import AddNewServiceModal from "../../atoms/AddNewServiceModal";
 import {JwtPayload} from "../../interfaces/userSchema";
 import {Services} from "../../interfaces/services";
 import {formatCurrency} from "../../helpers/vendors";
+import {removeVendorService} from "../../services/vendorServices";
+import {useTranslation} from "react-i18next";
+import changeDirection from "../../../locales/directions";
 
 interface ServicesSettingsProps {
 	vendorServices: Services[];
 	user: JwtPayload;
+	refresh: () => void;
 }
 
 const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 	vendorServices,
 	user,
+	refresh,
 }) => {
+	const dir = changeDirection();
+	const {t} = useTranslation();
 	const [loading, setLoading] = useState<boolean>(false);
-	const [refresh, setRefresh] = useState<boolean>(false);
 	const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
 
 	const [open, setOpen] = useState<boolean>(false);
 
-	const handleClickOpen = () => setOpen(!open);
-	const handleClose = () => setOpen(!open);
+	const handleClickOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
-	const handleRemoveVendorService = async (vid: string, servName: string) => {
-		setLoading(true);
-		try {
-			await handleRemoveVendorService(vid, servName);
-
-			setRefresh(!refresh);
-		} finally {
-			setLoading(false);
-		}
-	};
+	const handleRemoveVendorService = useCallback(
+		async (vid: string, servName: string) => {
+			setLoading(true);
+			try {
+				await removeVendorService(vid, servName);
+				refresh();
+			} finally {
+				setLoading(false);
+			}
+		},
+		[],
+	);
 
 	return (
 		<Paper
+			dir={dir}
 			sx={{
 				backdropFilter: "blur(80px)",
 				p: 3,
@@ -68,8 +77,36 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 			elevation={3}
 		>
 			<Typography variant='h5' gutterBottom sx={{textAlign: "center", mb: 3}}>
-				الخدمات المتاحة
+				{t("servicesSettings.availableServices")}
 			</Typography>
+			<>
+				{vendorServices[0]?.services.length === 0 && (
+					<>
+						<Typography
+							variant='body1'
+							color='error'
+							sx={{
+								fontWeight: "bold",
+								gridColumn: "1 / -1",
+								textAlign: "center",
+							}}
+						>
+							{t("booking.noServiceToChoose")}
+						</Typography>
+						<Typography
+							variant='body1'
+							color='error'
+							sx={{
+								fontWeight: "bold",
+								gridColumn: "1 / -1",
+								textAlign: "center",
+							}}
+						>
+							{t("booking.haveToAddOneFuture")}
+						</Typography>
+					</>
+				)}
+			</>
 
 			<Box sx={{display: "flex", justifyContent: "flex-start", mb: 2}}>
 				<Button
@@ -79,13 +116,13 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 					onClick={handleClickOpen}
 					sx={{borderRadius: 5}}
 				>
-					إضافة خدمة جديدة
+					{t("servicesSettings.addNewService")}
 				</Button>
 			</Box>
 
 			{vendorServices.length === 0 ? (
 				<Typography color='text.secondary' textAlign='center' py={4}>
-					لا توجد خدمات متاحة
+					{t("servicesSettings.noServicesAvailable")}
 				</Typography>
 			) : isMobile ? (
 				// Mobile View
@@ -99,25 +136,27 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 
 								<Box sx={{mb: 2}}>
 									<Typography variant='subtitle2'>
-										نطاق الأسعار:
+										{t("servicesSettings.priceRange")}:
 									</Typography>
 									<Typography>
 										{vendorItem.priceType === "fixed"
 											? `${formatCurrency(
 													vendorItem.price.min,
-											  )} (ثابت)`
-											: `من ${formatCurrency(
+											  )} (${t("servicesSettings.fixed")})`
+											: `${t(
+													"servicesSettings.from",
+											  )} ${formatCurrency(
 													vendorItem.price.min,
-											  )} إلى ${formatCurrency(
-													vendorItem.price.max,
-											  )}`}
+											  )} ${t(
+													"servicesSettings.to",
+											  )} ${formatCurrency(vendorItem.price.max)}`}
 									</Typography>
 								</Box>
 
 								<Divider sx={{my: 1}} />
 
 								<Typography variant='subtitle2' gutterBottom>
-									الخدمات:
+									{t("servicesSettings.services")}:
 								</Typography>
 								{vendorItem.services?.length > 0 ? (
 									<List dense>
@@ -125,30 +164,48 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 											<ListItem
 												key={i}
 												secondaryAction={
-													<IconButton
-														edge='end'
-														color='error'
-														onClick={() =>
-															handleRemoveVendorService(
-																vendorItem.vendorId,
-																service.featureName,
-															)
-														}
-														disabled={loading}
+													<Box
+														component='div'
+														sx={{
+															display: "flex",
+															alignItems: "center",
+														}}
 													>
 														{loading ? (
 															<CircularProgress size={20} />
 														) : (
-															<DeleteIcon />
+															<IconButton
+																edge='end'
+																color='error'
+																onClick={() =>
+																	handleRemoveVendorService(
+																		vendorItem.vendorId,
+																		service.featureName,
+																	)
+																}
+																disabled={loading}
+																sx={{
+																	"&.MuiIconButton-root":
+																		{
+																			padding: 0,
+																			background:
+																				"transparent",
+																		},
+																}}
+															>
+																<DeleteIcon />
+															</IconButton>
 														)}
-													</IconButton>
+													</Box>
 												}
 											>
 												<ListItemText
-													primary={`${
+													primary={
 														service.featureName ||
-														"خدمة بدون اسم"
-													}`}
+														t(
+															"servicesSettings.unnamedService",
+														)
+													}
 													secondary={
 														service.price !== undefined
 															? formatCurrency(
@@ -162,7 +219,7 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 									</List>
 								) : (
 									<Typography variant='body2' color='text.secondary'>
-										لا توجد خدمات
+										{t("servicesSettings.noServices")}
 									</Typography>
 								)}
 							</Box>
@@ -176,25 +233,25 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 						<TableHead>
 							<TableRow>
 								<TableCell sx={{fontWeight: "bold"}}>
-									الاسم التجاري
+									{t("servicesSettings.businessName")}
 								</TableCell>
 								<TableCell>{vendorServices[0].businessName}</TableCell>
 
 								<TableCell sx={{fontWeight: "bold"}}>
-									نطاق الأسعار
+									{t("servicesSettings.priceRange")}
 								</TableCell>
 
 								<TableCell>
 									{vendorServices[0].priceType === "fixed" ? (
 										<span>
 											{formatCurrency(vendorServices[0].price.min)}{" "}
-											(ثابت)
+											({t("servicesSettings.fixed")})
 										</span>
 									) : (
 										<span>
-											من{" "}
+											{t("servicesSettings.from")}{" "}
 											{formatCurrency(vendorServices[0].price.min)}{" "}
-											إلى{" "}
+											{t("servicesSettings.to")}{" "}
 											{formatCurrency(vendorServices[0].price.max)}
 										</span>
 									)}
@@ -205,7 +262,9 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 					<Table sx={{minWidth: 650}} aria-label='services table'>
 						<TableHead>
 							<TableRow>
-								<TableCell sx={{fontWeight: "bold"}}>الخدمات</TableCell>
+								<TableCell sx={{fontWeight: "bold"}}>
+									{t("servicesSettings.services")}
+								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -240,10 +299,12 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 														}
 													>
 														<ListItemText
-															primary={`${
+															primary={
 																service.featureName ||
-																"خدمة بدون اسم"
-															}`}
+																t(
+																	"servicesSettings.unnamedService",
+																)
+															}
 															secondary={
 																service.price !==
 																undefined
@@ -261,7 +322,7 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 												variant='body2'
 												color='text.secondary'
 											>
-												لا توجد خدمات
+												{t("servicesSettings.noServices")}
 											</Typography>
 										)}
 									</TableCell>
@@ -276,7 +337,7 @@ const ServicesSettings: FunctionComponent<ServicesSettingsProps> = ({
 				userId={user?._id as string}
 				handleClose={handleClose}
 				open={open}
-				refresh={() => setRefresh(!refresh)}
+				refresh={refresh}
 			/>
 		</Paper>
 	);

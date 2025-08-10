@@ -1,7 +1,8 @@
-import {FunctionComponent} from "react";
+import {FunctionComponent, useEffect, useState} from "react";
 import Calendar from "react-calendar";
 import styles from "./calendar.module.css";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import {useTranslation} from "react-i18next";
 
 interface CalendarsProps {
 	handleDateChange: Function;
@@ -18,6 +19,12 @@ const Calendars: FunctionComponent<CalendarsProps> = ({
 		date1.getFullYear() === date2.getFullYear() &&
 		date1.getMonth() === date2.getMonth() &&
 		date1.getDate() === date2.getDate();
+	const {t} = useTranslation();
+	const [lang, setLang] = useState<string | null>(null);
+
+	useEffect(() => {
+		return setLang(localStorage.getItem("i18nextLng"));
+	}, [t]);
 
 	return (
 		<article
@@ -31,10 +38,9 @@ const Calendars: FunctionComponent<CalendarsProps> = ({
 				}}
 				className='text-warning py-3 fs-5 mb-3 border border-top border-warning rounded-5 w-100'
 			>
-				<WarningAmberIcon color='warning' /> اذا كان حقل التاريخ مؤشر باللون
-				الاحمر فانه غير متاح
+				<WarningAmberIcon color='warning' /> {t("calendar.directions")}
 			</div>
-			<h3 className='mb-4'>اختر تاريخًا للحجز</h3>
+			<h3 className='mb-4'>{t("calendar.chooseBookDate")}</h3>
 			<Calendar
 				className={styles.reactCalendar}
 				onChange={(date) => handleDateChange(date as Date)}
@@ -42,7 +48,7 @@ const Calendars: FunctionComponent<CalendarsProps> = ({
 				minDate={new Date()}
 				maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 5))}
 				view='month'
-				locale='ar'
+				locale={lang || ""}
 				next2Label={null}
 				prev2Label={null}
 				calendarType='hebrew'

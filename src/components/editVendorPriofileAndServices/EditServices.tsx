@@ -1,4 +1,7 @@
-import {getVendorData, updateVendorServices} from "../../services/vendorServices";
+import {
+	getVendorData,
+	updateVendorServices,
+} from "../../services/vendorServices";
 import {useUser} from "../../contextApi/useUserData";
 import {FunctionComponent, useState, useEffect} from "react";
 import {useFormik} from "formik";
@@ -30,6 +33,9 @@ import CustomTextFiled from "./CustomTextFiled";
 import {days, vendorsvalidationSchema} from "./servicesFormik";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import {TimeClockPicker} from "./WorkingTimePicker";
+import {useTranslation} from "react-i18next";
+import changeDirection from "../../../locales/directions";
+import AddVendorSocialMeda from "../../atoms/socialMediaLinks/AddVendorSocialMedia";
 
 interface EditServicesProps {}
 
@@ -41,29 +47,11 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 	const [openAddImage, setOpenAddImage] = useState<boolean>(false);
 	const {user} = useUser();
 	const {vendorId} = useParams<{vendorId: string}>();
-
+	const {t} = useTranslation();
 	const navigate = useNavigate();
 
 	const handleClickOpenAddImage = () => setOpenAddImage(!openAddImage);
 	const handleCloseAddImage = () => setOpenAddImage(!openAddImage);
-
-	useEffect(() => {
-		const fetchVendorData = async () => {
-			if ((user && user._id === vendorId) || (user && user.role === "admin")) {
-				try {
-					setLoading(true);
-					setError(null);
-					const data = await getVendorData(vendorId as string);
-					setVendor(data);
-				} catch (err) {
-					setError("فشل في تحميل بيانات مزود الخدمة. يرجى المحاولة مرة أخرى.");
-				} finally {
-					setLoading(false);
-				}
-			}
-		};
-		fetchVendorData();
-	}, [user, refresh]);
 
 	const initialValues =
 		vendor.length > 0
@@ -107,6 +95,26 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 		},
 	});
 
+	useEffect(() => {
+		const fetchVendorData = async () => {
+			if ((user && user._id === vendorId) || (user && user.role === "admin")) {
+				try {
+					setLoading(true);
+					setError(null);
+					const data = await getVendorData(vendorId as string);
+					setVendor(data);
+				} catch (err) {
+					setError("فشل في تحميل بيانات مزود الخدمة. يرجى المحاولة مرة أخرى.");
+				} finally {
+					setLoading(false);
+				}
+			}
+		};
+		fetchVendorData();
+	}, [user, refresh]);
+
+	const dir = changeDirection();
+
 	if (loading && vendor.length === 0) {
 		return (
 			<Box
@@ -137,7 +145,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 					onClick={() => window.location.reload()}
 					sx={{mt: 2}}
 				>
-					إعادة المحاولة
+					{t("editServices.tryAgain")}
 				</Button>
 			</Box>
 		);
@@ -145,19 +153,22 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 
 	return (
 		<Box component={"main"}>
-			<Box className='container'>
+			<Box dir={dir}>
 				<Typography variant='h4' gutterBottom sx={{textAlign: "center", py: 5}}>
-					تعديل بيانات مزود الخدمة
+					{t("editServices.title")}
 				</Typography>
 
-				<Button
-					size='small'
-					variant='contained'
-					sx={{mb: 2, position: "sticky", top: 80, left: 20, zIndex: 2}}
-					onClick={() => navigate(`/service/${vendorId}`)}
-				>
-					صفحتي
-				</Button>
+				{/* Add social media links */}
+				<AddVendorSocialMeda
+					setLoading={setLoading}
+					setRefresh={setRefresh}
+					navigate={navigate}
+					refresh={refresh}
+					loading={loading}
+					socialMedia={vendor[0]?.socialMediaLinks}
+					vendorId={vendorId as string}
+				/>
+
 				{/* edit section */}
 				<Box component='form' onSubmit={formik.handleSubmit} noValidate>
 					<Grid container>
@@ -167,14 +178,14 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='الاسم التجاري'
+										label={t("editServices.businessName")}
 										name='businessName'
 									/>
 								</Grid>
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='هاتف'
+										label={t("registerPage.phoneNum")}
 										name='phone'
 									/>
 								</Grid>
@@ -184,14 +195,14 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='المدينة'
+										label={t("registerPage.city")}
 										name='address.city'
 									/>
 								</Grid>
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='الشارع'
+										label={t("registerPage.street")}
 										name='address.street'
 									/>
 								</Grid>
@@ -201,7 +212,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='الفئة'
+										label={t("registerPage.category")}
 										name='category'
 									/>
 								</Grid>
@@ -217,14 +228,14 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 											id='priceType-label'
 											sx={{textAlign: "right"}}
 										>
-											نوع السعر
+											{t("editServices.priceType")}
 										</InputLabel>
 										<Select
 											labelId='priceType-label'
 											id='priceType'
 											name='priceType'
 											value={formik.values.priceType}
-											label='نوع السعر'
+											label={t("editServices.priceType")}
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											sx={{textAlign: "right"}}
@@ -250,7 +261,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='السعر الأدنى'
+										label={t("editServices.minPrice")}
 										name='price.min'
 										type='number'
 									/>
@@ -258,7 +269,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='السعر الأقصى'
+										label={t("editServices.maxPrice")}
 										name='price.max'
 										type='number'
 									/>
@@ -269,14 +280,14 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								variant='h5'
 								sx={{textAlign: "center", mt: 5, mb: 1}}
 							>
-								تخصيص نوع الحجز
+								{t("editServices.bookingTypeSection")}{" "}
 							</Typography>
 							<HorizontalDevider />
 							<Grid container>
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='أقصى عدد حجوزات في اليوم'
+										label={t("editServices.maxBookingsPerDay")}
 										name='maxBookingsPerDay'
 										type='number'
 									/>
@@ -294,7 +305,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 												onBlur={formik.handleBlur}
 											/>
 										}
-										label='السماح بحجوزات متداخلة'
+										label={t("editServices.allowOverlapping")}
 										sx={{justifyContent: "end", my: 1}}
 									/>
 								</Grid>
@@ -303,7 +314,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								<Grid m={"auto"} mt={3} size={{xs: 12, md: 5}}>
 									<CustomTextFiled
 										formik={formik}
-										label='مدة الحجز (بالساعات)'
+										label={t("editServices.bookingDurationInHours")}
 										name='bookingDurationInHours'
 										type='number'
 									/>
@@ -320,25 +331,29 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 											id='bookingType-label'
 											sx={{textAlign: "right"}}
 										>
-											نوع الحجز
+											{t("editServices.bookingType")}
 										</InputLabel>
 										<Select
 											labelId='bookingType-label'
 											id='bookingType'
 											name='bookingType'
 											value={formik.values.bookingType}
-											label='نوع الحجز'
+											label={t("editServices.bookingType")}
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											sx={{textAlign: "right"}}
 										>
 											<MenuItem value='' disabled>
-												اختر نوع الحجز
+												{t("editServices.bookingType")}
 											</MenuItem>
-											<MenuItem value='daily'>يومي</MenuItem>
-											<MenuItem value='hourly'>بالساعة</MenuItem>
+											<MenuItem value='daily'>
+												{t("editServices.daily")}
+											</MenuItem>
+											<MenuItem value='hourly'>
+												{t("editServices.hourly")}
+											</MenuItem>
 											<MenuItem value='multi-booking'>
-												متعدد
+												{t("editServices.multiBooking")}
 											</MenuItem>
 										</Select>
 										{formik.touched.bookingType &&
@@ -352,75 +367,83 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 							</Grid>
 							{/* work hours section */}
 							<Typography variant='h5' sx={{textAlign: "center", my: 5}}>
-								تخصيص ساعات الدوام
+								{t("editServices.workingHoursSection")}
 							</Typography>
-							<HorizontalDevider />
-							{days.map(({key, label}) => (
-								<Grid container spacing={2} key={key} alignItems='center'>
-									<Grid size={{xs: 12, md: 6}}>
-										<TimeClockPicker
-											label={`وقت البدء (${label})`}
-											value={
-												formik.values.workingHours[key]?.from ||
-												""
-											}
-											onChange={(time) =>
-												formik.setFieldValue(
-													`workingHours.${key}.from`,
-													time,
-												)
-											}
-											disabled={
-												formik.values.workingHours[key]?.closed
-											}
-										/>
+							<HorizontalDevider />{" "}
+							<Box alignItems='center' mx={"auto"}>
+								{days.map(({key, label}) => (
+									<Grid container key={key}>
+										<Grid size={{xs: 12, md: 6}}>
+											<TimeClockPicker
+												label={`${t(
+													"editServices.startTime",
+												)}-(${label})`}
+												value={
+													formik.values.workingHours[key]
+														?.from || ""
+												}
+												onChange={(time) =>
+													formik.setFieldValue(
+														`workingHours.${key}.from`,
+														time,
+													)
+												}
+												disabled={
+													formik.values.workingHours[key]
+														?.closed
+												}
+											/>
+										</Grid>
+										<Grid size={{xs: 12, md: 6}}>
+											<TimeClockPicker
+												label={`${t(
+													"editServices.endTime",
+												)}-(${label})`}
+												value={
+													formik.values.workingHours[key]?.to ||
+													""
+												}
+												onChange={(time) =>
+													formik.setFieldValue(
+														`workingHours.${key}.to`,
+														time,
+													)
+												}
+												disabled={
+													formik.values.workingHours[key]
+														?.closed
+												}
+											/>
+										</Grid>
+										<Grid size={{xs: 12, md: 6}}>
+											<FormControlLabel
+												control={
+													<Checkbox
+														checked={
+															formik.values.workingHours[
+																key
+															]?.closed
+														}
+														onChange={(e) =>
+															formik.setFieldValue(
+																`workingHours.${key}.closed`,
+																e.target.checked,
+															)
+														}
+														color='primary'
+													/>
+												}
+												label={t("editServices.closed")}
+												sx={{justifyContent: "flex-end"}}
+											/>
+										</Grid>
 									</Grid>
-									<Grid size={{xs: 12, md: 6}}>
-										<TimeClockPicker
-											label={`وقت الانتهاء (${label})`}
-											value={
-												formik.values.workingHours[key]?.to || ""
-											}
-											onChange={(time) =>
-												formik.setFieldValue(
-													`workingHours.${key}.to`,
-													time,
-												)
-											}
-											disabled={
-												formik.values.workingHours[key]?.closed
-											}
-										/>
-									</Grid>
-									<Grid size={{xs: 12, md: 6}}>
-										<FormControlLabel
-											control={
-												<Checkbox
-													checked={
-														formik.values.workingHours[key]
-															?.closed
-													}
-													onChange={(e) =>
-														formik.setFieldValue(
-															`workingHours.${key}.closed`,
-															e.target.checked,
-														)
-													}
-													color='primary'
-												/>
-											}
-											label='مغلق'
-											sx={{justifyContent: "flex-end"}}
-										/>
-									</Grid>
-								</Grid>
-							))}
-
+								))}
+							</Box>
 							{/* note section */}
 							<Box
 								component='ul'
 								sx={{
-									bgcolor: "#ffffffeb",
 									fontFamily: "monospace",
 									borderRadius: 2,
 									p: 3,
@@ -430,7 +453,6 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 									listStyle: "none",
 									"&:hover": {
 										boxShadow: 3,
-										bgcolor: "#fffffff2",
 									},
 									"& li": {
 										position: "relative",
@@ -447,27 +469,26 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 								}}
 							>
 								<Typography variant='h6' sx={{fontWeight: "bold", mb: 2}}>
-									التعليمات:
+									{t("editServices.instructions.title")}
 								</Typography>
 								<Typography component='li' sx={{lineHeight: 1.8}}>
-									إذا أردت إضافة سطر جديد، يمكنك إضافة علامة الناقص (-)
-									في أول السطر
+									{t("editServices.instructions.tip1")}
 								</Typography>
 								<Typography
 									component='li'
 									sx={{
-										bgcolor: "#F3B63F",
+										bgcolor: "#9e7218",
 										p: 1.5,
 										borderRadius: 1,
 										lineHeight: 1.8,
 									}}
 								>
-									-هذا سطر جديد مع علامة الناقص
+									-{t("editServices.instructions.tip2")}
 								</Typography>
 							</Box>
 							<TextareaAutosize
 								name='description'
-								aria-label='الوصف'
+								aria-label={t("editServices.descriptionLabel")}
 								minRows={4}
 								maxLength={500}
 								value={formik.values.description}
@@ -509,7 +530,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 									{loading ? (
 										<CircularProgress size={24} />
 									) : (
-										"حفظ التغييرات"
+										t("editServices.saveChanges")
 									)}
 								</Button>
 							</Box>
@@ -522,12 +543,11 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 				{/* Images view */}
 				<Box
 					sx={{
-						backgroundColor: "#681025ea",
 						backdropFilter: "blur(80px)",
 						boxShadow: 1,
 						borderRadius: 2,
-						p: 3,
-						width: "90%",
+						height: "100%",
+						width: "100%",
 						m: "auto",
 					}}
 				>
@@ -538,7 +558,7 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 						startIcon={<AddIcon />}
 						onClick={handleClickOpenAddImage}
 					>
-						إضافة صورة جديدة
+						{t("editServices.addImageButton")}
 					</Button>
 
 					{vendor.length > 0 && <ReactSlick images={vendor[0].images as any} />}
@@ -547,7 +567,11 @@ const EditServices: FunctionComponent<EditServicesProps> = () => {
 				<HorizontalDevider />
 
 				{/* Services Section */}
-				<ServicesSettings user={user as JwtPayload} vendorServices={vendor} />
+				<ServicesSettings
+					user={user as JwtPayload}
+					vendorServices={vendor}
+					refresh={() => setRefresh(!refresh)}
+				/>
 
 				<AddNewPicture
 					userId={user?._id as string}
