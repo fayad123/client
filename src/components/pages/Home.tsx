@@ -1,41 +1,28 @@
-import {FunctionComponent, useEffect, useState} from "react";
-import {Box, Typography, CardContent, CardActionArea, Card, Button} from "@mui/material";
+import {FunctionComponent, lazy, Suspense, useEffect, useRef} from "react";
+import {Box, Typography, CardContent, CardActionArea, Card} from "@mui/material";
 
 import {Link} from "react-router-dom";
 import {mainMenu} from "../../config/mainMenu";
 import {useUser} from "../../contextApi/useUserData";
 import {JwtPayload} from "../../interfaces/userSchema";
 import {jwtDecode} from "jwt-decode";
-import TestimonialsSlider from "./TestimonialsSlider";
-import FAQPage from "../settings/FAQPage";
 import RecommendedServices from "../serviceView/RecommendedVendors";
-import VideoUpload from "../../atoms/Ads/VideoUpload";
-import VideoAds from "../../atoms/Ads/VideoAds";
-import {getAdsVideos} from "../../services/videosForAds";
 import HorizontalDevider from "../../atoms/customDeviders/HorizontalDevider";
 import JsonLd from "../JsonLd";
 import {generateCategoriesItemListJsonLd} from "../../utils/structuredData";
 import {useTranslation} from "react-i18next";
 import changeDirection from "../../../locales/directions";
+import { useFadeInOnScroll } from "../../hooks/useFadeInOnScroll";
+const FAQPage = lazy(() => import("../settings/FAQPage"));
+const TestimonialsSlider = lazy(() => import("./TestimonialsSlider"));
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface HomeProps {}
 
 const Home: FunctionComponent<HomeProps> = () => {
-	const {user, setUser} = useUser();
-	const [videos, setVideos] = useState<string[]>([]);
-	const api = `${import.meta.env.VITE_API_URI}/videos`;
+	const {setUser} = useUser();
 	const {t} = useTranslation();
 
-	useEffect(() => {
-		const fetchVideos = async () => {
-			const videos = await getAdsVideos();
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const urls = videos.map((v: any) => `${api}/${v._id}`);
-			setVideos(urls);
-		};
-		fetchVideos();
-	}, [api]);
 
 	useEffect(() => {
 		const token = localStorage.getItem("token");
@@ -46,9 +33,10 @@ const Home: FunctionComponent<HomeProps> = () => {
 			} catch (err) {
 				console.error("Invalid token", err);
 				localStorage.removeItem("token");
+				setUser(null);
 			}
 		}
-	}, [setUser]);
+	}, []);
 
 	const dir = changeDirection();
 
@@ -90,18 +78,10 @@ const Home: FunctionComponent<HomeProps> = () => {
 						{t("home.subTitle")}
 					</Typography>
 				</Box>
-				<Box sx={{maxWidth: "70%", textAlign: "center", margin: "auto"}}>
-					{user && user.role === "admin" && <VideoUpload />}
-				</Box>
-
-				{/* video ads */}
-				<VideoAds videos={videos} />
-
 				{/* recommended vendors */}
 				<Box sx={{overflowY: "auto"}}>
 					<RecommendedServices />
 				</Box>
-
 				<div className='container'>
 					<Typography
 						variant='h4'
@@ -117,62 +97,98 @@ const Home: FunctionComponent<HomeProps> = () => {
 						{t("afrahna.services")}
 					</Typography>
 					<HorizontalDevider />
-					<Box className='row row-cols-1 row-cols-2  row-cols-lg-6 '>
-						{mainMenu.map((cat) => (
-							<div className='my-2  text-center' key={cat.label}>
-								<Card
-									sx={{
-										textAlign: "center",
-										borderRadius: 4,
-										boxShadow: 1,
-										height: "100%",
-										transition: "all 0.3s",
 
-										"&:hover": {
-											transform: "translateY(-8px)",
-											boxShadow: 8,
-										},
+					<Box className='row row-cols-1 row-cols-2  row-cols-lg-6 '>
+						{mainMenu.map((cat) => {
+							const cardRef = useRef<HTMLDivElement>(null);
+							const isVisible = useFadeInOnScroll(cardRef);
+
+							return (
+								<div
+									className='my-2 text-center'
+									key={cat.label}
+									ref={cardRef}
+									style={{
+										opacity: isVisible ? 1 : 0,
+										transform: isVisible
+											? "translateY(0)"
+											: "translateY(40px)",
+										transition:
+											"opacity 0.8s ease-out, transform 0.8s ease-out",
 									}}
 								>
-									<Link to={cat.link} style={{textDecoration: "none"}}>
-										<CardActionArea>
-											<Box
-												pt={3}
-												display='flex'
-												justifyContent='center'
-											>
-												{typeof cat.icon === "string" ? (
-													<Box
-														component='img'
-														src={cat.icon}
-														alt={cat.label}
-														sx={{
-															objectFit: "cover",
-														}}
-													/>
-												) : (
-													cat.icon
-												)}
-											</Box>
-											<CardContent>
-												<Typography
-													variant='subtitle1'
-													fontWeight='bold'
-													sx={{color: "primary.dark"}}
+									<Card
+										sx={{
+											textAlign: "center",
+											borderRadius: 4,
+											boxShadow: 1,
+											height: "100%",
+											transition: "all 0.3s",
+											p: 1,
+											border: 1,
+											"&:hover": {
+												transform: "scale(1.05)",
+												boxShadow: 10,
+											},
+										}}
+									>
+										<Link
+											to={cat.link}
+											style={{textDecoration: "none"}}
+										>
+											<CardActionArea>
+												<Box
+													pt={3}
+													display='flex'
+													justifyContent='center'
 												>
-													{t(cat.label)}
-												</Typography>
-											</CardContent>
-										</CardActionArea>
-									</Link>
-								</Card>
-							</div>
-						))}
+													{typeof cat.icon === "string" ? (
+														<Box
+															component='img'
+															aria-label={cat.label}
+															src={cat.icon}
+															alt={cat.label}
+															sx={{
+																objectFit: "cover",
+																width: 80,
+																height: 80,
+															}}
+														/>
+													) : (
+														cat.icon
+													)}
+												</Box>
+												<CardContent>
+													<Typography
+														variant='subtitle1'
+														fontWeight='bold'
+														sx={{color: "primary.dark"}}
+													>
+														{t(cat.label)}
+													</Typography>
+												</CardContent>
+											</CardActionArea>
+										</Link>
+									</Card>
+								</div>
+							);
+						})}
 					</Box>
 				</div>
 				{/* FAQ */}
-				<FAQPage />
-				<TestimonialsSlider />
+				<Suspense
+					fallback={<Typography align='center'>Loading FAQ...</Typography>}
+				>
+					<FAQPage />
+				</Suspense>
+				{/* TestimonialsSlider from users */}
+				<Suspense
+					fallback={
+						<Typography align='center'>Loading Testimonials...</Typography>
+					}
+				>
+					<TestimonialsSlider />
+				</Suspense>{" "}
 			</Box>
 		</>
 	);

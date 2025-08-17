@@ -11,19 +11,20 @@ import {
 	useTheme,
 } from "@mui/material";
 import {FunctionComponent, useState} from "react";
-import {Link} from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {Services} from "../../interfaces/services";
 import {formatCurrency} from "../../helpers/vendors";
 import {StarIcon} from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ServiceCardProps {
 	service: Services;
 	isFavorite: boolean;
 	onToggleFavorite: (id: string) => void;
 	isRecommended?: boolean;
+	vid: string;
 }
 
 const ServiceCard: FunctionComponent<ServiceCardProps> = ({
@@ -56,10 +57,10 @@ const ServiceCard: FunctionComponent<ServiceCardProps> = ({
 					maxHeight: 300,
 					margin: 2,
 					transition: "transform 0.3s, box-shadow 0.3s",
-					"&:hover": {
-						transform: "translateY(-5px)",
-						boxShadow: 8,
-					},
+					// "&:hover": {
+					// 	transform: "translateY(-5px)",
+					// 	boxShadow: 8,
+					// },
 				}}
 				aria-label={`Service card for ${service.businessName}`}
 			>

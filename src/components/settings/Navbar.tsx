@@ -23,18 +23,18 @@ import {
 	Typography,
 	useMediaQuery,
 	useTheme,
-	Grid,
 	PaletteMode,
 } from "@mui/material";
 
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import MenuIcon from "@mui/icons-material/Menu";
-import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useUser} from "../../contextApi/useUserData";
 import {Logout, Person} from "@mui/icons-material";
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SubscripbeButton from "../../subscribes/subscribeButton/SubscripbeButton";
-import {mainMenu, navbarItems} from "../../config/mainMenu";
+import {navbarItems} from "../../config/mainMenu";
 import {CloseButton} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import TranslateButtons from "../../atoms/TranslateButtons";
@@ -155,7 +155,9 @@ const Navbar: FunctionComponent<NavbarProps> = ({mode, setMode}) => {
 									color: "white",
 								}}
 							>
-								{t("afrahna.title")}
+								{user && user.role === "isVendor"
+									? `${t("afrahna.title")} :${currentUser} `
+									: t("afrahna.title")}
 							</NavLink>
 						</Box>
 
@@ -185,7 +187,43 @@ const Navbar: FunctionComponent<NavbarProps> = ({mode, setMode}) => {
 					</Box>
 				</Toolbar>
 			</AppBar>
-
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					border: 1,
+					p: 0.5,
+					width: "94.5%",
+					m: "auto",
+					borderRadius: "0 0px 10px 10px",
+					gap: 1,
+				}}
+			>
+				<Button
+					onClick={() => navigate("/")}
+					sx={{bgcolor: "#0F4073"}}
+					variant='contained'
+				>
+					الرئيسيه
+				</Button>
+				<Button
+					onClick={() => navigate("/specialOffers")}
+					sx={{bgcolor: "#0F4073"}}
+					variant='contained'
+				>
+					عروض خاصه
+				</Button>
+				{user?.role === "isVendor" && (
+					<Button
+						onClick={() => navigate(`/service/${user._id}`)}
+						sx={{bgcolor: "#0F4073"}}
+						variant='contained'
+					>
+						صفحتي
+					</Button>
+				)}
+			</Box>
 			{/* side drawer */}
 			<Drawer
 				variant='persistent'
@@ -258,10 +296,14 @@ const Navbar: FunctionComponent<NavbarProps> = ({mode, setMode}) => {
 									{t("navbar.management")}
 								</Typography>
 
-								{navLinkItem("/profile", <Person />, t("navbar.profile"))}
+								{navLinkItem(
+									"/profile",
+									<Person color='primary' />,
+									t("navbar.profile"),
+								)}
 								{navLinkItem(
 									"/my-bookings",
-									<ChecklistRtlIcon />,
+									<ChecklistRtlIcon color='info' />,
 									t("navbar.bookingsManagement"),
 								)}
 							</>
@@ -286,12 +328,23 @@ const Navbar: FunctionComponent<NavbarProps> = ({mode, setMode}) => {
 								)}
 							</>
 						)}
-						{user?.role === "isVendor" &&
-							!user?.subscriptionData?.isSubscribed && (
-								<Box sx={{width: "100%", m: "auto"}}>
-									<SubscripbeButton />
-								</Box>
-							)}
+						{user &&
+							(user.subscriptionData?.isSubscribed ? (
+								<>
+									{navLinkItem(
+										"/Profile",
+										<AssignmentIndIcon color='primary' />,
+										"my subscription data",
+									)}
+								</>
+							) : (
+								<>
+									<Box sx={{width: "100%", m: "auto"}}>
+										<SubscripbeButton />
+									</Box>
+								</>
+							))}
+
 						<Divider color='error' variant='fullWidth' />
 						{user?._id ? (
 							<Box
@@ -317,7 +370,7 @@ const Navbar: FunctionComponent<NavbarProps> = ({mode, setMode}) => {
 									sx={{
 										width: "100%",
 										display: "flex",
-										marginBlock:"10px",
+										marginBlock: "10px",
 										justifyContent: "space-around",
 									}}
 									color='error'

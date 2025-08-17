@@ -17,10 +17,30 @@
 			"image": "صورة المستخدم",
 			"info": "المعلومات الشخصية",
 			"userRole": "الدور",
+			"recommendedServices": "الخدمات الموصى بها",
 			"subscriptionPlan": "خطة الاشتراك",
-
+			"subscriptionDate": "تاريخ الاشتراك",
+			"expiryDate": "تاريخ الانتهاء",
+			"noSubscriptionDate": "لا يوجد تاريخ اشتراك",
 			"boogings": "الحجوزات"
 		}
+	},
+	"specialOffers": {
+		"title": "عروض خاصة",
+		"offerTitle": "عنوان العرض",
+		"offerDate": "تاريخ العرض",
+		"createNew": "إنشاء عرض جديد",
+		"create": "إنشاء",
+		"creating": "...قيد الانشاء",
+		"services": "الخدمات",
+		"servicesPrice": "سعر الخدمات",
+		"servicesName": "اسم الخدمه",
+		"addService": "اضافة خدمه",
+		"images": "صور",
+		"addImages": "اضافه صورة",
+		"imagesUrl": "رابط الصورة",
+		"imagesAlt": "عنوان الصورة",
+		"offerDescription": "وصف"
 	},
 	"subscription": {
 		"title": "خطط اشتراك منصة أفراحنا ",
@@ -31,129 +51,105 @@
 	},
 	"subscriptionPlans": {
 		"free": {
-			"id": "مجاني",
 			"name": "الباقة التجريبية",
 			"price": "مجاني للأبد",
 			"description": "الحل الأمثل للبدء بعرض خدمتك بشكل أساسي",
-			"features": [
-				{"text": "صفحة تعريفية", "included": true},
-				{"text": "عرض صورة واحده", "included": true},
-				{"text": "عرض خدمه فرعيه واحدة", "included": true},
-				{"text": "ظهور في دليل الخدمات", "included": true},
-				{
-					"text": "إحصاءات أو تحليلات",
-					"included": false,
-					"tooltip": "متاح فقط في الباقات المدفوعة"
-				},
-				{
-					"text": "دعم فني مباشر",
-					"included": false,
-					"tooltip": "متاح فقط في الباقات المدفوعة"
-				}
-			]
+			"features": {
+				"pageIntro": "صفحة تعريفية",
+				"oneImage": "عرض صورة واحدة",
+				"oneSubService": "عرض خدمة فرعية واحدة",
+				"appearance": "ظهور في دليل الخدمات",
+				"analytics": "إحصاءات أو تحليلات",
+				"analyticsTooltip": "متاح فقط في الباقات المدفوعة",
+				"support": "دعم فني مباشر",
+				"supportTooltip": "متاح فقط في الباقات المدفوعة"
+			}
 		},
 		"basic": {
-			"id": "أساسي",
 			"name": "الباقة الفضية",
 			"price": "59 شيكل/شهر",
 			"description": "للأعمال الصغيرة التي تريد تطوير وجودها الرقمي",
-			"features": [
-				{"text": "عرض 5 صور عالية الجودة", "included": true},
-				{"text": "عرض 6 خدمات فرعية مفصلة", "included": true},
-				{"text": "ظهور محسن في نتائج البحث", "included": true},
-				{
-					"text": "استفسارات العملاء عبر الهاتف والبريد",
-					"included": true
-				},
-				{"text": "إحصاءات مشاهدات أساسية", "included": true},
-				{"text": "دعم عبر البريد خلال أيام العمل", "included": true},
-				{
-					"text": "نظام حجز مواعيد",
-					"included": false,
-					"tooltip": "متاح في الباقة الذهبية فما فوق"
-				}
-			]
+			"features": {
+				"fiveHighQualityImages": "عرض 5 صور عالية الجودة",
+				"sixSubServices": "عرض 6 خدمات فرعية مفصلة",
+				"improvedSearchAppearance": "ظهور محسن في نتائج البحث",
+				"customerInquiries": "استفسارات العملاء عبر الهاتف والبريد",
+				"basicStats": "إحصاءات مشاهدات أساسية",
+				"emailSupport": "دعم عبر البريد خلال أيام العمل",
+				"bookingSystem": "نظام حجز مواعيد",
+				"bookingSystemTooltip": "متاح في الباقة الذهبية فما فوق"
+			}
 		},
 		"gold": {
-			"id": "ذهبي",
 			"name": "الباقة الذهبية",
 			"price": "99 شيكل/شهر",
 			"description": "الحل الشامل للعروض الاحترافية والتميز في السوق",
-			"features": [
-				{"text": "صفحة احترافية مخصصة مع الشعار", "included": true},
-				{"text": "صور غير محدودة", "included": true},
-				{"text": "إضافة حتى 40 فيديو", "included": true},
-				{"text": "خدمات فرعية غير محدودة", "included": true},
-				{"text": "شارة 'موصى به'", "included": true},
-				{"text": "قنوات تواصل متعددة", "included": true},
-				{"text": "تحليلات متقدمة لأداء الصفحة", "included": true},
-				{"text": "نظام إدارة مواعيد متكامل", "included": true},
-				{"text": "دعم سريع على الهاتف والبريد", "included": true},
-				{"text": "تضمين مقاطع إنستغرام وتيك توك", "included": true},
-				{
-					"text": "إعلانات تلقائية",
-					"included": false,
-					"tooltip": "متاحة في الباقة الماسية"
-				}
-			],
-			"recommended": true
+			"features": {
+				"professionalPage": "صفحة احترافية مخصصة مع الشعار",
+				"unlimitedImages": "صور غير محدودة",
+				"upTo40Videos": "إضافة حتى 40 فيديو",
+				"unlimitedSubServices": "خدمات فرعية غير محدودة",
+				"recommendedBadge": "شارة 'موصى به'",
+				"multipleContactChannels": "قنوات تواصل متعددة",
+				"advancedAnalytics": "تحليلات متقدمة لأداء الصفحة",
+				"integratedBookingSystem": "نظام إدارة مواعيد متكامل",
+				"fastSupport": "دعم سريع على الهاتف والبريد",
+				"instagramTiktokEmbed": "تضمين مقاطع إنستغرام وتيك توك",
+				"automaticAds": "إعلانات تلقائية",
+				"automaticAdsTooltip": "متاحة في الباقة الماسية"
+			}
 		},
 		"premium": {
-			"id": "مميز",
 			"name": "الباقة الماسية",
 			"price": "189 شيكل/شهر",
 			"description": "للأعمال الرائدة التي تريد التميز والظهور الدائم",
-			"features": [
-				{"text": "صفحة احترافية مخصصة مع الشعار", "included": true},
-				{"text": "صور غير محدودة", "included": true},
-				{"text": "إضافة حتى 60 فيديو", "included": true},
-				{"text": "خدمات فرعية غير محدودة", "included": true},
-				{"text": "شارة 'موصى به'", "included": true},
-				{"text": "قنوات تواصل متعددة", "included": true},
-				{"text": "تحليلات متقدمة لأداء الصفحة", "included": true},
-				{"text": "نظام إدارة مواعيد متكامل", "included": true},
-				{"text": "دعم سريع على الهاتف والبريد", "included": true},
-				{"text": "تضمين مقاطع إنستغرام وتيك توك", "included": true},
-				{"text": "إعلانات تلقائية في الصفحة الرئيسية", "included": true},
-				{"text": "ظهور دائم في الصفحة الرئيسية", "included": true},
-				{"text": "تقارير أداء شهرية مخصصة", "included": true},
-				{"text": "دعم فني فوري بأولوية عليا", "included": true},
-				{"text": "شهادة 'مزود موثوق' ووسام تميز", "included": true},
-				{
-					"text": "إدارة متعددة للحسابات",
-					"included": false,
-					"tooltip": "متاحة في باقة المؤسسات"
-				}
-			]
+			"features": {
+				"professionalPage": "صفحة احترافية مخصصة مع الشعار",
+				"unlimitedImages": "صور غير محدودة",
+				"upTo60Videos": "إضافة حتى 60 فيديو",
+				"unlimitedSubServices": "خدمات فرعية غير محدودة",
+				"recommendedBadge": "شارة 'موصى به'",
+				"multipleContactChannels": "قنوات تواصل متعددة",
+				"advancedAnalytics": "تحليلات متقدمة لأداء الصفحة",
+				"integratedBookingSystem": "نظام إدارة مواعيد متكامل",
+				"fastSupport": "دعم سريع على الهاتف والبريد",
+				"instagramTiktokEmbed": "تضمين مقاطع إنستغرام وتيك توك",
+				"automaticAdsHome": "إعلانات تلقائية في الصفحة الرئيسية",
+				"permanentHomeAppearance": "ظهور دائم في الصفحة الرئيسية",
+				"customMonthlyReports": "تقارير أداء شهرية مخصصة",
+				"prioritySupport": "دعم فني فوري بأولوية عليا",
+				"trustedProviderBadge": "شهادة 'مزود موثوق' ووسام تميز",
+				"multiAccountManagement": "إدارة متعددة للحسابات",
+				"multiAccountManagementTooltip": "متاحة في باقة المؤسسات"
+			}
 		},
 		"enterprise": {
-			"id": "خطة متقدمه",
 			"name": "باقة المؤسسات والوكالات 🌐",
 			"price": "تواصل معنا",
 			"description": "حلول متكاملة للشركات الكبيرة والوكالات",
-			"features": [
-				{"text": "صفحة احترافية مخصصة مع الشعار", "included": true},
-				{"text": "صور غير محدودة", "included": true},
-				{"text": "إضافة حتى 20 فيديو", "included": true},
-				{"text": "خدمات فرعية غير محدودة", "included": true},
-				{"text": "شارة 'موصى به'", "included": true},
-				{"text": "قنوات تواصل متعددة", "included": true},
-				{"text": "تحليلات متقدمة لأداء الصفحة", "included": true},
-				{"text": "نظام إدارة مواعيد متكامل", "included": true},
-				{"text": "دعم سريع على الهاتف والبريد", "included": true},
-				{"text": "تضمين مقاطع إنستغرام وتيك توك", "included": true},
-				{"text": "إعلانات تلقائية في الصفحة الرئيسية", "included": true},
-				{"text": "ظهور دائم في الصفحة الرئيسية", "included": true},
-				{"text": "تقارير أداء شهرية مخصصة", "included": true},
-				{"text": "دعم فني فوري بأولوية عليا", "included": true},
-				{"text": "شهادة 'مزود موثوق' ووسام تميز", "included": true},
-				{"text": "إدارة متعددة للحسابات والمواقع", "included": true},
-				{"text": "تكامل مخصص مع أنظمة خارجية", "included": true},
-				{"text": "مدير حساب مخصص", "included": true},
-				{"text": "دعم فني مباشر 24/7", "included": true},
-				{"text": "تدريب وورش عمل للفريق", "included": true},
-				{"text": "استراتيجيات تسويق مخصصة", "included": true}
-			]
+			"features": {
+				"professionalPage": "صفحة احترافية مخصصة مع الشعار",
+				"unlimitedImages": "صور غير محدودة",
+				"upTo20Videos": "إضافة حتى 20 فيديو",
+				"unlimitedSubServices": "خدمات فرعية غير محدودة",
+				"recommendedBadge": "شارة 'موصى به'",
+				"multipleContactChannels": "قنوات تواصل متعددة",
+				"advancedAnalytics": "تحليلات متقدمة لأداء الصفحة",
+				"integratedBookingSystem": "نظام إدارة مواعيد متكامل",
+				"fastSupport": "دعم سريع على الهاتف والبريد",
+				"instagramTiktokEmbed": "تضمين مقاطع إنستغرام وتيك توك",
+				"automaticAdsHome": "إعلانات تلقائية في الصفحة الرئيسية",
+				"permanentHomeAppearance": "ظهور دائم في الصفحة الرئيسية",
+				"customMonthlyReports": "تقارير أداء شهرية مخصصة",
+				"prioritySupport": "دعم فني فوري بأولوية عليا",
+				"trustedProviderBadge": "شهادة 'مزود موثوق' ووسام تميز",
+				"multiAccountSiteManagement": "إدارة متعددة للحسابات والمواقع",
+				"customIntegration": "تكامل مخصص مع أنظمة خارجية",
+				"dedicatedAccountManager": "مدير حساب مخصص",
+				"support247": "دعم فني مباشر 24/7",
+				"trainingWorkshops": "تدريب وورش عمل للفريق",
+				"customMarketingStrategies": "استراتيجيات تسويق مخصصة"
+			}
 		}
 	},
 	"ads": {
